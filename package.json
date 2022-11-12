@@ -1,0 +1,22 @@
+{
+  "name": "scapegroatv2",
+  "version": "1.0.0",
+  "description": "The Scapegroat protocol and UI client.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tmisirpash/scapegroatv2.git"
+  },
+  "author": "Timur Misirpashaev",
+  "license": "GPL-3.0-or-later",
+  "bugs": {
+    "url": "https://github.com/tmisirpash/scapegroatv2/issues"
+  },
+  "homepage": "https://github.com/tmisirpash/scapegroatv2#readme",
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0"
+  }
+}
