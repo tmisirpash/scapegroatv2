@@ -44,7 +44,7 @@ describe('Groat', () => {
 
     it('Should add 5 entries from a single account', async () => {
       const { groat, signers } = await loadFixture(deployGroatFixture);
-      await groat.depositEth({ value: ethers.utils.parseEther('5') });
+      await groat.depositEth({ value: ethers.utils.parseEther("5")});
 
       const queuePtr = await groat.queuePtr();
       expect(queuePtr).to.equal(5);
