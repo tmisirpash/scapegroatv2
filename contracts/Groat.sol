@@ -75,7 +75,7 @@ contract Groat {
             uint8 index = 0;
             while (temp != 1) {
                 temp >>= 1;
-                index++;
+                ++index;
             }
 
             --localQueuePtr;
