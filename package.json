@@ -1,10 +1,12 @@
 {
   "name": "scapegroatv2",
   "version": "1.0.0",
-  "description": "The Scapegroat protocol and UI client.",
+  "description": "The Scapegroat protocol.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "npx hardhat test",
+    "eslint": "eslint test/**/*.ts",
+    "eslint:fix": "eslint --fix test/**/*.ts"
   },
   "repository": {
     "type": "git",
@@ -17,6 +19,18 @@
   },
   "homepage": "https://github.com/tmisirpash/scapegroatv2#readme",
   "devDependencies": {
-    "@nomicfoundation/hardhat-toolbox": "^2.0.0"
+    "@nomicfoundation/hardhat-chai-matchers": "^1.0.4",
+    "@nomicfoundation/hardhat-network-helpers": "^1.0.6",
+    "@nomicfoundation/hardhat-toolbox": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "chai": "^4.3.7",
+    "eslint": "^8.27.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-config-prettier": "8.5.0",
+    "eslint-plugin-prettier": "4.2.1",
+    "hardhat": "^2.12.2",
+    "mocha": "^10.1.0",
+    "prettier": "^2.7.1"
   }
 }
