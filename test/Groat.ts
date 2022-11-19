@@ -44,7 +44,7 @@ describe('Groat', () => {
 
     it('Should add 5 entries from a single account', async () => {
       const { groat, signers } = await loadFixture(deployGroatFixture);
-      await groat.depositEth(false, {value: ethers.utils.parseEther('5') });
+      await groat.depositEth(false, { value: ethers.utils.parseEther('5') });
 
       const queuePtr = await groat.queuePtr();
       expect(queuePtr).to.equal(5);
@@ -56,16 +56,16 @@ describe('Groat', () => {
       const playerEntries = await groat.playerEntries(signers[0].address);
       expect(playerEntries).to.equal('31'); // Bitmap should be 2^5 - 1
     });
-    it("Should revert adding and successfully add based on boolean fulfillment flag", async () => {
+    it('Should revert adding and successfully add based on boolean fulfillment flag', async () => {
       const { groat, signers } = await loadFixture(deployGroatFixture);
-      await groat.connect(signers[0]).depositEth(false, {value: ethers.utils.parseEther("50")});
-      await expect(groat.connect(signers[1]).depositEth(false, {value: ethers.utils.parseEther("2")})).to.be.revertedWith("Exact order not met.");
-      
+      await groat.connect(signers[0]).depositEth(false, { value: ethers.utils.parseEther('50') });
+      await expect(groat.connect(signers[1]).depositEth(false, { value: ethers.utils.parseEther('2') })).to.be.revertedWith('Exact order not met.');
+
       const originalBalance = await ethers.provider.getBalance(groat.address);
-      await groat.connect(signers[1]).depositEth(true, {value: ethers.utils.parseEther("2")});
+      await groat.connect(signers[1]).depositEth(true, { value: ethers.utils.parseEther('2') });
       const newBalance = await ethers.provider.getBalance(groat.address);
 
-      expect(newBalance.sub(originalBalance)).to.equal(ethers.utils.parseEther("1"));
+      expect(newBalance.sub(originalBalance)).to.equal(ethers.utils.parseEther('1'));
 
       expect(await groat.queuePtr()).to.equal(51);
     });
@@ -157,15 +157,14 @@ describe('Groat', () => {
       for (let i = 0; i < 5; i++) {
         const bitmaps = new Map<number, number>();
         for (let j = 0; j < 51; j++) {
-          const randInt = Math.floor(Math.random() * (signers.length-1))
+          const randInt = Math.floor(Math.random() * (signers.length - 1));
           await groat.connect(signers[randInt]).depositEth(false, { value: ethers.utils.parseEther('1') });
           expect(await groat.queue(j)).to.equal(signers[randInt].address);
-          
-          bitmaps.set(randInt, (bitmaps.get(randInt) || 0) + Math.pow(2, j)) 
+
+          bitmaps.set(randInt, (bitmaps.get(randInt) || 0) + 2 ** j);
 
           const b = await groat.playerEntries(signers[randInt].address);
           expect(b).to.equal(`${bitmaps.get(randInt)}`);
-
         }
         for (let j = 0; j < 63; j++) {
           await network.provider.send('evm_mine');
