@@ -26,7 +26,7 @@ import type {
 
 export interface GroatInterface extends utils.Interface {
   functions: {
-    "depositEth()": FunctionFragment;
+    "depositEth(bool)": FunctionFragment;
     "groatIndex()": FunctionFragment;
     "maxPlayers()": FunctionFragment;
     "payout()": FunctionFragment;
@@ -54,7 +54,7 @@ export interface GroatInterface extends utils.Interface {
 
   encodeFunctionData(
     functionFragment: "depositEth",
-    values?: undefined
+    values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(
     functionFragment: "groatIndex",
@@ -135,6 +135,7 @@ export interface Groat extends BaseContract {
 
   functions: {
     depositEth(
+      partialFulfill: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
@@ -167,6 +168,7 @@ export interface Groat extends BaseContract {
   };
 
   depositEth(
+    partialFulfill: PromiseOrValue<boolean>,
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
@@ -198,7 +200,10 @@ export interface Groat extends BaseContract {
   stake(overrides?: CallOverrides): Promise<BigNumber>;
 
   callStatic: {
-    depositEth(overrides?: CallOverrides): Promise<void>;
+    depositEth(
+      partialFulfill: PromiseOrValue<boolean>,
+      overrides?: CallOverrides
+    ): Promise<void>;
 
     groatIndex(overrides?: CallOverrides): Promise<number>;
 
@@ -232,6 +237,7 @@ export interface Groat extends BaseContract {
 
   estimateGas: {
     depositEth(
+      partialFulfill: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
@@ -265,6 +271,7 @@ export interface Groat extends BaseContract {
 
   populateTransaction: {
     depositEth(
+      partialFulfill: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
 

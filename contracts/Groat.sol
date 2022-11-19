@@ -26,10 +26,6 @@ contract Groat {
         payout = _stake + _stake / (_maxPlayers - 1);
     }
 
-    function min(uint8 a, uint8 b) private pure returns (uint8) {
-        return a <= b ? a : b;
-    }
-
     //Append entries in interval [startingId, endingId]
     function appendToQueue(address from, uint8 startingId, uint8 endingId) private {
         uint256 bitmap = playerEntries[from];
@@ -104,7 +100,7 @@ contract Groat {
         return entriesBeingRemoved;
     }
 
-    function depositEth() public payable {
+    function depositEth(bool partialFulfill) public payable {
         require(block.number >= revealBlockNumber, "Game in progress.");
         uint128 val = uint128(msg.value);
         require(val > 0, "Needs to be non-zero.");
@@ -113,15 +109,18 @@ contract Groat {
         uint8 localQueuePtr = queuePtr;
         uint8 localMaxPlayers = maxPlayers;
 
-        if (localQueuePtr == localMaxPlayers) {
-            localQueuePtr = 0;
-            groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
-        }
+        if (localQueuePtr == localMaxPlayers) localQueuePtr = 0;
 
-        uint8 newEntryCount = min(
-            uint8(val / stake),
-            localMaxPlayers - localQueuePtr
-        );
+        //User could have submitted more entries than were available.
+        uint8 sent = uint8(val / stake);
+        uint8 available = localMaxPlayers - localQueuePtr;
+        uint8 newEntryCount = sent < available ? sent : available;
+        require(partialFulfill || newEntryCount == sent, "Exact order not met.");
+
+        //Refund whatever couldn't buy an entry.
+        if (newEntryCount < sent) payable(msg.sender).transfer((sent - newEntryCount) * stake);
+
+        if (localQueuePtr == localMaxPlayers) groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
 
         appendToQueue(msg.sender, localQueuePtr, localQueuePtr + newEntryCount - 1);
 
