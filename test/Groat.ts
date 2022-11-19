@@ -139,26 +139,39 @@ describe('Groat', () => {
       expect(playerEntries2).to.equal('1');
     });
 
-    // it("Should run 5 games in a row with all unique addresses", async function() {
-    //   const {groat, signers} = await loadFixture(deployGroatFixture);
+    it('Should run 5 games in a row with all unique addresses', async () => {
+      const { groat, signers } = await loadFixture(deployGroatFixture);
 
-    //   for (let i = 0; i < 5; i++) {
-    //     for (let j = 0; j < 51; j++) {
-    //       await groat.connect(signers[51*i+j]).depositEth({value: ethers.utils.parseEther("1")});
-    //       expect(await groat.queue(j)).to.equal(signers[51*i+j].address);
-    //       expect(await groat.playerEntries(signers[51*i+j].address)).to.equal(Math.pow(2, j));
-    //     }
-    //     for (let j = 0; j < 63; j++) {
-    //       await network.provider.send("evm_mine");
-    //     }
-    //   }
+      for (let i = 0; i < 5; i++) {
+        for (let j = 0; j < 51; j++) {
+          await groat.connect(signers[51 * i + j]).depositEth({ value: ethers.utils.parseEther('1') });
+          expect(await groat.queue(j)).to.equal(signers[51 * i + j].address);
+          expect(await groat.playerEntries(signers[51 * i + j].address)).to.equal(2 ** j);
+        }
+        for (let j = 0; j < 63; j++) {
+          await network.provider.send('evm_mine');
+        }
+      }
 
-    //   const queuePtr = await groat.queuePtr();
-    //   expect(queuePtr).to.equal(51);
-    // });
+      const queuePtr = await groat.queuePtr();
+      expect(queuePtr).to.equal(51);
+    });
   });
 
   describe('Deleting entries', () => {
+    it('Should return an error if zero entries specified', async () => {
+      const { groat } = await loadFixture(deployGroatFixture);
+      await expect(groat.removeEntries(0)).to.be.revertedWith('Needs to be non-zero.');
+    });
+    it('Should return an error if no entry exists', async () => {
+      const { groat } = await loadFixture(deployGroatFixture);
+      await expect(groat.removeEntries(1)).to.be.revertedWith('Nothing to remove.');
+    });
+    it('Should return an error if a game is in progress', async () => {
+      const { groat } = await loadFixture(deployGroatFixture);
+      await groat.depositEth({ value: ethers.utils.parseEther('51') });
+      await expect(groat.removeEntries(5)).to.be.revertedWith('Game in progress.');
+    });
     it('Should add two entries and remove one', async () => {
       const { groat, signers } = await loadFixture(deployGroatFixture);
 
