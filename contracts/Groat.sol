@@ -47,7 +47,7 @@ contract Groat {
                 //Clear their bitmap if it is stale. (No need to do this if this entry belonged to from.)
                 if (oldAddress != from) {
                     uint256 oldBitmap = playerEntries[oldAddress];
-                    if (oldBitmap >= 1 << startingId) delete playerEntries[oldAddress];
+                    if (oldBitmap >= 1 << startingId) playerEntries[oldAddress] = 0;
                 }
             }
 
@@ -99,11 +99,7 @@ contract Groat {
             bitmap ^= 1 << index;
             ++entriesBeingRemoved;
         }
-        if (bitmap != 0) {
-            playerEntries[msg.sender] = bitmap;
-        } else {
-            delete playerEntries[msg.sender];
-        }
+        playerEntries[msg.sender] = bitmap;
         queuePtr = localQueuePtr;
         return entriesBeingRemoved;
     }
