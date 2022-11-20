@@ -4,17 +4,16 @@ pragma solidity ^0.8.0;
 import "hardhat/console.sol";
 
 contract Groat {
-    uint256 public revealBlockNumber;
+    uint256 public revealBlockNumber = 1;
 
     uint256 public payout;
 
     uint128 public stake;
     uint8 public maxPlayers; //A game can have at most 255 players.
     uint8 public queuePtr;
-    uint8 public groatIndex;
+    uint8 public groatIndex = 1;
 
     mapping(uint8 => address) public queue;
-    mapping(address => uint256) public playerEntries;
 
     constructor(uint128 _stake, uint8 _maxPlayers) {
         require(_stake > 0, "Stake must be non-zero.");
@@ -26,32 +25,20 @@ contract Groat {
         payout = _stake + _stake / (_maxPlayers - 1);
     }
 
-    //Append entries in interval [startingId, endingId]
+    //Append entries in interval [startingId, endingId)
     function appendToQueue(address from, uint8 startingId, uint8 endingId) private {
-        uint256 bitmap = playerEntries[from];
 
-        //Make sure we zero out stale bitmaps from the previous game.
-        if (bitmap >= 1 << startingId) bitmap = 0;
-
-        while (startingId <= endingId) {
-
+        while (startingId < endingId) {
             address oldAddress = queue[startingId];
+            queue[startingId] = from;
             //Transfer winnings to this person.
-            if (oldAddress != address(0)) {
-                if (startingId != groatIndex) payable(oldAddress).transfer(payout);
-
-                //Clear their bitmap if it is stale. (No need to do this if this entry belonged to from.)
-                if (oldAddress != from) {
-                    uint256 oldBitmap = playerEntries[oldAddress];
-                    if (oldBitmap >= 1 << startingId) playerEntries[oldAddress] = 0;
-                }
+            if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069 && startingId != groatIndex) {
+                (bool success, ) = oldAddress.call{value: payout}("");
+                require(success, "Transfer failed.");
             }
 
-            queue[startingId] = from;
-            bitmap |= 1 << startingId;
             ++startingId;
         }
-        playerEntries[from] = bitmap;
     }
 
     function removeEntries(uint8 amount) public returns (uint8) {
@@ -59,44 +46,27 @@ contract Groat {
         uint8 localQueuePtr = queuePtr;
         require(localQueuePtr != maxPlayers, "Game in progress.");
 
-        uint256 bitmap = playerEntries[msg.sender];
-        require(bitmap > 0 && bitmap < 1 << localQueuePtr, "Nothing to remove.");
-
         uint8 entriesBeingRemoved = 0;
-        while (bitmap != 0 && entriesBeingRemoved < amount) {
-            
-            //Obtain index of leftmost set bit of sender's bitmap.
-            //(Equivalent to their last entry.)
-            uint256 temp = bitmap;
-            uint8 index = 0;
-            while (temp != 1) {
-                temp >>= 1;
-                ++index;
+        uint8 i = 0;
+        while (i < localQueuePtr && entriesBeingRemoved < amount) {
+            if (queue[i] != msg.sender) {
+                ++i;
+                continue;
             }
 
             --localQueuePtr;
-
-            address addressToMove = queue[localQueuePtr];
-            if (addressToMove != msg.sender) {
-                //Swap the queue[localQueuePtr] with queue[index]
-                uint256 lastBitmap = playerEntries[addressToMove];
-
-                //Zero the address's last entry (leftmost bit).
-                lastBitmap ^= 1 << localQueuePtr;
-                //Set the bit at index.
-                lastBitmap ^= 1 << index;
-                //Save the new bitmap.
-                playerEntries[addressToMove] = lastBitmap;
-
-                queue[index] = addressToMove;
+            if (i != localQueuePtr) {
+                queue[i] = queue[localQueuePtr];
             }
-
-            queue[localQueuePtr] = address(0);
-            bitmap ^= 1 << index;
-            ++entriesBeingRemoved;
+            //Do not zero this storage, otherwise the next entrant will need to allocate it!
+            queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
+            ++i;
+            entriesBeingRemoved++;
         }
-        playerEntries[msg.sender] = bitmap;
+
         queuePtr = localQueuePtr;
+        (bool success, ) = msg.sender.call{value: uint256(stake) * uint256(entriesBeingRemoved)}("");
+        require(success, "Withdrawal failed.");
         return entriesBeingRemoved;
     }
 
@@ -109,28 +79,36 @@ contract Groat {
         uint8 localQueuePtr = queuePtr;
         uint8 localMaxPlayers = maxPlayers;
 
-        if (localQueuePtr == localMaxPlayers) localQueuePtr = 0;
+        //Wait time is over so a new game can begin.
+        if (localQueuePtr == localMaxPlayers) {
+            localQueuePtr = 0;
+        }
 
         //User could have submitted more entries than were available.
         uint8 sent = uint8(val / stake);
         uint8 available = localMaxPlayers - localQueuePtr;
         uint8 newEntryCount = sent < available ? sent : available;
         require(partialFulfill || newEntryCount == sent, "Exact order not met.");
-
-        //Refund whatever couldn't buy an entry.
-        if (newEntryCount < sent) payable(msg.sender).transfer((sent - newEntryCount) * stake);
-
-        if (localQueuePtr == localMaxPlayers) groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
-
-        appendToQueue(msg.sender, localQueuePtr, localQueuePtr + newEntryCount - 1);
-
-        localQueuePtr += newEntryCount;
-
-        if (localQueuePtr == localMaxPlayers) {
-            revealBlockNumber = block.number + 64;
+        
+        //Choose the groat.
+        if (localQueuePtr == 0) {
+            groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
         }
 
+        localQueuePtr += newEntryCount;
         queuePtr = localQueuePtr;
-        maxPlayers = localMaxPlayers;
+
+        //User deposited the final entries.
+        if (localQueuePtr == localMaxPlayers) {
+            revealBlockNumber = block.number + 75;
+        }
+
+        //Refund whatever couldn't buy an entry.
+        if (newEntryCount < sent) {
+            (bool success, ) = msg.sender.call{value: uint256(sent - newEntryCount) * uint256(stake)}("");
+            require(success, "Refund failed.");
+        }
+
+        appendToQueue(msg.sender, localQueuePtr - newEntryCount, localQueuePtr);
     }
 }
