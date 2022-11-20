@@ -30,7 +30,6 @@ export interface GroatInterface extends utils.Interface {
     "groatIndex()": FunctionFragment;
     "maxPlayers()": FunctionFragment;
     "payout()": FunctionFragment;
-    "playerEntries(address)": FunctionFragment;
     "queue(uint8)": FunctionFragment;
     "queuePtr()": FunctionFragment;
     "removeEntries(uint8)": FunctionFragment;
@@ -44,7 +43,6 @@ export interface GroatInterface extends utils.Interface {
       | "groatIndex"
       | "maxPlayers"
       | "payout"
-      | "playerEntries"
       | "queue"
       | "queuePtr"
       | "removeEntries"
@@ -66,10 +64,6 @@ export interface GroatInterface extends utils.Interface {
   ): string;
   encodeFunctionData(functionFragment: "payout", values?: undefined): string;
   encodeFunctionData(
-    functionFragment: "playerEntries",
-    values: [PromiseOrValue<string>]
-  ): string;
-  encodeFunctionData(
     functionFragment: "queue",
     values: [PromiseOrValue<BigNumberish>]
   ): string;
@@ -88,10 +82,6 @@ export interface GroatInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "groatIndex", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "payout", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "playerEntries",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "queue", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "queuePtr", data: BytesLike): Result;
   decodeFunctionResult(
@@ -145,11 +135,6 @@ export interface Groat extends BaseContract {
 
     payout(overrides?: CallOverrides): Promise<[BigNumber]>;
 
-    playerEntries(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<[BigNumber]>;
-
     queue(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -178,11 +163,6 @@ export interface Groat extends BaseContract {
 
   payout(overrides?: CallOverrides): Promise<BigNumber>;
 
-  playerEntries(
-    arg0: PromiseOrValue<string>,
-    overrides?: CallOverrides
-  ): Promise<BigNumber>;
-
   queue(
     arg0: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
@@ -210,11 +190,6 @@ export interface Groat extends BaseContract {
     maxPlayers(overrides?: CallOverrides): Promise<number>;
 
     payout(overrides?: CallOverrides): Promise<BigNumber>;
-
-    playerEntries(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
 
     queue(
       arg0: PromiseOrValue<BigNumberish>,
@@ -247,11 +222,6 @@ export interface Groat extends BaseContract {
 
     payout(overrides?: CallOverrides): Promise<BigNumber>;
 
-    playerEntries(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<BigNumber>;
-
     queue(
       arg0: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
@@ -280,11 +250,6 @@ export interface Groat extends BaseContract {
     maxPlayers(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     payout(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    playerEntries(
-      arg0: PromiseOrValue<string>,
-      overrides?: CallOverrides
-    ): Promise<PopulatedTransaction>;
 
     queue(
       arg0: PromiseOrValue<BigNumberish>,
