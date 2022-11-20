@@ -101,13 +101,41 @@ describe('Groat', () => {
     it('Should run 5 games in a row with entries from a random pool of addresses', async () => {
       const { groat, signers } = await loadFixture(deployGroatFixture);
       for (let i = 0; i < 5; i++) {
-        const histo = new Map<number, number>();
         for (let j = 0; j < 51; j++) {
+          const groatIndex = await groat.groatIndex();
+          const originalBalance = await ethers.provider.getBalance(groat.address);
           const randInt = Math.floor(Math.random() * (signers.length - 1));
-          await groat.connect(signers[randInt]).depositEth(false, { value: ethers.utils.parseEther('1') });
-          const { gasUsed } = await ethers.provider.getBlock('latest');
-          histo.set(gasUsed.toNumber(), (histo.get(gasUsed.toNumber()) || 0) + 1);
+          const originalAddress = await groat.queue(j);
+          const originalAddressBalance = await ethers.provider.getBalance(originalAddress);
+
+          const trans = await groat.connect(signers[randInt]).depositEth(false, { value: ethers.utils.parseEther('1') });
+          const receipt = await trans.wait();
+          const gasCostForTxn = receipt.gasUsed.mul(receipt.effectiveGasPrice);
           expect(await groat.queue(j)).to.equal(signers[randInt].address);
+
+          const newBalance = await ethers.provider.getBalance(groat.address);
+          const newAddressBalance = await ethers.provider.getBalance(originalAddress);
+
+          // Test game's invariants.
+          if (i > 0) {
+            if (j === groatIndex) {
+              expect(newBalance.sub(originalBalance)).to.equal(ethers.utils.parseEther('1'));
+            } else {
+              expect(newBalance.sub(originalBalance)).to.equal(ethers.utils.parseEther('-0.02'));
+            }
+          }
+
+          const newAddressBalanceWithGasUsed = newAddressBalance.add(gasCostForTxn);
+          // //Test wallet balances
+          if (i > 0) {
+            if (j === groatIndex) {
+              expect(newAddressBalance).to.equal(newAddressBalance);
+            } else if (originalAddress !== signers[randInt].address) {
+              expect(newAddressBalance.sub(originalAddressBalance)).to.equal(ethers.utils.parseEther('1.02'));
+            } else {
+              expect(newAddressBalanceWithGasUsed.sub(originalAddressBalance)).to.equal(ethers.utils.parseEther('0.02'));
+            }
+          }
         }
         for (let j = 0; j < 74; j++) {
           await network.provider.send('evm_mine');
