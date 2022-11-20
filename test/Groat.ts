@@ -112,7 +112,6 @@ describe('Groat', () => {
         for (let j = 0; j < 74; j++) {
           await network.provider.send('evm_mine');
         }
-        console.log(histo);
       }
 
       const queuePtr = await groat.queuePtr();
