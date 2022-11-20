@@ -111,12 +111,12 @@ contract Groat {
             revealBlockNumber = block.number + 75;
         }
 
+        appendToQueue(msg.sender, localQueuePtr - newEntryCount, localQueuePtr);
+
         //Refund whatever couldn't buy an entry.
         if (newEntryCount < sent) {
             (bool success, ) = msg.sender.call{value: uint256(sent - newEntryCount) * uint256(stake)}("");
             require(success, "Refund failed.");
         }
-
-        appendToQueue(msg.sender, localQueuePtr - newEntryCount, localQueuePtr);
     }
 }
