@@ -28,16 +28,24 @@ contract Groat {
     //Append entries in interval [startingId, endingId)
     function appendToQueue(address from, uint8 startingId, uint8 endingId) private {
 
-        while (startingId < endingId) {
-            address oldAddress = queue[startingId];
-            queue[startingId] = from;
-            //Transfer winnings to this person.
+        address[] memory playersToPay = new address[](endingId - startingId);
+        uint8 i = startingId;
+        uint8 j = 0;
+        while (i < endingId) {
+            playersToPay[j] = queue[i];
+            queue[i] = from;
+            ++i;
+            ++j;
+        }
+        i = 0;
+        while (i < playersToPay.length) {
+            address oldAddress = playersToPay[i];
+            //Transfer winnings only after contract state was updated.
             if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069 && startingId != groatIndex) {
                 (bool success, ) = oldAddress.call{value: payout}("");
                 require(success, "Transfer failed.");
             }
-
-            ++startingId;
+            ++i;
         }
     }
 
@@ -61,7 +69,7 @@ contract Groat {
             //Do not zero this storage, otherwise the next entrant will need to allocate it!
             queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
             ++i;
-            entriesBeingRemoved++;
+            ++entriesBeingRemoved;
         }
 
         queuePtr = localQueuePtr;
