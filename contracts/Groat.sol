@@ -15,6 +15,11 @@ contract Groat {
 
     mapping(uint8 => address) public queue;
 
+    event Join(uint8);
+    event Leave(uint8);
+    event Groated(address, uint8);
+    event Winner(address, uint8);
+
     constructor(uint128 _stake, uint8 _maxPlayers) {
         require(_stake > 0, "Stake must be non-zero.");
         require(_maxPlayers > 1, "Max players must be > 1.");
@@ -34,18 +39,27 @@ contract Groat {
         while (i < endingId) {
             playersToPay[j] = queue[i];
             queue[i] = from;
+            emit Join(i);
             ++i;
             ++j;
         }
-        i = 0;
-        while (i < playersToPay.length) {
-            address oldAddress = playersToPay[i];
+        i = startingId;
+        j = 0;
+        while (j < playersToPay.length) {
+            address oldAddress = playersToPay[j];
             //Transfer winnings only after contract state was updated.
-            if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069 && startingId != groatIndex) {
-                (bool success, ) = oldAddress.call{value: payout}("");
-                require(success, "Transfer failed.");
+            if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069) {
+
+                if (i == groatIndex) {
+                    emit Groated(oldAddress, i);
+                } else {
+                    (bool success, ) = oldAddress.call{value: payout}("");
+                    require(success, "Transfer failed.");
+                    emit Winner(oldAddress, i);
+                }
             }
             ++i;
+            ++j;
         }
     }
 
@@ -70,6 +84,7 @@ contract Groat {
             queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
             ++i;
             ++entriesBeingRemoved;
+            emit Leave(localQueuePtr);
         }
 
         queuePtr = localQueuePtr;

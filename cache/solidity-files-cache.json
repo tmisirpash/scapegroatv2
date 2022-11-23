@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\tmisi\\scapegroatv2\\contracts\\Groat.sol": {
-      "lastModificationDate": 1668914716501,
-      "contentHash": "d48c1682086ab2fddb7a409191bde55b",
+      "lastModificationDate": 1669186127910,
+      "contentHash": "2e5270825b44b499a320463f02a1d579",
       "sourceName": "contracts/Groat.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -71,6 +71,43 @@
       ],
       "artifacts": [
         "console"
+      ]
+    },
+    "C:\\Users\\tmisi\\scapegroatv2\\contracts\\GroatFactory.sol": {
+      "lastModificationDate": 1669186286934,
+      "contentHash": "767eb1d9e3fc94c7cc87e06d3e6a898e",
+      "sourceName": "contracts/GroatFactory.sol",
+      "solcConfig": {
+        "version": "0.8.17",
+        "settings": {
+          "optimizer": {
+            "enabled": false,
+            "runs": 200
+          },
+          "outputSelection": {
+            "*": {
+              "*": [
+                "abi",
+                "evm.bytecode",
+                "evm.deployedBytecode",
+                "evm.methodIdentifiers",
+                "metadata"
+              ],
+              "": [
+                "ast"
+              ]
+            }
+          }
+        }
+      },
+      "imports": [
+        "./Groat.sol"
+      ],
+      "versionPragmas": [
+        "^0.8.0"
+      ],
+      "artifacts": [
+        "GroatFactory"
       ]
     }
   }

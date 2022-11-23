@@ -2,3 +2,4 @@
 /* tslint:disable */
 /* eslint-disable */
 export { Groat__factory } from "./Groat__factory";
+export { GroatFactory__factory } from "./GroatFactory__factory";
