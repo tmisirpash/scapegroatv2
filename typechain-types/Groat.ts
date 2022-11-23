@@ -14,7 +14,11 @@ import type {
   Signer,
   utils,
 } from "ethers";
-import type { FunctionFragment, Result } from "@ethersproject/abi";
+import type {
+  FunctionFragment,
+  Result,
+  EventFragment,
+} from "@ethersproject/abi";
 import type { Listener, Provider } from "@ethersproject/providers";
 import type {
   TypedEventFilter,
@@ -94,8 +98,48 @@ export interface GroatInterface extends utils.Interface {
   ): Result;
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
 
-  events: {};
+  events: {
+    "Groated(address,uint8)": EventFragment;
+    "Join(uint8)": EventFragment;
+    "Leave(uint8)": EventFragment;
+    "Winner(address,uint8)": EventFragment;
+  };
+
+  getEvent(nameOrSignatureOrTopic: "Groated"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Join"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Leave"): EventFragment;
+  getEvent(nameOrSignatureOrTopic: "Winner"): EventFragment;
 }
+
+export interface GroatedEventObject {
+  arg0: string;
+  arg1: number;
+}
+export type GroatedEvent = TypedEvent<[string, number], GroatedEventObject>;
+
+export type GroatedEventFilter = TypedEventFilter<GroatedEvent>;
+
+export interface JoinEventObject {
+  arg0: number;
+}
+export type JoinEvent = TypedEvent<[number], JoinEventObject>;
+
+export type JoinEventFilter = TypedEventFilter<JoinEvent>;
+
+export interface LeaveEventObject {
+  arg0: number;
+}
+export type LeaveEvent = TypedEvent<[number], LeaveEventObject>;
+
+export type LeaveEventFilter = TypedEventFilter<LeaveEvent>;
+
+export interface WinnerEventObject {
+  arg0: string;
+  arg1: number;
+}
+export type WinnerEvent = TypedEvent<[string, number], WinnerEventObject>;
+
+export type WinnerEventFilter = TypedEventFilter<WinnerEvent>;
 
 export interface Groat extends BaseContract {
   connect(signerOrProvider: Signer | Provider | string): this;
@@ -208,7 +252,19 @@ export interface Groat extends BaseContract {
     stake(overrides?: CallOverrides): Promise<BigNumber>;
   };
 
-  filters: {};
+  filters: {
+    "Groated(address,uint8)"(arg0?: null, arg1?: null): GroatedEventFilter;
+    Groated(arg0?: null, arg1?: null): GroatedEventFilter;
+
+    "Join(uint8)"(arg0?: null): JoinEventFilter;
+    Join(arg0?: null): JoinEventFilter;
+
+    "Leave(uint8)"(arg0?: null): LeaveEventFilter;
+    Leave(arg0?: null): LeaveEventFilter;
+
+    "Winner(address,uint8)"(arg0?: null, arg1?: null): WinnerEventFilter;
+    Winner(arg0?: null, arg1?: null): WinnerEventFilter;
+  };
 
   estimateGas: {
     depositEth(

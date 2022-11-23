@@ -2,5 +2,7 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { Groat } from "./Groat";
+export type { GroatFactory } from "./GroatFactory";
 export * as factories from "./factories";
 export { Groat__factory } from "./factories/Groat__factory";
+export { GroatFactory__factory } from "./factories/GroatFactory__factory";
