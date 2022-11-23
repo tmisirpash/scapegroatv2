@@ -74,8 +74,8 @@
       ]
     },
     "C:\\Users\\tmisi\\scapegroatv2\\contracts\\GroatFactory.sol": {
-      "lastModificationDate": 1669186286934,
-      "contentHash": "767eb1d9e3fc94c7cc87e06d3e6a898e",
+      "lastModificationDate": 1669188392478,
+      "contentHash": "94bf354bf95c79da30370402c85f84c5",
       "sourceName": "contracts/GroatFactory.sol",
       "solcConfig": {
         "version": "0.8.17",
