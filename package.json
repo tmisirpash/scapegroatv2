@@ -8,7 +8,7 @@
     "eslint": "eslint src/**/*.tsx test/**/*.ts",
     "eslint:fix": "eslint --fix src/**/*.tsx test/**/*.ts",
     "dev": "webpack serve",
-    "build": "webpack --mode production --progress --hide-modules"
+    "build": "webpack --mode production --progress"
   },
   "repository": {
     "type": "git",
