@@ -4,12 +4,12 @@ module.exports = {
     mode: 'development',
     entry: './src/index.tsx',
     output: {
-        path: path.resolve(__dirname, './dist'),
+        path: path.resolve(__dirname, 'dist/'),
         filename: 'bundle.js'
     },
     devServer: {
         static: {
-            directory: path.resolve(__dirname, './dist')
+            directory: path.resolve(__dirname, 'dist/')
         }
     },
     module: {
