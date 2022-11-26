@@ -1,14 +1,23 @@
 {
   "compilerOptions": {
-    "target": "es2020",
-    "module": "commonjs",
+    "target": "ESNext",
+    "module": "umd",
+    "lib": [
+      "ESNext",
+      "dom",
+    ],
+    "moduleResolution": "node",
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "strict": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "jsx": "react",
+    "noEmit": true,
+    "noImplicitAny": true,
+    "strictNullChecks": true,
   },
   "exclude": ["dist", "node_modules"],
-  "include": ["./test", "./scripts", "./contracts"],
+  "include": ["./test", "./scripts", "./contracts", "./src"],
   "files": [
     "./hardhat.config.ts"
   ]
