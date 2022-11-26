@@ -1,11 +1,21 @@
 {
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    },
+    "import/extensions": [".js", ".jsx", ".ts", ".tsx"]
+  },
   "extends": [
     "eslint:recommended",
     "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
     "airbnb"
   ],
   "env": {
-    "mocha": true
+    "mocha": true,
+    "browser": true
   },
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint", "prettier"],
@@ -15,6 +25,19 @@
     "@typescript-eslint/no-explicit-any": "error",
     "no-plusplus": "off",
     "no-await-in-loop": "off",
-    "linebreak-style": "off"
+    "linebreak-style": "off",
+    "react/function-component-definition": "off",
+    "react/jsx-filename-extension": [1, {"extensions": [".tsx", ".ts"]}],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "": "never",
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+    ]
   }
 }
