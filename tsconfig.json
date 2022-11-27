@@ -19,6 +19,7 @@
   "exclude": ["dist", "node_modules"],
   "include": ["./test", "./scripts", "./contracts", "./src"],
   "files": [
-    "./hardhat.config.ts"
+    "./hardhat.config.ts",
+    "./src/img.d.ts"
   ]
 }
