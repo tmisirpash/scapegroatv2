@@ -1,12 +1,10 @@
 import React from 'react';
 import Title from './Title';
 import ConnectWalletButton from './ConnectWalletButton';
-import ConnectionStatus from './ConnectionStatus';
 
 interface topBar {
   connectionButtonText: string;
   connectionButtonOnClick: () => void;
-  connectionStatusText: string;
 }
 
 const TopBar = (
@@ -15,7 +13,6 @@ const TopBar = (
   const {
     connectionButtonText,
     connectionButtonOnClick,
-    connectionStatusText,
   } = props;
   return (
     <div style={{
@@ -25,9 +22,6 @@ const TopBar = (
     }}
     >
       <Title />
-      <ConnectionStatus
-        connectionStatusText={connectionStatusText}
-      />
       <ConnectWalletButton
         connectionButtonText={connectionButtonText}
         connectionButtonOnClick={connectionButtonOnClick}

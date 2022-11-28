@@ -31,7 +31,7 @@ function ConnectWalletButton(props: connectWalletButton) {
       }}
       style={{
         height: '100%',
-        width: '175px',
+        width: '150px',
         borderRadius: '20px',
         filter: `brightness(${brightness})`,
         background: 'linear-gradient(90deg, rgba(43,143,203,1) 29%, rgba(12,106,212,1) 100%',

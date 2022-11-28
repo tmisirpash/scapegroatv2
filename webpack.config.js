@@ -8,6 +8,7 @@ module.exports = {
         filename: 'bundle.js'
     },
     devServer: {
+        host: '0.0.0.0',
         static: {
             directory: path.resolve(__dirname, 'dist/')
         }
