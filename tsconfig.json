@@ -15,11 +15,13 @@
     "noEmit": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
+    "useUnknownInCatchVariables": false,
   },
   "exclude": ["dist", "node_modules"],
   "include": ["./test", "./scripts", "./contracts", "./src"],
   "files": [
     "./hardhat.config.ts",
-    "./src/img.d.ts"
+    "./src/img.d.ts",
+    "./src/react-app-env.d.ts"
   ]
 }
