@@ -5,7 +5,7 @@ const Title: React.FC = () => (
   <div
     className="unselectable"
     style={{
-      fontSize: '3em',
+      fontSize: '3rem',
       color: 'white',
     }}
   >
