@@ -10,13 +10,14 @@ export default function ConnectionStatus(
     connectionStatusText,
   } = props;
   return (
-    <span
+    <div
       className="unselectable"
       style={{
         color: 'white',
+        textAlign: 'center',
       }}
     >
       {connectionStatusText}
-    </span>
+    </div>
   );
 }

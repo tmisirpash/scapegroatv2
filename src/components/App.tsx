@@ -1,6 +1,7 @@
 import React from 'react';
 import TopBar from './TopBar';
 import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
+import ConnectionStatus from './ConnectionStatus';
 
 const App: React.FC = () => {
   const [
@@ -11,11 +12,16 @@ const App: React.FC = () => {
   ] = useMetaMaskConnection();
 
   return (
-    <TopBar
-      connectionButtonText={connectionButtonText}
-      connectionButtonOnClick={connectionButtonOnClick}
-      connectionStatusText={connectionStatusText}
-    />
+    <div>
+      <TopBar
+        connectionButtonText={connectionButtonText}
+        connectionButtonOnClick={connectionButtonOnClick}
+      />
+      <br />
+      <ConnectionStatus
+        connectionStatusText={connectionStatusText}
+      />
+    </div>
   );
 };
 
