@@ -2,6 +2,8 @@ import React from 'react';
 import TopBar from './TopBar';
 import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from './ConnectionStatus';
+import GameBox from './GameBox';
+import useMedia from '../hooks/useMedia';
 
 const App: React.FC = () => {
   const [
@@ -10,6 +12,8 @@ const App: React.FC = () => {
     connectionStatusText,
     connectionButtonOnClick,
   ] = useMetaMaskConnection();
+
+  const media = useMedia();
 
   return (
     <div>
@@ -20,6 +24,9 @@ const App: React.FC = () => {
       <br />
       <ConnectionStatus
         connectionStatusText={connectionStatusText}
+      />
+      <GameBox
+        media={media}
       />
     </div>
   );
