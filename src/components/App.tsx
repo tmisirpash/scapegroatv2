@@ -1,7 +1,7 @@
 import React from 'react';
 import TopBar from './TopBar';
 import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
-import ConnectionStatus from './ConnectionStatus';
+import ConnectionStatus from '../modals/ConnectionStatus';
 import GameBox from './GameBox';
 import useMedia from '../hooks/useMedia';
 

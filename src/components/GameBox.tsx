@@ -8,7 +8,7 @@ export default function GameBox(props: gameBox) {
   const {
     media,
   } = props;
-  const [, setPlayerCount] = React.useState('101');
+  const [playerCount, setPlayerCount] = React.useState('101');
   const updatePlayerCount = (param: string) => {
     if (/[0-9]+/.test(param)) {
       setPlayerCount(param);
@@ -18,6 +18,7 @@ export default function GameBox(props: gameBox) {
   return (
     <div>
       <PlayerCountBox
+        playerCount={playerCount}
         updatePlayerCount={updatePlayerCount}
         media={media}
       />
