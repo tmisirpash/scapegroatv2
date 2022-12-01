@@ -2,12 +2,14 @@ import React from 'react';
 import { DebounceInput } from 'react-debounce-input';
 
 interface playerCountBox {
+  playerCount: string;
   updatePlayerCount: (param: string) => void;
   media: boolean;
 }
 
 export default function PlayerCountBox(props: playerCountBox) {
   const {
+    playerCount,
     updatePlayerCount,
     media,
   } = props;
@@ -34,10 +36,11 @@ export default function PlayerCountBox(props: playerCountBox) {
         <DebounceInput
           debounceTimeout={1000}
           maxLength={3}
+          value={playerCount}
           onChange={(event) => updatePlayerCount(event.target.value)}
           style={{
             height: '3rem',
-            width: '6rem',
+            width: '7rem',
             fontSize: '3rem',
             color: 'cyan',
             fontFamily: 'Electrolize',
