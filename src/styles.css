@@ -14,3 +14,12 @@
 .undraggable {
     pointer-events: none;
 }
+
+
+.paddingBetweenCols th {
+  padding: 0% 2em;
+}
+
+.noBorders th {
+  border: none;
+}

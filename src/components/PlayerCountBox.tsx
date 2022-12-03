@@ -27,9 +27,11 @@ export default function PlayerCountBox(props: playerCountBox) {
         alignItems: 'center',
       }}
       >
-        <span style={{
-          textAlign: 'center',
-        }}
+        <span
+          className="unselectable"
+          style={{
+            textAlign: 'center',
+          }}
         >
           Showing games with
         </span>
@@ -50,11 +52,12 @@ export default function PlayerCountBox(props: playerCountBox) {
             borderColor: 'cyan',
           }}
         />
-        <span style={{
-          textAlign: 'center',
-        }}
+        <span
+          className="unselectable"
+          style={{
+            textAlign: 'center',
+          }}
         >
-          {' '}
           players.
         </span>
       </div>
