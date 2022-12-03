@@ -1,5 +1,6 @@
 import React from 'react';
 import PlayerCountBox from './PlayerCountBox';
+import PaginatedTable from './PaginatedTable';
 
 interface gameBox {
   media: boolean;
@@ -10,7 +11,8 @@ export default function GameBox(props: gameBox) {
   } = props;
   const [playerCount, setPlayerCount] = React.useState('101');
   const updatePlayerCount = (param: string) => {
-    if (/[0-9]+/.test(param)) {
+    if (/[0-9]+/.test(param)
+    ) {
       setPlayerCount(param);
     }
   };
@@ -22,6 +24,10 @@ export default function GameBox(props: gameBox) {
         updatePlayerCount={updatePlayerCount}
         media={media}
       />
+      <br />
+      <br />
+      <br />
+      <PaginatedTable />
     </div>
   );
 }
