@@ -20,6 +20,15 @@
   padding: 0% 2em;
 }
 
-.noBorders th {
-  border: none;
+table {
+  border-collapse: collapse;
+}
+
+tr, th {
+  border: 2px solid black;
+}
+
+th {
+  border-left: none;
+  border-right: none;
 }

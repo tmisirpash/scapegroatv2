@@ -24,12 +24,19 @@ const headers: tableHeaderColumn[] = [
   },
 ];
 
-export default function TableHeader() {
+interface tableHeader {
+  height: string;
+}
+
+export default function TableHeader(props: tableHeader) {
+  const {
+    height,
+  } = props;
   return (
     <tr
       style={{
-        height: '40px',
         background: 'linear-gradient(47deg, rgba(18,75,117,1) 0%, rgba(9,83,121,1) 44%, rgba(5,72,168,1) 100%)',
+        height,
       }}
     >
       {headers.map((header) => (
