@@ -126,7 +126,7 @@ export interface GroatFactory extends BaseContract {
       maxPlayers: PromiseOrValue<BigNumberish>,
       index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string, BigNumber, number]>;
+    ): Promise<[string, BigNumber, number, BigNumber]>;
 
     getLength(
       maxPlayers: PromiseOrValue<BigNumberish>,
@@ -150,7 +150,7 @@ export interface GroatFactory extends BaseContract {
     maxPlayers: PromiseOrValue<BigNumberish>,
     index: PromiseOrValue<BigNumberish>,
     overrides?: CallOverrides
-  ): Promise<[string, BigNumber, number]>;
+  ): Promise<[string, BigNumber, number, BigNumber]>;
 
   getLength(
     maxPlayers: PromiseOrValue<BigNumberish>,
@@ -174,7 +174,7 @@ export interface GroatFactory extends BaseContract {
       maxPlayers: PromiseOrValue<BigNumberish>,
       index: PromiseOrValue<BigNumberish>,
       overrides?: CallOverrides
-    ): Promise<[string, BigNumber, number]>;
+    ): Promise<[string, BigNumber, number, BigNumber]>;
 
     getLength(
       maxPlayers: PromiseOrValue<BigNumberish>,

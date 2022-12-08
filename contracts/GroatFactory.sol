@@ -21,8 +21,8 @@ contract GroatFactory {
         return games[maxPlayers].length;
     }
 
-    function getCardInfo(uint8 maxPlayers, uint256 index) public view returns (address, uint128, uint8) {
+    function getCardInfo(uint8 maxPlayers, uint256 index) public view returns (address, uint128, uint8, uint256) {
         Groat g = Groat(games[maxPlayers][index]);
-        return (address(g), g.stake(), g.queuePtr());
+        return (address(g), g.stake(), g.queuePtr(), g.revealBlockNumber());
     }
 }

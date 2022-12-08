@@ -16,7 +16,7 @@ export function TableHeaderColumn(props: tableHeaderColumn) {
     <th>
       <Tooltip title={tooltip}>
         <span style={{
-          color: 'white',
+          color: 'lightgray',
         }}
         >
           {columnName}
