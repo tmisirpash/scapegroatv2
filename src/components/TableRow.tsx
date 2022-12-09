@@ -19,7 +19,7 @@ export default function TableRow(props: tableRow) {
     currentBlockNumber,
   } = props;
 
-  const cooldownString = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
+  const [blocks, tooltip] = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
 
   return (
     <tr style={{
@@ -32,8 +32,7 @@ export default function TableRow(props: tableRow) {
       <TableRowColumn value={`${getProbabilityOfWinning(players)}%`} />
       <TableRowColumn value={`${utils.formatEther(getReward(players, stake))} ETH`} />
       <TableRowColumn value={`${queuePtr} / ${players}`} />
-      <TableRowColumn value={cooldownString} />
-
+      <TableRowColumn value={blocks} tooltip={tooltip} />
     </tr>
   );
 }
