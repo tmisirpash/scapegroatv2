@@ -3,6 +3,7 @@ import { BigNumber } from 'ethers';
 import { Tooltip } from '@mui/material';
 
 interface tableRowColumn {
+  className?: string;
   value: BigNumber | number | string;
   tooltip?: string;
 }
@@ -11,6 +12,7 @@ export default function TableRowColumn(props: tableRowColumn) {
   const {
     value,
     tooltip,
+    className,
   } = props;
 
   return (
@@ -19,12 +21,13 @@ export default function TableRowColumn(props: tableRowColumn) {
     }}
     >
       <Tooltip title={tooltip}>
-        <span>{value.toString()}</span>
+        <span className={className}>{value.toString()}</span>
       </Tooltip>
     </td>
   );
 }
 
 TableRowColumn.defaultProps = {
+  className: '',
   tooltip: '',
 };

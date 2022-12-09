@@ -21,6 +21,8 @@ export default function TableRow(props: tableRow) {
 
   const [blocks, tooltip] = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
 
+  const className = blocks === 'Open' ? '' : 'blinkingText';
+
   return (
     <tr style={{
       height,
@@ -32,7 +34,7 @@ export default function TableRow(props: tableRow) {
       <TableRowColumn value={`${getProbabilityOfWinning(players)}%`} />
       <TableRowColumn value={`${utils.formatEther(getReward(players, stake))} ETH`} />
       <TableRowColumn value={`${queuePtr} / ${players}`} />
-      <TableRowColumn value={blocks} tooltip={tooltip} />
+      <TableRowColumn value={blocks} tooltip={tooltip} className={className} />
     </tr>
   );
 }

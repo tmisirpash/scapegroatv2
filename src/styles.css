@@ -32,3 +32,13 @@ th {
   border-left: none;
   border-right: none;
 }
+
+.blinkingText {
+  animation: blinker 2s linear infinite;
+}
+
+@keyframes blinker {
+  50% {
+    opacity: 0.4;
+  }
+}
