@@ -1,4 +1,4 @@
-import { BigNumber, utils } from "ethers";
+import { BigNumber, utils, constants } from "ethers";
 import { BLOCK_TIME } from "./constants";
 
 const MILLION = BigNumber.from("1000000");
@@ -13,6 +13,9 @@ export function getReward(numberOfPlayers: number, stake: BigNumber) : BigNumber
 }
 
 export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: BigNumber) : [string, string] {
+
+    //Loading state.
+    if (currentBlockNumber.eq(constants.Zero)) return ["", ""];
 
     if (currentBlockNumber.gte(revealBlockNumber)) return ["Open", ""];
 
