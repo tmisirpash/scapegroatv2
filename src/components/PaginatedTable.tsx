@@ -20,7 +20,7 @@ const seededState: groatGame[] = [
   },
   {
     address: '0x3',
-    stake: BigNumber.from('243000000000000'),
+    stake: BigNumber.from('243011110000000000000'),
     players: 243,
     queuePtr: 22,
     revealBlockNumber: BigNumber.from('21000000'),

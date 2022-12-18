@@ -36,11 +36,8 @@ export default function TableRow(props: tableRow) {
   displayStake = stakePeriod > 4 ? displayStake.substring(0, displayStake.indexOf('.')) : displayStake;
   displayReward = rewardPeriod > 4 ? displayReward.substring(0, displayReward.indexOf('.')) : displayReward;
 
-  // console.log(displayStake);
-  // console.log(stakePeriod)
   displayStake = /^[0]*$/.test(displayStake.slice(stakePeriod + 1)) ? displayStake.slice(0, stakePeriod) : displayStake;
-
-  // console.log(displayStake);
+  displayReward = /^[0]*$/.test(displayReward.slice(rewardPeriod + 1)) ? displayReward.slice(0, rewardPeriod) : displayReward;
 
   if (displayStake.length > 10) {
     stakeFontSize = '1rem';
