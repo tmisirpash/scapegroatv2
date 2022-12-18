@@ -1,11 +1,11 @@
 import React from 'react';
-import { BigNumber } from 'ethers';
 import { Tooltip } from '@mui/material';
 
 interface tableRowColumn {
   className?: string;
-  value: BigNumber | number | string;
+  value: string;
   tooltip?: string;
+  fontSize?: string;
 }
 
 export default function TableRowColumn(props: tableRowColumn) {
@@ -13,6 +13,7 @@ export default function TableRowColumn(props: tableRowColumn) {
     value,
     tooltip,
     className,
+    fontSize,
   } = props;
 
   return (
@@ -20,8 +21,14 @@ export default function TableRowColumn(props: tableRowColumn) {
       textAlign: 'center',
     }}
     >
-      <Tooltip title={tooltip}>
-        <span className={className}>{value.toString()}</span>
+      <Tooltip
+        style={{
+          fontSize,
+          padding: '5px',
+        }}
+        title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}
+      >
+        <span className={className}>{value}</span>
       </Tooltip>
     </td>
   );
@@ -30,4 +37,5 @@ export default function TableRowColumn(props: tableRowColumn) {
 TableRowColumn.defaultProps = {
   className: '',
   tooltip: '',
+  fontSize: '2rem',
 };
