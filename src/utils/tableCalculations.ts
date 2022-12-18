@@ -1,5 +1,8 @@
-import { BigNumber } from "ethers";
+import { BigNumber, utils } from "ethers";
 import { BLOCK_TIME } from "./constants";
+
+const MILLION = BigNumber.from("1000000");
+// const MILLIONTH = BigNumber.from("0.0000001");
 
 export function getProbabilityOfWinning(numberOfPlayers: number) : number {
     return Math.round((numberOfPlayers - 1) / numberOfPlayers * 100 * 10000) / 10000;
@@ -18,7 +21,7 @@ export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: Bi
 
     let tooltip;
     if (seconds < 60) tooltip = "Under a minute remaining.";
-    else tooltip = `~${Math.floor(seconds / 60)} minutes remaining.`;
+    else tooltip = `~${utils.commify(Math.floor(seconds / 60))} minutes remaining.`;
 
     return [`${blocks} blocks`, tooltip];
 }

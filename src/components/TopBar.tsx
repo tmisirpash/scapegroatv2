@@ -19,6 +19,8 @@ const TopBar = (
       display: 'flex',
       justifyContent: 'space-between',
       alignItems: 'center',
+      background: 'black',
+      padding: '5px',
     }}
     >
       <Title />

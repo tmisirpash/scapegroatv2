@@ -8,7 +8,7 @@ interface table {
   games: groatGame[]
 }
 
-const rowHeight = '40px';
+const rowHeight = '80px';
 
 export default function Table(props: table) {
   const {
@@ -20,6 +20,7 @@ export default function Table(props: table) {
   return (
     <div style={{
       overflow: 'auto',
+      tableLayout: 'fixed',
     }}
     >
       <table>

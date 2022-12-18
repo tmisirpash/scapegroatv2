@@ -13,10 +13,13 @@ export function TableHeaderColumn(props: tableHeaderColumn) {
   } = props;
 
   return (
-    <th>
-      <Tooltip title={tooltip}>
+    <th style={{
+    }}
+    >
+      <Tooltip title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}>
         <span style={{
           color: 'lightgray',
+          fontSize: '2rem',
         }}
         >
           {columnName}
