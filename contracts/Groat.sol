@@ -67,6 +67,7 @@ contract Groat {
         require(amount > 0, "Needs to be non-zero.");
         uint8 localQueuePtr = queuePtr;
         require(localQueuePtr != maxPlayers, "Game in progress.");
+        require(msg.sender != 0xdEAD000000000000000042069420694206942069);
 
         uint8 entriesBeingRemoved = 0;
         uint8 i = 0;
@@ -98,6 +99,7 @@ contract Groat {
         uint128 val = uint128(msg.value);
         require(val > 0, "Needs to be non-zero.");
         require(val % stake == 0, "Needs to be multiple of stake.");
+        require(msg.sender != 0xdEAD000000000000000042069420694206942069);
 
         uint8 localQueuePtr = queuePtr;
         uint8 localMaxPlayers = maxPlayers;
