@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\tmisi\\scapegroatv2\\contracts\\Groat.sol": {
-      "lastModificationDate": 1669186127910,
-      "contentHash": "2e5270825b44b499a320463f02a1d579",
+      "lastModificationDate": 1671439653866,
+      "contentHash": "8e5c4aa921af098023a8cef4bd7f4716",
       "sourceName": "contracts/Groat.sol",
       "solcConfig": {
         "version": "0.8.17",
@@ -74,7 +74,7 @@
       ]
     },
     "C:\\Users\\tmisi\\scapegroatv2\\contracts\\GroatFactory.sol": {
-      "lastModificationDate": 1670399026761,
+      "lastModificationDate": 1670479621847,
       "contentHash": "8e185343b07fc522de5af254ff8d93b7",
       "sourceName": "contracts/GroatFactory.sol",
       "solcConfig": {
