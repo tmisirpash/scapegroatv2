@@ -2,8 +2,7 @@ import React from 'react';
 import TopBar from './TopBar';
 import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from '../modals/ConnectionStatus';
-import GameBox from './GameBox';
-import useMedia from '../hooks/useMedia';
+import Table from './Table';
 
 const App: React.FC = () => {
   const [
@@ -13,21 +12,29 @@ const App: React.FC = () => {
     connectionButtonOnClick,
   ] = useMetaMaskConnection();
 
-  const media = useMedia();
-
   return (
-    <div>
+    <div style={{
+      height: '100%',
+    }}
+    >
       <TopBar
         connectionButtonText={connectionButtonText}
         connectionButtonOnClick={connectionButtonOnClick}
       />
-      <br />
       <ConnectionStatus
         connectionStatusText={connectionStatusText}
       />
-      <GameBox
-        media={media}
-      />
+      <br />
+      <br />
+      <br />
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }}
+      >
+        <Table />
+      </div>
     </div>
   );
 };

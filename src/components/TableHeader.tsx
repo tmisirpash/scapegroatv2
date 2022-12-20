@@ -7,7 +7,7 @@ const headers: tableHeaderColumn[] = [
     tooltip: 'The amount of ETH that needs to be deposited to gain a single entry.',
   },
   {
-    columnName: 'CHANCE OF WINNING',
+    columnName: 'PROB. OF WINNING',
     tooltip: 'The probability that a single entry will earn its stake back plus the reward.',
   },
   {
@@ -46,6 +46,7 @@ export default function TableHeader(props: tableHeader) {
           tooltip={header.tooltip}
         />
       ))}
+      <th aria-label="enter or leave" />
     </tr>
   );
 }

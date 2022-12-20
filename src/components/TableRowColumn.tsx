@@ -18,13 +18,13 @@ export default function TableRowColumn(props: tableRowColumn) {
 
   return (
     <td style={{
-      textAlign: 'center',
+      paddingLeft: '20px',
+      paddingRight: '20px',
     }}
     >
       <Tooltip
         style={{
           fontSize,
-          padding: '5px',
         }}
         title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}
       >
