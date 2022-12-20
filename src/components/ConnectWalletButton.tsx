@@ -38,6 +38,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         transitionDuration: '100ms',
         cursor: `${cursor}`,
         padding: '10px',
+        margin: '5px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',

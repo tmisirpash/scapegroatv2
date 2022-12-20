@@ -1,27 +1,101 @@
 import React from 'react';
+import { BigNumber } from 'ethers';
 import TableHeader from './TableHeader';
 import groatGame from '../interfaces/groatGame';
 import TableRow from './TableRow';
 import useGetBlockNumber from '../hooks/useGetBlockNumber';
 
-interface table {
-  games: groatGame[]
+function seedArray() : groatGame[] {
+  const a : groatGame[] = [
+    {
+      address: '0x1',
+      stake: BigNumber.from('500000000000000000'),
+      players: 51,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x2',
+      stake: BigNumber.from('500000000000000000'),
+      players: 101,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x3',
+      stake: BigNumber.from('1000000000000000000'),
+      players: 51,
+      queuePtr: 12,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x4',
+      stake: BigNumber.from('1000000000000000000'),
+      players: 101,
+      queuePtr: 45,
+      revealBlockNumber: BigNumber.from('20000000'),
+    },
+    {
+      address: '0x5',
+      stake: BigNumber.from('5000000000000000000'),
+      players: 51,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x6',
+      stake: BigNumber.from('5000000000000000000'),
+      players: 101,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x7',
+      stake: BigNumber.from('10000000000000000000'),
+      players: 51,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x8',
+      stake: BigNumber.from('10000000000000000000'),
+      players: 101,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0x9',
+      stake: BigNumber.from('50000000000000000000'),
+      players: 51,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+    {
+      address: '0xa',
+      stake: BigNumber.from('50000000000000000000'),
+      players: 101,
+      queuePtr: 11,
+      revealBlockNumber: BigNumber.from('30000000'),
+    },
+
+  ];
+
+  return a;
 }
+
+const seededState: groatGame[] = seedArray();
 
 const rowHeight = '80px';
 
-export default function Table(props: table) {
-  const {
-    games,
-  } = props;
-
+export default function Table() {
   const currentBlockNumber = useGetBlockNumber();
 
   return (
-    <div style={{
-      overflow: 'auto',
-      tableLayout: 'fixed',
-    }}
+    <div
+      className="paddingBetweenCols"
+      style={{
+        overflow: 'auto',
+      }}
     >
       <table>
         <thead>
@@ -30,7 +104,7 @@ export default function Table(props: table) {
           />
         </thead>
         <tbody>
-          {games.map((g) => (
+          {seededState.map((g) => (
             <TableRow
               key={g.address}
               address={g.address}

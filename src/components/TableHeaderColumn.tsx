@@ -14,6 +14,8 @@ export function TableHeaderColumn(props: tableHeaderColumn) {
 
   return (
     <th style={{
+      textAlign: 'left',
+      paddingLeft: '20px',
     }}
     >
       <Tooltip title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}>

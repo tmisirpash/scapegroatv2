@@ -4,6 +4,7 @@ import groatGame from '../interfaces/groatGame';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
 import { getProbabilityOfWinning, getReward, getCooldown } from '../utils/tableCalculations';
+import RowExpandButton from './RowExpandButton';
 
 interface tableRow extends groatGame {
   height: string;
@@ -55,24 +56,31 @@ export default function TableRow(props: tableRow) {
     }}
     >
       <TableRowColumnNoTooltip
-        value={`${displayStake} ETH`}
+        value={`${displayStake} ⟠`}
         fontSize={stakeFontSize}
+        decimal
       />
       <TableRowColumnNoTooltip
         value={`${getProbabilityOfWinning(players)}%`}
+        decimal
       />
       <TableRowColumnNoTooltip
-        value={`${displayReward} ETH`}
+        value={`${displayReward} ⟠`}
         fontSize={rewardFontSize}
+        decimal
       />
       <TableRowColumnNoTooltip
         value={`${queuePtr} / ${players}`}
+        className={className}
       />
       <TableRowColumn
         value={blocks}
         tooltip={tooltip}
         className={className}
       />
+      <td>
+        <RowExpandButton />
+      </td>
     </tr>
   );
 }

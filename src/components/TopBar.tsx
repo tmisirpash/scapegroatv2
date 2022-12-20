@@ -20,7 +20,7 @@ const TopBar = (
       justifyContent: 'space-between',
       alignItems: 'center',
       background: 'black',
-      padding: '5px',
+      width: '100%',
     }}
     >
       <Title />
