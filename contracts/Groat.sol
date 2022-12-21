@@ -6,7 +6,9 @@ import "hardhat/console.sol";
 contract Groat {
     uint256 public revealBlockNumber = 1;
 
+
     uint256 public payout;
+    address public groatAddress = 0xdEAD000000000000000042069420694206942069;
 
     uint128 public stake;
     uint8 public maxPlayers; //A game can have at most 255 players.
@@ -51,6 +53,7 @@ contract Groat {
             if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069) {
 
                 if (i == groatIndex) {
+                    groatAddress = oldAddress;
                     emit Groated(oldAddress, i);
                 } else {
                     (bool success, ) = oldAddress.call{value: payout}("");
@@ -81,11 +84,11 @@ contract Groat {
             if (i != localQueuePtr) {
                 queue[i] = queue[localQueuePtr];
             }
+            emit Leave(i);
             //Do not zero this storage, otherwise the next entrant will need to allocate it!
             queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
             ++i;
             ++entriesBeingRemoved;
-            emit Leave(localQueuePtr);
         }
 
         queuePtr = localQueuePtr;

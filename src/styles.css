@@ -24,11 +24,11 @@ table {
   border-collapse: collapse;
 }
 
-tr, th {
+.mainTable tr, th {
   border: 2px solid black;
 }
 
-th {
+.mainTable th {
   border-left: none;
   border-right: none;
 }
@@ -40,5 +40,15 @@ th {
 @keyframes blinker {
   50% {
     opacity: 0.4;
+  }
+}
+
+.blinkingBackground {
+  animation: backgroundBlinker 2s linear infinite;
+}
+
+@keyframes backgroundBlinker {
+  50% {
+    background-color: #181818;
   }
 }

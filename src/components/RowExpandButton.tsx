@@ -2,7 +2,15 @@ import React from 'react';
 import ExpandMore from '@mui/icons-material/ExpandMore';
 import useHover from '../hooks/useHover';
 
-export default function RowExpandButton() {
+interface rowExpandButton {
+  updateModalOpen: () => void;
+}
+
+export default function RowExpandButton(props: rowExpandButton) {
+  const {
+    updateModalOpen,
+  } = props;
+
   const [brightness, cursor, onMouseEnter, onMouseLeave] = useHover();
 
   return (
@@ -23,6 +31,9 @@ export default function RowExpandButton() {
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
+      onClick={() => {
+        updateModalOpen();
+      }}
     >
       {' '}
       Enter / Leave

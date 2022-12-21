@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { utils, BigNumber } from 'ethers';
 import groatGame from '../interfaces/groatGame';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
 import { getProbabilityOfWinning, getReward, getCooldown } from '../utils/tableCalculations';
 import RowExpandButton from './RowExpandButton';
+import GameInfoBox from '../modals/GameInfoBox';
 
 interface tableRow extends groatGame {
   height: string;
@@ -13,6 +14,7 @@ interface tableRow extends groatGame {
 
 export default function TableRow(props: tableRow) {
   const {
+    address,
     stake,
     players,
     queuePtr,
@@ -22,6 +24,7 @@ export default function TableRow(props: tableRow) {
   } = props;
 
   const [blocks, tooltip] = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
+  const [modalOpen, setModalOpen] = useState(false);
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
 
@@ -79,8 +82,19 @@ export default function TableRow(props: tableRow) {
         className={className}
       />
       <td>
-        <RowExpandButton />
+        <RowExpandButton
+          updateModalOpen={() => {
+            setModalOpen(true);
+          }}
+        />
       </td>
+      <GameInfoBox
+        gameAddress={address}
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+      />
     </tr>
   );
 }
