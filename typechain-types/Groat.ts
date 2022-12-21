@@ -31,6 +31,7 @@ import type {
 export interface GroatInterface extends utils.Interface {
   functions: {
     "depositEth(bool)": FunctionFragment;
+    "groatAddress()": FunctionFragment;
     "groatIndex()": FunctionFragment;
     "maxPlayers()": FunctionFragment;
     "payout()": FunctionFragment;
@@ -44,6 +45,7 @@ export interface GroatInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "depositEth"
+      | "groatAddress"
       | "groatIndex"
       | "maxPlayers"
       | "payout"
@@ -57,6 +59,10 @@ export interface GroatInterface extends utils.Interface {
   encodeFunctionData(
     functionFragment: "depositEth",
     values: [PromiseOrValue<boolean>]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "groatAddress",
+    values?: undefined
   ): string;
   encodeFunctionData(
     functionFragment: "groatIndex",
@@ -83,6 +89,10 @@ export interface GroatInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "stake", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "depositEth", data: BytesLike): Result;
+  decodeFunctionResult(
+    functionFragment: "groatAddress",
+    data: BytesLike
+  ): Result;
   decodeFunctionResult(functionFragment: "groatIndex", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "payout", data: BytesLike): Result;
@@ -173,6 +183,8 @@ export interface Groat extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    groatAddress(overrides?: CallOverrides): Promise<[string]>;
+
     groatIndex(overrides?: CallOverrides): Promise<[number]>;
 
     maxPlayers(overrides?: CallOverrides): Promise<[number]>;
@@ -201,6 +213,8 @@ export interface Groat extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  groatAddress(overrides?: CallOverrides): Promise<string>;
+
   groatIndex(overrides?: CallOverrides): Promise<number>;
 
   maxPlayers(overrides?: CallOverrides): Promise<number>;
@@ -228,6 +242,8 @@ export interface Groat extends BaseContract {
       partialFulfill: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    groatAddress(overrides?: CallOverrides): Promise<string>;
 
     groatIndex(overrides?: CallOverrides): Promise<number>;
 
@@ -272,6 +288,8 @@ export interface Groat extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    groatAddress(overrides?: CallOverrides): Promise<BigNumber>;
+
     groatIndex(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxPlayers(overrides?: CallOverrides): Promise<BigNumber>;
@@ -300,6 +318,8 @@ export interface Groat extends BaseContract {
       partialFulfill: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    groatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     groatIndex(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

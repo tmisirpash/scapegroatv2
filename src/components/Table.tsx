@@ -92,7 +92,7 @@ export default function Table() {
 
   return (
     <div
-      className="paddingBetweenCols"
+      className="paddingBetweenCols mainTable"
       style={{
         overflow: 'auto',
       }}
