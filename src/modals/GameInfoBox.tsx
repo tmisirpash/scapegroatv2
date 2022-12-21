@@ -1,6 +1,8 @@
 import React from 'react';
 import Modal from '@mui/material/Modal';
 import { PlayerListBox } from '../components/PlayerListBox';
+import ActionBox from '../components/ActionBox';
+import useMedia from '../hooks/useMedia';
 
 interface GameInfo {
   gameAddress: string;
@@ -14,7 +16,7 @@ function getPlayerQueue() : string[] {
   const result: string[] = [];
 
   for (let i = 0; i < 51; i++) {
-    result.push(`0x00000004567${i}`);
+    result.push(`0x00004567${i}`);
   }
   return result;
 }
@@ -28,6 +30,8 @@ export default function GameInfoBox(props: GameInfo) {
     gameAddress,
   } = props;
 
+  const media = useMedia(1500);
+
   return (
     <Modal
       open={open}
@@ -38,21 +42,27 @@ export default function GameInfoBox(props: GameInfo) {
         top: '50%',
         left: '50%',
         transform: 'translate(-50%, -50%)',
-        width: '70%',
+        width: '80%',
         height: '70%',
-        overflow: 'auto',
         backgroundColor: 'black',
         color: 'white',
         fontSize: 'em',
         border: '2px solid white',
         textAlign: 'center',
         padding: '20px',
+        display: 'flex',
+        overflow: media ? 'visible' : 'auto',
+        flexDirection: media ? 'row' : 'column',
       }}
       >
-        {gameAddress}
+        <ActionBox
+          gameAddress={gameAddress}
+          width={media ? '50%' : '100%'}
+        />
         <PlayerListBox
           addressQueue={addressQueue}
           queuePtr={queuePtr}
+          width={media ? '50%' : '100%'}
         />
       </div>
     </Modal>
