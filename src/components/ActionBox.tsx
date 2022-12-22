@@ -110,7 +110,7 @@ export default function ActionBox(props: actionBox) {
               {'Fulfill an exact order? '}
               <Tooltip
                 title={(
-                  <span style={{ fontSize: '1.5rem' }}>
+                  <span style={{ fontSize: '1.2rem' }}>
                     {`If you indicate yes, the transaction to add
                         your entries will revert if there are fewer openings in the
                         current game than entries you requested. If you indicate no, 
