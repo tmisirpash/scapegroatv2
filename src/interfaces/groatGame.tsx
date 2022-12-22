@@ -6,6 +6,8 @@ interface groatGame {
   players: number;
   queuePtr: number;
   revealBlockNumber: BigNumber;
+  groatIndex: number;
+  groatAddress: string;
 }
 
 export default groatGame;

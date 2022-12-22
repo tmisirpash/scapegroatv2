@@ -43,6 +43,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         justifyContent: 'space-between',
         alignItems: 'center',
         color: 'white',
+        fontFamily: 'Electrolize',
       }}
     >
       <img src={fox} width="50" height="50" className="undraggable unselectable" alt="" />

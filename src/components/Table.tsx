@@ -13,6 +13,8 @@ function seedArray() : groatGame[] {
       players: 51,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x2',
@@ -20,6 +22,8 @@ function seedArray() : groatGame[] {
       players: 101,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x3',
@@ -27,6 +31,8 @@ function seedArray() : groatGame[] {
       players: 51,
       queuePtr: 12,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x4',
@@ -34,6 +40,8 @@ function seedArray() : groatGame[] {
       players: 101,
       queuePtr: 45,
       revealBlockNumber: BigNumber.from('20000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x5',
@@ -41,6 +49,8 @@ function seedArray() : groatGame[] {
       players: 51,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x6',
@@ -48,6 +58,8 @@ function seedArray() : groatGame[] {
       players: 101,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x7',
@@ -55,6 +67,8 @@ function seedArray() : groatGame[] {
       players: 51,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x8',
@@ -62,6 +76,8 @@ function seedArray() : groatGame[] {
       players: 101,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0x9',
@@ -69,6 +85,8 @@ function seedArray() : groatGame[] {
       players: 51,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
     {
       address: '0xa',
@@ -76,6 +94,8 @@ function seedArray() : groatGame[] {
       players: 101,
       queuePtr: 11,
       revealBlockNumber: BigNumber.from('30000000'),
+      groatIndex: 27,
+      groatAddress: '0x1234567',
     },
 
   ];
@@ -114,6 +134,8 @@ export default function Table() {
               queuePtr={g.queuePtr}
               height={rowHeight}
               currentBlockNumber={currentBlockNumber}
+              groatIndex={g.groatIndex}
+              groatAddress={g.groatAddress}
             />
           ))}
         </tbody>

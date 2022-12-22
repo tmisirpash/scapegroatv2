@@ -5,6 +5,7 @@ export interface playerListBox {
   addressQueue: string[];
   queuePtr: number;
   width: string;
+  groatIndex: number;
 }
 
 export function PlayerListBox(props: playerListBox) {
@@ -12,6 +13,7 @@ export function PlayerListBox(props: playerListBox) {
     addressQueue,
     queuePtr,
     width,
+    groatIndex,
   } = props;
 
   const media = useMedia(700);
@@ -55,7 +57,7 @@ export function PlayerListBox(props: playerListBox) {
             >
               <td
                 style={{
-                  color: i < queuePtr ? 'white' : 'dimgray',
+                  color: i < queuePtr ? 'white' : (i === groatIndex ? 'green' : 'dimgray'),
                   textAlign: 'center',
                 }}
               >
