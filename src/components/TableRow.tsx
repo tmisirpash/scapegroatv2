@@ -21,6 +21,8 @@ export default function TableRow(props: tableRow) {
     revealBlockNumber,
     height,
     currentBlockNumber,
+    groatIndex,
+    groatAddress,
   } = props;
 
   const [blocks, tooltip] = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
@@ -94,6 +96,9 @@ export default function TableRow(props: tableRow) {
         onClose={() => {
           setModalOpen(false);
         }}
+        groatIndex={groatIndex}
+        groatAddress={groatAddress}
+        stake={stake}
       />
     </tr>
   );
