@@ -1,6 +1,5 @@
 import React from 'react';
 import Modal from '@mui/material/Modal';
-import { BigNumber } from 'ethers';
 import { PlayerListBox } from '../components/PlayerListBox';
 import ActionBox from '../components/ActionBox';
 import useMedia from '../hooks/useMedia';
@@ -9,9 +8,7 @@ interface GameInfo {
   gameAddress: string;
   open: boolean;
   onClose: () => void;
-  groatIndex: number;
-  groatAddress: string;
-  stake: BigNumber;
+  stake: string;
 }
 
 const queuePtr = 24;
@@ -32,8 +29,6 @@ export default function GameInfoBox(props: GameInfo) {
     open,
     onClose,
     gameAddress,
-    groatIndex,
-    groatAddress,
     stake,
   } = props;
 
@@ -60,23 +55,23 @@ export default function GameInfoBox(props: GameInfo) {
         display: 'flex',
         overflow: media ? 'visible' : 'auto',
         flexDirection: media ? 'row' : 'column',
+        maxHeight: '1000px',
         maxWidth: '1500px',
         minWidth: 'min(400px, 80vw)',
         minHeight: media ? '800px' : '',
       }}
       >
         <ActionBox
-          gameAddress={gameAddress}
           width={media ? '50%' : '100%'}
-          groatIndex={groatIndex}
-          groatAddress={groatAddress}
+          groatIndex={23}
+          groatAddress={gameAddress}
           stake={stake}
         />
         <PlayerListBox
           addressQueue={addressQueue}
           queuePtr={queuePtr}
           width={media ? '50%' : '100%'}
-          groatIndex={groatIndex}
+          groatIndex={23}
         />
       </div>
     </Modal>

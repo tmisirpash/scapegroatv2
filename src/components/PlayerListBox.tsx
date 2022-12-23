@@ -38,7 +38,7 @@ export function PlayerListBox(props: playerListBox) {
             color: 'cyan',
           }}
           >
-            <th style={{ textAlign: 'center' }}>Player Address</th>
+            <th style={{ textAlign: 'center' }}>{media ? 'Player Address' : 'Player Addresses'}</th>
             {media && <th>Position in Line</th>}
           </tr>
         </thead>

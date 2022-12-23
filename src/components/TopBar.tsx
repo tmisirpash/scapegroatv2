@@ -23,7 +23,13 @@ const TopBar = (
       width: '100%',
     }}
     >
-      <Title />
+      <div style={{
+        width: '12%',
+        textAlign: 'right',
+      }}
+      >
+        <Title />
+      </div>
       <ConnectWalletButton
         connectionButtonText={connectionButtonText}
         connectionButtonOnClick={connectionButtonOnClick}

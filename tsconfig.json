@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ESNext",
-    "module": "umd",
+    "module": "esNext",
     "lib": [
       "ESNext",
       "dom",
@@ -16,9 +16,10 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "useUnknownInCatchVariables": false,
+    "resolveJsonModule": true
   },
   "exclude": ["dist", "node_modules"],
-  "include": ["./test", "./scripts", "./contracts", "./src"],
+  "include": ["./test", "./scripts", "./src"],
   "files": [
     "./hardhat.config.ts",
     "./src/img.d.ts",

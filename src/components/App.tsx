@@ -7,6 +7,7 @@ import Table from './Table';
 const App: React.FC = () => {
   const [
     ,
+    chain,
     connectionButtonText,
     connectionStatusText,
     connectionButtonOnClick,
@@ -33,7 +34,9 @@ const App: React.FC = () => {
         alignItems: 'center',
       }}
       >
-        <Table />
+        <Table
+          chain={chain}
+        />
       </div>
     </div>
   );

@@ -1,31 +1,38 @@
 import React, { useState } from 'react';
 import { utils, BigNumber } from 'ethers';
-import groatGame from '../interfaces/groatGame';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
 import { getProbabilityOfWinning, getReward, getCooldown } from '../utils/tableCalculations';
 import RowExpandButton from './RowExpandButton';
 import GameInfoBox from '../modals/GameInfoBox';
+import useGetTopLevelGameInfo from '../hooks/useGetTopLevelGameInfo';
 
-interface tableRow extends groatGame {
+interface tableRow {
+  gameAddress: string;
+  chain: string;
   height: string;
   currentBlockNumber: number;
 }
 
 export default function TableRow(props: tableRow) {
   const {
-    address,
-    stake,
-    players,
-    queuePtr,
-    revealBlockNumber,
+    gameAddress,
+    chain,
     height,
     currentBlockNumber,
-    groatIndex,
-    groatAddress,
   } = props;
 
-  const [blocks, tooltip] = getCooldown(revealBlockNumber, BigNumber.from(currentBlockNumber));
+  const [
+    stake,
+    maxPlayers,
+    queuePtr,
+    revealBlockNumber,
+    loading,
+  ] = useGetTopLevelGameInfo(gameAddress, chain);
+  const [
+    blocks,
+    tooltip,
+  ] = getCooldown(BigNumber.from(revealBlockNumber), BigNumber.from(currentBlockNumber), chain);
   const [modalOpen, setModalOpen] = useState(false);
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
@@ -34,7 +41,9 @@ export default function TableRow(props: tableRow) {
   let rewardFontSize = '2rem';
 
   let displayStake = utils.commify(utils.formatEther(BigNumber.from(stake)));
-  let displayReward = utils.commify(utils.formatEther(getReward(players, stake)));
+  let displayReward = utils.commify(utils.formatEther(
+    getReward(maxPlayers, BigNumber.from(stake)),
+  ));
 
   const stakePeriod = displayStake.indexOf('.');
   const rewardPeriod = displayReward.indexOf('.');
@@ -54,52 +63,52 @@ export default function TableRow(props: tableRow) {
   }
 
   return (
-    <tr style={{
-      height,
-      backgroundColor: '#18283b',
-      color: 'white',
-    }}
-    >
-      <TableRowColumnNoTooltip
-        value={`${displayStake} ⟠`}
-        fontSize={stakeFontSize}
-        decimal
-      />
-      <TableRowColumnNoTooltip
-        value={`${getProbabilityOfWinning(players)}%`}
-        decimal
-      />
-      <TableRowColumnNoTooltip
-        value={`${displayReward} ⟠`}
-        fontSize={rewardFontSize}
-        decimal
-      />
-      <TableRowColumnNoTooltip
-        value={`${queuePtr} / ${players}`}
-        className={className}
-      />
-      <TableRowColumn
-        value={blocks}
-        tooltip={tooltip}
-        className={className}
-      />
-      <td>
-        <RowExpandButton
-          updateModalOpen={() => {
-            setModalOpen(true);
-          }}
+    !loading ? (
+      <tr style={{
+        height,
+        backgroundColor: '#18283b',
+        color: 'white',
+      }}
+      >
+        <TableRowColumnNoTooltip
+          value={`${displayStake} ⟠`}
+          fontSize={stakeFontSize}
+          decimal
         />
-      </td>
-      <GameInfoBox
-        gameAddress={address}
-        open={modalOpen}
-        onClose={() => {
-          setModalOpen(false);
-        }}
-        groatIndex={groatIndex}
-        groatAddress={groatAddress}
-        stake={stake}
-      />
-    </tr>
+        <TableRowColumnNoTooltip
+          value={`${getProbabilityOfWinning(maxPlayers)}%`}
+          decimal
+        />
+        <TableRowColumnNoTooltip
+          value={`${displayReward} ⟠`}
+          fontSize={rewardFontSize}
+          decimal
+        />
+        <TableRowColumnNoTooltip
+          value={`${queuePtr} / ${maxPlayers}`}
+          className={className}
+        />
+        <TableRowColumn
+          value={blocks}
+          tooltip={tooltip}
+          className={className}
+        />
+        <td>
+          <RowExpandButton
+            updateModalOpen={() => {
+              setModalOpen(true);
+            }}
+          />
+        </td>
+        <GameInfoBox
+          gameAddress={gameAddress}
+          open={modalOpen}
+          onClose={() => {
+            setModalOpen(false);
+          }}
+          stake={stake}
+        />
+      </tr>
+    ) : <tr />
   );
 }

@@ -28,6 +28,7 @@ export default function RowExpandButton(props: rowExpandButton) {
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
+        fontFamily: 'Electrolize',
       }}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}
