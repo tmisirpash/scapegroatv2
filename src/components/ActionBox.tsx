@@ -8,15 +8,11 @@ import YesNoPanel from './YesNoPanel';
 
 interface actionBox {
   width: string;
-  groatIndex: number;
-  groatAddress: string;
   stake: string;
 }
 export default function ActionBox(props: actionBox) {
   const {
     width,
-    groatIndex,
-    groatAddress,
     stake,
   } = props;
 
@@ -84,19 +80,6 @@ export default function ActionBox(props: actionBox) {
             History
           </button>
         </div>
-      </div>
-      <div style={{
-        padding: '15px',
-      }}
-      >
-        <span style={{ fontSize: 'rem' }}>
-          <span style={{ color: 'green' }}>{groatAddress}</span>
-          {' '}
-          got groated at position
-          {' '}
-          {groatIndex + 1}
-          !
-        </span>
       </div>
       <div style={{
         fontSize: 'min(5vw, 2rem)',

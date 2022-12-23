@@ -5,7 +5,6 @@ import ActionBox from '../components/ActionBox';
 import useMedia from '../hooks/useMedia';
 
 interface GameInfo {
-  gameAddress: string;
   open: boolean;
   onClose: () => void;
   stake: string;
@@ -28,7 +27,6 @@ export default function GameInfoBox(props: GameInfo) {
   const {
     open,
     onClose,
-    gameAddress,
     stake,
   } = props;
 
@@ -63,8 +61,6 @@ export default function GameInfoBox(props: GameInfo) {
       >
         <ActionBox
           width={media ? '50%' : '100%'}
-          groatIndex={23}
-          groatAddress={gameAddress}
           stake={stake}
         />
         <PlayerListBox

@@ -101,7 +101,6 @@ export default function TableRow(props: tableRow) {
           />
         </td>
         <GameInfoBox
-          gameAddress={gameAddress}
           open={modalOpen}
           onClose={() => {
             setModalOpen(false);
