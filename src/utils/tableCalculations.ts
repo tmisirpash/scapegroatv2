@@ -1,5 +1,5 @@
 import { BigNumber, utils, constants } from "ethers";
-import { BLOCK_TIME } from "./constants";
+import { APPROXIMATE_BLOCK_TIMES } from "./constants";
 
 export function getProbabilityOfWinning(numberOfPlayers: number) : number {
     return Math.round((numberOfPlayers - 1) / numberOfPlayers * 100 * 10000) / 10000;
@@ -9,7 +9,7 @@ export function getReward(numberOfPlayers: number, stake: BigNumber) : BigNumber
     return stake.div(BigNumber.from(numberOfPlayers - 1));
 }
 
-export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: BigNumber) : [string, string] {
+export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: BigNumber, chainId: string) : [string, string] {
 
     //Loading state.
     if (currentBlockNumber.eq(constants.Zero)) return ["", ""];
@@ -17,7 +17,7 @@ export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: Bi
     if (currentBlockNumber.gte(revealBlockNumber)) return ["Open", ""];
 
     const blocks = revealBlockNumber.sub(currentBlockNumber).toNumber();
-    const seconds = blocks * BLOCK_TIME;
+    const seconds = blocks * (APPROXIMATE_BLOCK_TIMES.get(chainId) || 0);
 
     let tooltip;
     if (seconds < 60) tooltip = "Under a minute remaining.";

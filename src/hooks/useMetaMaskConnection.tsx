@@ -1,8 +1,11 @@
 import { useEffect, useState } from 'react';
-
-const supportedChains = new Set([
-  '0x13881', '80001',
-]);
+import {
+  CHAIN_RPC_URLS,
+  DEFAULT_CHAIN_ID,
+  DEFAULT_CHAIN_NAME,
+  DEFAULT_CHAIN_CURRENCY,
+  DEFAULT_CHAIN_CURRENCY_DECIMALS,
+} from '../utils/constants';
 
 function isMetaMaskInstalled() : boolean {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
@@ -12,8 +15,9 @@ async function getAccounts() {
   return window.ethereum?.request({ method: 'eth_accounts' });
 }
 
-export default function useMetaMaskConnection() : [string, string, string, () => void] {
+export default function useMetaMaskConnection() : [string, string, string, string, () => void] {
   const [accountAddress, setAccountAddress] = useState('0x');
+  const [chain, setChain] = useState(DEFAULT_CHAIN_ID);
   const [connectionButtonText, setConnectionButtonText] = useState('');
   const [connectionStatusText, setConnectionStatusText] = useState('');
   const [isInstalled, setIsInstalled] = useState(false);
@@ -30,8 +34,9 @@ export default function useMetaMaskConnection() : [string, string, string, () =>
           setIsConnected(true);
           setAccountAddress(res[0]);
           setConnectionButtonText(res[0]);
-          if (supportedChains.has(window.ethereum?.networkVersion || '')) {
+          if (CHAIN_RPC_URLS.has(window.ethereum?.networkVersion || '')) {
             setConnectionStatusText('');
+            setChain(window.ethereum?.networkVersion || '');
           } else {
             setConnectionStatusText('Note: You are on an unsupported network. Please switch to Polygon Mumbai Testnet.');
           }
@@ -46,7 +51,7 @@ export default function useMetaMaskConnection() : [string, string, string, () =>
     try {
       await window.ethereum?.request({
         method: 'wallet_switchEthereumChain',
-        params: [{ chainId: '0x13881' }],
+        params: [{ chainId: DEFAULT_CHAIN_ID }],
       });
     } catch (switchError) {
       if (switchError.code === 4902) {
@@ -55,13 +60,13 @@ export default function useMetaMaskConnection() : [string, string, string, () =>
             method: 'wallet_addEthereumChain',
             params: [
               {
-                chainId: '0x13881',
-                chainName: 'Mumbai Testnet',
+                chainId: DEFAULT_CHAIN_ID,
+                chainName: DEFAULT_CHAIN_NAME,
                 nativeCurrency: {
-                  symbol: 'MATIC',
-                  decimals: 18,
+                  symbol: DEFAULT_CHAIN_CURRENCY,
+                  decimals: DEFAULT_CHAIN_CURRENCY_DECIMALS,
                 },
-                rpcUrls: ['https://rpc-mumbai.maticvigil.com'],
+                rpcUrls: [CHAIN_RPC_URLS.get(DEFAULT_CHAIN_ID)],
               },
             ],
           });
@@ -103,8 +108,11 @@ export default function useMetaMaskConnection() : [string, string, string, () =>
     }
 
     function handleChainChange(...args: unknown[]) {
-      if (!supportedChains.has(String(args[0]))) {
-        setConnectionStatusText('Note: You are on an unsupported network. Please switch to Polygon Mumbai Testnet.');
+      if (!CHAIN_RPC_URLS.has(String(args[0]))) {
+        setConnectionStatusText(
+          `Note: You are on an unsupported network. 
+          Please switch to Polygon Mumbai Testnet.`,
+        );
       } else {
         setConnectionStatusText('');
       }
@@ -116,5 +124,11 @@ export default function useMetaMaskConnection() : [string, string, string, () =>
     }
   });
 
-  return [accountAddress, connectionButtonText, connectionStatusText, connectionButtonOnClick];
+  return [
+    accountAddress,
+    chain,
+    connectionButtonText,
+    connectionStatusText,
+    connectionButtonOnClick,
+  ];
 }

@@ -3,12 +3,14 @@ import React, { ChangeEvent } from 'react';
 interface entryInput {
   value: string;
   updateEntries: (newVal: string) => void;
+  fontSize: string;
 }
 
 export default function EntryInput(props: entryInput) {
   const {
     value,
     updateEntries,
+    fontSize,
   } = props;
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
@@ -31,7 +33,7 @@ export default function EntryInput(props: entryInput) {
         borderColor: 'cyan',
         color: 'cyan',
         textAlign: 'center',
-        fontSize: 'min(8vw, 3rem)',
+        fontSize,
         fontFamily: 'Electrolize',
       }}
     />

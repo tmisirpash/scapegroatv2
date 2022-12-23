@@ -8,6 +8,12 @@ const config: HardhatUserConfig = {
       accounts: {
         count: 50
       }
+    },
+    mumbai: {
+      url:  `https://rpc-mumbai.maticvigil.com`,
+      accounts: {
+        mnemonic: process.env.MNEMONIC || ''
+      }
     }
   }
 };

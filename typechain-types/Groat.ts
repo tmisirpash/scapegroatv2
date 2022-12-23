@@ -110,8 +110,8 @@ export interface GroatInterface extends utils.Interface {
 
   events: {
     "Groated(address,uint8)": EventFragment;
-    "Join(uint8)": EventFragment;
-    "Leave(uint8)": EventFragment;
+    "Join(address,uint8)": EventFragment;
+    "Leave(address,uint8)": EventFragment;
     "Winner(address,uint8)": EventFragment;
   };
 
@@ -122,7 +122,7 @@ export interface GroatInterface extends utils.Interface {
 }
 
 export interface GroatedEventObject {
-  arg0: string;
+  groater: string;
   arg1: number;
 }
 export type GroatedEvent = TypedEvent<[string, number], GroatedEventObject>;
@@ -130,21 +130,23 @@ export type GroatedEvent = TypedEvent<[string, number], GroatedEventObject>;
 export type GroatedEventFilter = TypedEventFilter<GroatedEvent>;
 
 export interface JoinEventObject {
-  arg0: number;
+  joiner: string;
+  arg1: number;
 }
-export type JoinEvent = TypedEvent<[number], JoinEventObject>;
+export type JoinEvent = TypedEvent<[string, number], JoinEventObject>;
 
 export type JoinEventFilter = TypedEventFilter<JoinEvent>;
 
 export interface LeaveEventObject {
-  arg0: number;
+  leaver: string;
+  arg1: number;
 }
-export type LeaveEvent = TypedEvent<[number], LeaveEventObject>;
+export type LeaveEvent = TypedEvent<[string, number], LeaveEventObject>;
 
 export type LeaveEventFilter = TypedEventFilter<LeaveEvent>;
 
 export interface WinnerEventObject {
-  arg0: string;
+  winner: string;
   arg1: number;
 }
 export type WinnerEvent = TypedEvent<[string, number], WinnerEventObject>;
@@ -269,17 +271,38 @@ export interface Groat extends BaseContract {
   };
 
   filters: {
-    "Groated(address,uint8)"(arg0?: null, arg1?: null): GroatedEventFilter;
-    Groated(arg0?: null, arg1?: null): GroatedEventFilter;
+    "Groated(address,uint8)"(
+      groater?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): GroatedEventFilter;
+    Groated(
+      groater?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): GroatedEventFilter;
 
-    "Join(uint8)"(arg0?: null): JoinEventFilter;
-    Join(arg0?: null): JoinEventFilter;
+    "Join(address,uint8)"(
+      joiner?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): JoinEventFilter;
+    Join(joiner?: PromiseOrValue<string> | null, arg1?: null): JoinEventFilter;
 
-    "Leave(uint8)"(arg0?: null): LeaveEventFilter;
-    Leave(arg0?: null): LeaveEventFilter;
+    "Leave(address,uint8)"(
+      leaver?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): LeaveEventFilter;
+    Leave(
+      leaver?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): LeaveEventFilter;
 
-    "Winner(address,uint8)"(arg0?: null, arg1?: null): WinnerEventFilter;
-    Winner(arg0?: null, arg1?: null): WinnerEventFilter;
+    "Winner(address,uint8)"(
+      winner?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): WinnerEventFilter;
+    Winner(
+      winner?: PromiseOrValue<string> | null,
+      arg1?: null
+    ): WinnerEventFilter;
   };
 
   estimateGas: {

@@ -1,3 +1,4 @@
+const DotenvWebpackPlugin = require('dotenv-webpack')
 const path = require('path')
 
 module.exports = {
@@ -13,6 +14,11 @@ module.exports = {
             directory: path.resolve(__dirname, 'dist/')
         }
     },
+    plugins: [
+        new DotenvWebpackPlugin({
+            systemvars: true
+        })
+    ],
     module: {
         rules: [
             {
