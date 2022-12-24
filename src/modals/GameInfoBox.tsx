@@ -8,26 +8,17 @@ interface GameInfo {
   open: boolean;
   onClose: () => void;
   stake: string;
+  playerQueue: string[];
+  queuePtr: number;
 }
-
-const queuePtr = 24;
-
-function getPlayerQueue() : string[] {
-  const result: string[] = [];
-
-  for (let i = 0; i < 51; i++) {
-    result.push(`0x00004567${i}`);
-  }
-  return result;
-}
-
-const addressQueue: string[] = getPlayerQueue();
 
 export default function GameInfoBox(props: GameInfo) {
   const {
     open,
     onClose,
     stake,
+    playerQueue,
+    queuePtr,
   } = props;
 
   const media = useMedia(1200);
@@ -64,7 +55,7 @@ export default function GameInfoBox(props: GameInfo) {
           stake={stake}
         />
         <PlayerListBox
-          addressQueue={addressQueue}
+          playerQueue={playerQueue}
           queuePtr={queuePtr}
           width={media ? '50%' : '100%'}
           groatIndex={23}

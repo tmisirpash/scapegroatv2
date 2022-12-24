@@ -2,7 +2,7 @@ import React from 'react';
 import useMedia from '../hooks/useMedia';
 
 export interface playerListBox {
-  addressQueue: string[];
+  playerQueue: string[];
   queuePtr: number;
   width: string;
   groatIndex: number;
@@ -10,7 +10,7 @@ export interface playerListBox {
 
 export function PlayerListBox(props: playerListBox) {
   const {
-    addressQueue,
+    playerQueue,
     queuePtr,
     width,
     groatIndex,
@@ -47,7 +47,7 @@ export function PlayerListBox(props: playerListBox) {
             <td style={{ visibility: 'hidden' }}>0x</td>
             {media && <td style={{ visibility: 'hidden' }}>-1</td>}
           </tr>
-          {addressQueue.map((a, i) => (
+          {playerQueue.map((a, i) => (
             <tr
               className={i === queuePtr ? 'blinkingBackground' : ''}
               style={{

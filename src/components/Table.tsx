@@ -2,11 +2,10 @@ import React from 'react';
 import TableHeader from './TableHeader';
 import TableRow from './TableRow';
 import useGetBlockNumber from '../hooks/useGetBlockNumber';
-import { KNOWN_ADDRESSES } from '../utils/constants';
+import { useGetTopLevelGameInfo } from '../hooks/useGetTopLevelGameInfo';
+import useRpcProvider from '../hooks/useRpcProvider';
 
 const rowHeight = '80px';
-
-const EMPTY_LIST: string[] = [];
 
 interface table {
   chain: string;
@@ -17,7 +16,9 @@ export default function Table(props: table) {
     chain,
   } = props;
 
-  const currentBlockNumber = useGetBlockNumber();
+  const provider = useRpcProvider(chain);
+  const currentBlockNumber = useGetBlockNumber(provider);
+  const gameInfo = useGetTopLevelGameInfo(provider, chain);
 
   return (
     <div
@@ -33,13 +34,16 @@ export default function Table(props: table) {
           />
         </thead>
         <tbody>
-          {(KNOWN_ADDRESSES.get(chain) || EMPTY_LIST).map((g) => (
+          {gameInfo.map((g) => (
             <TableRow
-              key={g}
+              key={g.gameAddress}
               chain={chain}
-              gameAddress={g}
+              gameAddress={g.gameAddress}
+              stake={g.stake}
+              maxPlayers={g.maxPlayers}
               height={rowHeight}
               currentBlockNumber={currentBlockNumber}
+              provider={provider}
             />
           ))}
         </tbody>

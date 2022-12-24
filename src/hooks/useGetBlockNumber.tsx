@@ -1,19 +1,15 @@
 import { useState, useEffect } from 'react';
 import { providers } from 'ethers';
 
-export default function useGetBlockNumber() : number {
+export default function useGetBlockNumber(provider: providers.JsonRpcProvider) : number {
   const [currentBlockNumber, setCurrentBlockNumber] = useState(0);
 
-  async function getBlock(provider: providers.JsonRpcProvider) {
+  async function getBlock() {
     setCurrentBlockNumber(await provider.getBlockNumber());
   }
 
   useEffect(() => {
-    let provider = new providers.JsonRpcProvider('https://rpc-mumbai.maticvigil.com' as any);
-    if (window.ethereum) {
-      provider = new providers.Web3Provider(window.ethereum as any);
-    }
-    getBlock(provider);
+    getBlock();
 
     provider.on('block', (number) => {
       setCurrentBlockNumber(number);

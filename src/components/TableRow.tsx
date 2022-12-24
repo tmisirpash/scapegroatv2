@@ -1,34 +1,44 @@
 import React, { useState } from 'react';
-import { utils, BigNumber } from 'ethers';
+import { utils, BigNumber, ethers } from 'ethers';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
 import { getProbabilityOfWinning, getReward, getCooldown } from '../utils/tableCalculations';
 import RowExpandButton from './RowExpandButton';
 import GameInfoBox from '../modals/GameInfoBox';
-import useGetTopLevelGameInfo from '../hooks/useGetTopLevelGameInfo';
+import useGetPlayerQueue from '../hooks/useGetPlayerQueue';
 
 interface tableRow {
+  stake: string;
+  maxPlayers: number;
   gameAddress: string;
   chain: string;
   height: string;
   currentBlockNumber: number;
+  provider: ethers.providers.JsonRpcProvider;
 }
 
 export default function TableRow(props: tableRow) {
   const {
+    stake,
+    maxPlayers,
     gameAddress,
     chain,
     height,
     currentBlockNumber,
+    provider,
   } = props;
 
-  const [
-    stake,
+  const [playerQueue, queuePtr, revealBlockNumber, loading] = useGetPlayerQueue(
+    provider,
+    gameAddress,
     maxPlayers,
-    queuePtr,
-    revealBlockNumber,
-    loading,
-  ] = useGetTopLevelGameInfo(gameAddress, chain);
+    chain,
+  );
+
+  // const loading = false;
+  // const revealBlockNumber = 23;
+  // const queuePtr = 22;
+
   const [
     blocks,
     tooltip,
@@ -106,6 +116,8 @@ export default function TableRow(props: tableRow) {
             setModalOpen(false);
           }}
           stake={stake}
+          playerQueue={playerQueue}
+          queuePtr={queuePtr}
         />
       </tr>
     ) : <tr />
