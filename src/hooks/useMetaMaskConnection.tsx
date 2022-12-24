@@ -7,7 +7,7 @@ import {
   DEFAULT_CHAIN_CURRENCY_DECIMALS,
 } from '../utils/constants';
 
-function isMetaMaskInstalled() : boolean {
+export function isMetaMaskInstalled() : boolean {
   return Boolean(window.ethereum && window.ethereum.isMetaMask);
 }
 
@@ -15,7 +15,7 @@ async function getAccounts() {
   return window.ethereum?.request({ method: 'eth_accounts' });
 }
 
-export default function useMetaMaskConnection() : [string, string, string, string, () => void] {
+export function useMetaMaskConnection() : [string, string, string, string, () => void] {
   const [accountAddress, setAccountAddress] = useState('0x');
   const [chain, setChain] = useState(DEFAULT_CHAIN_ID);
   const [connectionButtonText, setConnectionButtonText] = useState('');
@@ -34,9 +34,9 @@ export default function useMetaMaskConnection() : [string, string, string, strin
           setIsConnected(true);
           setAccountAddress(res[0]);
           setConnectionButtonText(res[0]);
-          if (CHAIN_RPC_URLS.has(window.ethereum?.networkVersion || '')) {
+          if (CHAIN_RPC_URLS.has(window.ethereum?.chainId || '')) {
             setConnectionStatusText('');
-            setChain(window.ethereum?.networkVersion || '');
+            setChain(window.ethereum?.chainId || '');
           } else {
             setConnectionStatusText('Note: You are on an unsupported network. Please switch to Polygon Mumbai Testnet.');
           }
@@ -78,7 +78,7 @@ export default function useMetaMaskConnection() : [string, string, string, strin
       }
     }
 
-    window.ethereum?.request({ method: 'eth_requestAccounts' }).then((res) => {
+    window.ethereum?.request({ method: 'eth_requestAccounts' }).then((res: any) => {
       setIsConnected(true);
       const addr = Array.isArray(res) ? res[0] : '';
       setAccountAddress(addr);
@@ -108,7 +108,9 @@ export default function useMetaMaskConnection() : [string, string, string, strin
     }
 
     function handleChainChange(...args: unknown[]) {
-      if (!CHAIN_RPC_URLS.has(String(args[0]))) {
+      if (accountAddress === '0x') {
+        setConnectionStatusText('');
+      } else if (!CHAIN_RPC_URLS.has(String(args[0]))) {
         setConnectionStatusText(
           `Note: You are on an unsupported network. 
           Please switch to Polygon Mumbai Testnet.`,

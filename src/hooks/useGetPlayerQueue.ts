@@ -5,76 +5,49 @@ import groatABI from '../../dist/Groat.json';
 import { hexStringToNumber } from '../utils/conversion';
 
 export default function useGetPlayerQueue(
-    provider: ethers.providers.JsonRpcProvider,
+    provider: ethers.providers.Provider,
     gameAddress: string, 
     maxPlayers: number, 
+    modalOpen: boolean,
     chain: string
-) : [
-    string[],
-    number,
-    string,
-    boolean
-]{
+) : string[] {
 
-    const [playerQueue,] = useState(new Array(maxPlayers));
-    const [queuePtr, setQueuePtr] = useState(0);
-    const [revealBlockNumber, setRevealBlockNumber] = useState('1');
-    const [, forceUpdate] = useState(false);
-    const [loading, setLoading] = useState(true);
+    const [playerQueue, setPlayerQueue] = useState(new Array(maxPlayers));
 
     const fetchData = async () => {
+
         const ethcallProvider = new Provider(provider, hexStringToNumber(chain));
         const groatGame = new Contract(gameAddress, groatABI.abi);
 
         const calls = [];
-        calls.push(groatGame.queuePtr());
-        calls.push(groatGame.revealBlockNumber());
         for (let i = 0; i < maxPlayers; i++) {
             calls.push(groatGame.queue(i));
         }
 
         const results = await ethcallProvider.all(calls);
-        setQueuePtr(results[0]);
-        setRevealBlockNumber(results[1].toString());
-        for (let i = 2; i < results.length; i++) {
-            playerQueue[i-2] = results[i];
+        const newPlayerQueue = new Array(maxPlayers);
+
+        for (let i = 0; i < results.length; i++) {
+            newPlayerQueue[i] = results[i];
         }
-        setLoading(false);
+        setPlayerQueue(newPlayerQueue);
     };
 
     useEffect(() => {
 
-        const joinFilter = {
-            address: gameAddress,
-            topics: [
-                ethers.utils.id("Join(address,uint8)"),
-            ]
-        };
-
-        const leaveFilter = {
-            address: gameAddress,
-            topics: [
-                ethers.utils.id("Leave(address,uint8)")
-            ]
-        };
-
-        provider.on(joinFilter, (log, event) => {
-            console.log(log);
-            console.log(event);
-        });
-
-        provider.on(leaveFilter, (log, event) => {
-            console.log(log);
-            console.log(event);
-        })
+        if (!modalOpen) return;
 
         fetchData();
-    }, [maxPlayers]);
 
-    return [
-        playerQueue,
-        queuePtr,
-        revealBlockNumber,
-        loading
-    ];
+        const interval = setInterval(() => {
+            fetchData();
+        }, 2000);
+
+        return () => {
+            clearInterval(interval)
+        };
+
+    }, [maxPlayers, modalOpen]);
+
+    return playerQueue;
 }

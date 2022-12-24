@@ -4,50 +4,58 @@ import TableRow from './TableRow';
 import useGetBlockNumber from '../hooks/useGetBlockNumber';
 import { useGetTopLevelGameInfo } from '../hooks/useGetTopLevelGameInfo';
 import useRpcProvider from '../hooks/useRpcProvider';
+import { useGetTableLiveUpdate } from '../hooks/useGetTableLiveUpdate';
 
 const rowHeight = '80px';
 
 interface table {
   chain: string;
+  accountAddress: string;
 }
 
 export default function Table(props: table) {
   const {
     chain,
+    accountAddress,
   } = props;
 
-  const provider = useRpcProvider(chain);
+  const provider = useRpcProvider(chain, accountAddress);
   const currentBlockNumber = useGetBlockNumber(provider);
-  const gameInfo = useGetTopLevelGameInfo(provider, chain);
+  const [gameInfo, loading1] = useGetTopLevelGameInfo(provider, chain);
+  const [liveInfo, loading2] = useGetTableLiveUpdate(provider, chain);
 
   return (
-    <div
-      className="paddingBetweenCols mainTable"
-      style={{
-        overflow: 'auto',
-      }}
-    >
-      <table>
-        <thead>
-          <TableHeader
-            height={rowHeight}
-          />
-        </thead>
-        <tbody>
-          {gameInfo.map((g) => (
-            <TableRow
-              key={g.gameAddress}
-              chain={chain}
-              gameAddress={g.gameAddress}
-              stake={g.stake}
-              maxPlayers={g.maxPlayers}
+    (!loading1 && !loading2) ? (
+      <div
+        className="paddingBetweenCols mainTable"
+        style={{
+          overflow: 'auto',
+        }}
+      >
+        <table>
+          <thead>
+            <TableHeader
               height={rowHeight}
-              currentBlockNumber={currentBlockNumber}
-              provider={provider}
             />
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {gameInfo.map((g, i) => (
+              <TableRow
+                key={g.gameAddress}
+                chain={chain}
+                gameAddress={g.gameAddress}
+                stake={g.stake}
+                maxPlayers={g.maxPlayers}
+                queuePtr={liveInfo[i].queuePtr}
+                revealBlockNumber={liveInfo[i].revealBlockNumber}
+                height={rowHeight}
+                currentBlockNumber={currentBlockNumber}
+                provider={provider}
+              />
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ) : <div />
   );
 }
