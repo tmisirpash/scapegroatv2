@@ -1,12 +1,12 @@
 import React from 'react';
 import TopBar from './TopBar';
-import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
+import { useMetaMaskConnection } from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from '../modals/ConnectionStatus';
 import Table from './Table';
 
 const App: React.FC = () => {
   const [
-    ,
+    accountAddress,
     chain,
     connectionButtonText,
     connectionStatusText,
@@ -36,6 +36,7 @@ const App: React.FC = () => {
       >
         <Table
           chain={chain}
+          accountAddress={accountAddress}
         />
       </div>
     </div>

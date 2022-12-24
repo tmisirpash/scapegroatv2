@@ -10,17 +10,21 @@ import useGetPlayerQueue from '../hooks/useGetPlayerQueue';
 interface tableRow {
   stake: string;
   maxPlayers: number;
+  queuePtr: number;
+  revealBlockNumber: string;
   gameAddress: string;
   chain: string;
   height: string;
   currentBlockNumber: number;
-  provider: ethers.providers.JsonRpcProvider;
+  provider: ethers.providers.Provider;
 }
 
 export default function TableRow(props: tableRow) {
   const {
     stake,
     maxPlayers,
+    queuePtr,
+    revealBlockNumber,
     gameAddress,
     chain,
     height,
@@ -28,22 +32,19 @@ export default function TableRow(props: tableRow) {
     provider,
   } = props;
 
-  const [playerQueue, queuePtr, revealBlockNumber, loading] = useGetPlayerQueue(
+  const [modalOpen, setModalOpen] = useState(false);
+  const playerQueue = useGetPlayerQueue(
     provider,
     gameAddress,
     maxPlayers,
+    modalOpen,
     chain,
   );
-
-  // const loading = false;
-  // const revealBlockNumber = 23;
-  // const queuePtr = 22;
 
   const [
     blocks,
     tooltip,
   ] = getCooldown(BigNumber.from(revealBlockNumber), BigNumber.from(currentBlockNumber), chain);
-  const [modalOpen, setModalOpen] = useState(false);
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
 
@@ -73,53 +74,51 @@ export default function TableRow(props: tableRow) {
   }
 
   return (
-    !loading ? (
-      <tr style={{
-        height,
-        backgroundColor: '#18283b',
-        color: 'white',
-      }}
-      >
-        <TableRowColumnNoTooltip
-          value={`${displayStake} ⟠`}
-          fontSize={stakeFontSize}
-          decimal
-        />
-        <TableRowColumnNoTooltip
-          value={`${getProbabilityOfWinning(maxPlayers)}%`}
-          decimal
-        />
-        <TableRowColumnNoTooltip
-          value={`${displayReward} ⟠`}
-          fontSize={rewardFontSize}
-          decimal
-        />
-        <TableRowColumnNoTooltip
-          value={`${queuePtr} / ${maxPlayers}`}
-          className={className}
-        />
-        <TableRowColumn
-          value={blocks}
-          tooltip={tooltip}
-          className={className}
-        />
-        <td>
-          <RowExpandButton
-            updateModalOpen={() => {
-              setModalOpen(true);
-            }}
-          />
-        </td>
-        <GameInfoBox
-          open={modalOpen}
-          onClose={() => {
-            setModalOpen(false);
+    <tr style={{
+      height,
+      backgroundColor: '#18283b',
+      color: 'white',
+    }}
+    >
+      <TableRowColumnNoTooltip
+        value={`${displayStake} ⟠`}
+        fontSize={stakeFontSize}
+        decimal
+      />
+      <TableRowColumnNoTooltip
+        value={`${getProbabilityOfWinning(maxPlayers)}%`}
+        decimal
+      />
+      <TableRowColumnNoTooltip
+        value={`${displayReward} ⟠`}
+        fontSize={rewardFontSize}
+        decimal
+      />
+      <TableRowColumnNoTooltip
+        value={`${queuePtr} / ${maxPlayers}`}
+        className={className}
+      />
+      <TableRowColumn
+        value={blocks}
+        tooltip={tooltip}
+        className={className}
+      />
+      <td>
+        <RowExpandButton
+          updateModalOpen={() => {
+            setModalOpen(true);
           }}
-          stake={stake}
-          playerQueue={playerQueue}
-          queuePtr={queuePtr}
         />
-      </tr>
-    ) : <tr />
+      </td>
+      <GameInfoBox
+        open={modalOpen}
+        onClose={() => {
+          setModalOpen(false);
+        }}
+        stake={stake}
+        playerQueue={playerQueue}
+        queuePtr={queuePtr}
+      />
+    </tr>
   );
 }

@@ -14,11 +14,14 @@ export interface topLevelGameInfo {
 const EMPTY_GAME_INFO: topLevelGameInfo[] = [];
 
 export function useGetTopLevelGameInfo(
-  provider: ethers.providers.JsonRpcProvider,
+  provider: ethers.providers.Provider,
   chain: string,
-) : topLevelGameInfo[] {
-  const [gameInfo] = useState(EMPTY_GAME_INFO);
-  const [, forceUpdate] = useState(false);
+) : [
+    topLevelGameInfo[],
+    boolean
+  ] {
+  const [gameInfo, setGameInfo] = useState(EMPTY_GAME_INFO);
+  const [loading, setLoading] = useState(true);
 
   const fetchData = async () => {
     const chainDec = hexStringToNumber(chain);
@@ -32,20 +35,25 @@ export function useGetTopLevelGameInfo(
     });
 
     const data = await ethcallProvider.all(calls);
+    const newGameInfo = new Array(KNOWN_ADDRESSES.size * 2);
     for (let i = 0; i < data.length; i += 2) {
-      gameInfo.push({
+      newGameInfo[i / 2] = {
         gameAddress: (KNOWN_ADDRESSES.get(chain) || [])[i / 2],
         stake: data[i],
         maxPlayers: data[i + 1],
-      });
+      };
     }
 
-    forceUpdate((update) => !update);
+    setGameInfo(newGameInfo);
+    setLoading(false);
   };
 
   useEffect(() => {
     fetchData();
   }, []);
 
-  return gameInfo;
+  return [
+    gameInfo,
+    loading,
+  ];
 }

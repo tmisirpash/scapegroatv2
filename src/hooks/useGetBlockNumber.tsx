@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { providers } from 'ethers';
 
-export default function useGetBlockNumber(provider: providers.JsonRpcProvider) : number {
+export default function useGetBlockNumber(provider: providers.Provider) : number {
   const [currentBlockNumber, setCurrentBlockNumber] = useState(0);
 
   async function getBlock() {
@@ -11,9 +11,9 @@ export default function useGetBlockNumber(provider: providers.JsonRpcProvider) :
   useEffect(() => {
     getBlock();
 
-    provider.on('block', (number) => {
-      setCurrentBlockNumber(number);
-    });
+    const interval = setInterval(() => getBlock(), 2000);
+
+    return () => clearInterval(interval);
   }, []);
 
   return currentBlockNumber;
