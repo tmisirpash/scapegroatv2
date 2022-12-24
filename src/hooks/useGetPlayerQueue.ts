@@ -22,11 +22,6 @@ export default function useGetPlayerQueue(
     const [, forceUpdate] = useState(false);
     const [loading, setLoading] = useState(true);
 
-    // const updatePlayerQueue = (index: number, value: string) => {
-    //     playerQueue[index] = value;
-    //     forceUpdate(update => !update);
-    // };
-
     const fetchData = async () => {
         const ethcallProvider = new Provider(provider, hexStringToNumber(chain));
         const groatGame = new Contract(gameAddress, groatABI.abi);
@@ -45,7 +40,6 @@ export default function useGetPlayerQueue(
             playerQueue[i-2] = results[i];
         }
         setLoading(false);
-        console.log(playerQueue.length);
     };
 
     useEffect(() => {
