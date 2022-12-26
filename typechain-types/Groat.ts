@@ -31,6 +31,7 @@ import type {
 export interface GroatInterface extends utils.Interface {
   functions: {
     "depositEth(bool)": FunctionFragment;
+    "gameStart()": FunctionFragment;
     "groatAddress()": FunctionFragment;
     "groatIndex()": FunctionFragment;
     "maxPlayers()": FunctionFragment;
@@ -45,6 +46,7 @@ export interface GroatInterface extends utils.Interface {
   getFunction(
     nameOrSignatureOrTopic:
       | "depositEth"
+      | "gameStart"
       | "groatAddress"
       | "groatIndex"
       | "maxPlayers"
@@ -60,6 +62,7 @@ export interface GroatInterface extends utils.Interface {
     functionFragment: "depositEth",
     values: [PromiseOrValue<boolean>]
   ): string;
+  encodeFunctionData(functionFragment: "gameStart", values?: undefined): string;
   encodeFunctionData(
     functionFragment: "groatAddress",
     values?: undefined
@@ -89,6 +92,7 @@ export interface GroatInterface extends utils.Interface {
   encodeFunctionData(functionFragment: "stake", values?: undefined): string;
 
   decodeFunctionResult(functionFragment: "depositEth", data: BytesLike): Result;
+  decodeFunctionResult(functionFragment: "gameStart", data: BytesLike): Result;
   decodeFunctionResult(
     functionFragment: "groatAddress",
     data: BytesLike
@@ -185,6 +189,8 @@ export interface Groat extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<ContractTransaction>;
 
+    gameStart(overrides?: CallOverrides): Promise<[boolean]>;
+
     groatAddress(overrides?: CallOverrides): Promise<[string]>;
 
     groatIndex(overrides?: CallOverrides): Promise<[number]>;
@@ -215,6 +221,8 @@ export interface Groat extends BaseContract {
     overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
   ): Promise<ContractTransaction>;
 
+  gameStart(overrides?: CallOverrides): Promise<boolean>;
+
   groatAddress(overrides?: CallOverrides): Promise<string>;
 
   groatIndex(overrides?: CallOverrides): Promise<number>;
@@ -244,6 +252,8 @@ export interface Groat extends BaseContract {
       partialFulfill: PromiseOrValue<boolean>,
       overrides?: CallOverrides
     ): Promise<void>;
+
+    gameStart(overrides?: CallOverrides): Promise<boolean>;
 
     groatAddress(overrides?: CallOverrides): Promise<string>;
 
@@ -311,6 +321,8 @@ export interface Groat extends BaseContract {
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<BigNumber>;
 
+    gameStart(overrides?: CallOverrides): Promise<BigNumber>;
+
     groatAddress(overrides?: CallOverrides): Promise<BigNumber>;
 
     groatIndex(overrides?: CallOverrides): Promise<BigNumber>;
@@ -341,6 +353,8 @@ export interface Groat extends BaseContract {
       partialFulfill: PromiseOrValue<boolean>,
       overrides?: PayableOverrides & { from?: PromiseOrValue<string> }
     ): Promise<PopulatedTransaction>;
+
+    gameStart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     groatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 

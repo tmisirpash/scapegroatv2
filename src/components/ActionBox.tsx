@@ -11,20 +11,30 @@ interface actionBox {
   width: string;
   stake: string;
   entriesInCurrentGame: number;
+  entriesInPreviousGame: number;
   provider: ethers.providers.Provider;
   gameAddress: string;
+  openForBusiness: boolean;
+  groatIndex: number;
+  groatAddress: string;
+  accountAddress: string;
 }
 export default function ActionBox(props: actionBox) {
   const {
     width,
     stake,
     entriesInCurrentGame,
+    entriesInPreviousGame,
     provider,
     gameAddress,
+    openForBusiness,
+    groatIndex,
+    groatAddress,
+    accountAddress,
   } = props;
 
   const [entriesAdd, setEntriesAdd] = useState('');
-  const [exactEntriesAdd, setExactEntriesAdd] = useState(false);
+  const [partialFulfill, setPartialFulfill] = useState(false);
   const [entriesRemove, setEntriesRemove] = useState('');
 
   return (
@@ -89,11 +99,13 @@ export default function ActionBox(props: actionBox) {
         </div>
       </div>
       <div style={{
-        fontSize: 'min(5vw, 2rem)',
-        height: width === '100%' ? '75px' : '10%',
+        fontSize: 'min(5vw, 1.2rem)',
+        height: width === '100%' ? '150px' : '20%',
         display: 'flex',
+        flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        gap: width === '100%' ? '20px' : '20%',
       }}
       >
         <div>
@@ -106,9 +118,41 @@ export default function ActionBox(props: actionBox) {
           {' '}
           in the current game.
         </div>
+        <div>
+          You have
+          {' '}
+          <span style={{ color: 'cyan' }}>{entriesInPreviousGame}</span>
+          {
+            (entriesInPreviousGame === 1 ? ' entry' : ' entries')
+          }
+          {' '}
+          in the previous game that
+          {
+            (entriesInPreviousGame === 1 ? ' has' : ' have')
+          }
+          {' '}
+          yet to take effect.
+        </div>
+        {
+          accountAddress === groatAddress
+            ? (
+              <div>
+                Unfortunately, in the previous game, you were groated at position
+                {' '}
+                <span style={{ color: 'green' }}>{groatIndex + 1}</span>
+                .
+              </div>
+            ) : (entriesInPreviousGame > 0
+          && (
+            <div>
+              {'Congrats, you weren\'t groated last round!'}
+            </div>
+          )
+            )
+        }
       </div>
       <div style={{
-        height: width === '100%' ? '300px' : '50%',
+        height: width === '100%' ? '300px' : '40%',
         padding: '15px',
         borderStyle: 'solid',
         borderColor: 'dimgray',
@@ -150,27 +194,30 @@ export default function ActionBox(props: actionBox) {
           </div>
         </div>
         <div style={{
-          fontSize: 'min(6vw, 2rem)',
+          fontSize: 'min(5vw, 2rem)',
           display: 'flex',
+          flexDirection: 'row',
           justifyContent: 'center',
           alignItems: 'center',
         }}
         >
           <div>
             <div>
-              {'Fulfill an exact order? '}
+              {'Allow partial fulfillment? '}
               <Tooltip
                 title={(
                   <span style={{ fontSize: '1.2rem' }}>
-                    {`If you indicate yes, the transaction to add
-                        your entries will revert if, at validation time, 
-                        there turn out to be fewer openings in the
-                        current game than entries you requested (for instance
-                        if you ask for the final 3 entries
-                        and someone else asks for 2 entries at the same time, and their transaction happens 
-                        to get included in a block first). If you indicate no, 
-                        entries will be assigned to you on a best-effort basis up to the number of entries specified, and
-                        you will be refunded any unused ETH.`}
+                    {
+                      `Since there is always the possibility that someone
+                      else sent a transaction to add entries at the same
+                      time as you, there is no guarantee that there will
+                      be enough openings for the number of entries you request. 
+                      If you indicate 'Yes',
+                      entries will be assigned to you on a best-effort basis up to
+                      the number of entries specified, and you will be
+                      refunded any unused ETH. If you indicate 'No', your transaction
+                      will revert if an exact order cannot be met.`
+                    }
                   </span>
                 )}
               >
@@ -179,13 +226,13 @@ export default function ActionBox(props: actionBox) {
             </div>
             <YesNoPanel
               setExactOrder={(val: boolean) => {
-                setExactEntriesAdd(val);
+                setPartialFulfill(val);
               }}
             />
           </div>
         </div>
         <BlueButton
-          value="Submit"
+          value={openForBusiness ? 'Submit' : 'On Cooldown'}
           onClick={async () => {
             if (entriesAdd.length === 0) return;
 
@@ -197,13 +244,13 @@ export default function ActionBox(props: actionBox) {
                 provider,
               );
               const groatGameWithSigner = groatGame.connect(signer);
-              await groatGameWithSigner.depositEth(exactEntriesAdd, {
+              await groatGameWithSigner.depositEth(partialFulfill, {
                 value: BigNumber.from(stake).mul(entriesAdd),
               });
               setEntriesAdd('');
             }
           }}
-          allowClick={entriesAdd !== ''}
+          allowClick={entriesAdd !== '' && openForBusiness}
         />
       </div>
 
@@ -252,8 +299,13 @@ export default function ActionBox(props: actionBox) {
           </div>
         </div>
         <BlueButton
-          value="Submit"
-          allowClick={entriesRemove !== '' && entriesInCurrentGame > 0 && Number(entriesRemove) <= entriesInCurrentGame}
+          value={openForBusiness ? 'Submit' : 'On Cooldown'}
+          allowClick={
+            entriesRemove !== ''
+            && entriesInCurrentGame > 0
+            && Number(entriesRemove) <= entriesInCurrentGame
+            && openForBusiness
+          }
           onClick={async () => {
             if (provider instanceof ethers.providers.Web3Provider) {
               const signer = provider.getSigner();
