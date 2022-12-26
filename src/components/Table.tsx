@@ -42,6 +42,7 @@ export default function Table(props: table) {
             {gameInfo.map((g, i) => (
               <TableRow
                 key={g.gameAddress}
+                accountAddress={accountAddress}
                 chain={chain}
                 gameAddress={g.gameAddress}
                 stake={g.stake}

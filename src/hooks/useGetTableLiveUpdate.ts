@@ -52,7 +52,7 @@ export function useGetTableLiveUpdate(
         const interval = setInterval(() => fetchData(), 2000);
 
         return () => clearInterval(interval);
-    }, []);
+    }, [provider]);
 
     return [
         liveInfo,

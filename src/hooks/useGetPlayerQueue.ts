@@ -28,7 +28,7 @@ export default function useGetPlayerQueue(
         const newPlayerQueue = new Array(maxPlayers);
 
         for (let i = 0; i < results.length; i++) {
-            newPlayerQueue[i] = results[i];
+            newPlayerQueue[i] = results[i].toLowerCase();
         }
         setPlayerQueue(newPlayerQueue);
     };
@@ -47,7 +47,7 @@ export default function useGetPlayerQueue(
             clearInterval(interval)
         };
 
-    }, [maxPlayers, modalOpen]);
+    }, [maxPlayers, modalOpen, provider]);
 
     return playerQueue;
 }

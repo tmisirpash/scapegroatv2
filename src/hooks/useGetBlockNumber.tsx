@@ -14,7 +14,7 @@ export default function useGetBlockNumber(provider: providers.Provider) : number
     const interval = setInterval(() => getBlock(), 2000);
 
     return () => clearInterval(interval);
-  }, []);
+  }, [provider]);
 
   return currentBlockNumber;
 }

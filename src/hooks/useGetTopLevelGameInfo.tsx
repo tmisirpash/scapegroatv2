@@ -50,7 +50,7 @@ export function useGetTopLevelGameInfo(
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [provider]);
 
   return [
     gameInfo,

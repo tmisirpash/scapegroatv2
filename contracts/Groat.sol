@@ -87,7 +87,6 @@ contract Groat {
             emit Leave(msg.sender, i);
             //Do not zero this storage, otherwise the next entrant will need to allocate it!
             queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
-            ++i;
             ++entriesBeingRemoved;
         }
 
