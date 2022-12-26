@@ -1,11 +1,14 @@
 import React from 'react';
+import { ethers } from 'ethers';
 import useMedia from '../hooks/useMedia';
+import { DEAD_ADDRESS } from '../utils/constants';
 
 export interface playerListBox {
   playerQueue: string[];
   queuePtr: number;
   width: string;
   groatIndex: number;
+  accountAddress: string;
 }
 
 export function PlayerListBox(props: playerListBox) {
@@ -14,6 +17,7 @@ export function PlayerListBox(props: playerListBox) {
     queuePtr,
     width,
     groatIndex,
+    accountAddress,
   } = props;
 
   const media = useMedia(700);
@@ -61,7 +65,8 @@ export function PlayerListBox(props: playerListBox) {
                   textAlign: 'center',
                 }}
               >
-                {`${a.slice(0, 10)}...`}
+                {`${(a === DEAD_ADDRESS ? ethers.constants.AddressZero : a)
+                  .slice(0, 10)}... ${a === accountAddress ? '(you)' : ''}`}
               </td>
               {(media && i < queuePtr) && <td>{i + 1}</td>}
               {(media && i === queuePtr) && <td style={{ fontSize: '0' }}>-1</td>}

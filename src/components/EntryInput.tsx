@@ -22,7 +22,7 @@ export default function EntryInput(props: entryInput) {
       type="text"
       value={value}
       maxLength={3}
-      placeholder="1"
+      placeholder="0"
       onChange={handleChange}
       style={{
         width: 'min(24vw, 120px)',

@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Modal from '@mui/material/Modal';
+import { ethers } from 'ethers';
 import { PlayerListBox } from '../components/PlayerListBox';
 import ActionBox from '../components/ActionBox';
 import useMedia from '../hooks/useMedia';
@@ -10,6 +11,9 @@ interface GameInfo {
   stake: string;
   playerQueue: string[];
   queuePtr: number;
+  accountAddress: string;
+  provider: ethers.providers.Provider;
+  gameAddress: string;
 }
 
 export default function GameInfoBox(props: GameInfo) {
@@ -19,9 +23,21 @@ export default function GameInfoBox(props: GameInfo) {
     stake,
     playerQueue,
     queuePtr,
+    accountAddress,
+    provider,
+    gameAddress,
   } = props;
 
   const media = useMedia(1200);
+
+  const entriesInCurrentGame = useMemo(() => {
+    if (accountAddress === '0x') return 0;
+    let num = 0;
+    playerQueue.forEach((addr) => {
+      if (addr === accountAddress) num++;
+    });
+    return num;
+  }, [playerQueue]);
 
   return (
     <Modal
@@ -53,12 +69,16 @@ export default function GameInfoBox(props: GameInfo) {
         <ActionBox
           width={media ? '50%' : '100%'}
           stake={stake}
+          entriesInCurrentGame={entriesInCurrentGame}
+          provider={provider}
+          gameAddress={gameAddress}
         />
         <PlayerListBox
           playerQueue={playerQueue}
           queuePtr={queuePtr}
           width={media ? '50%' : '100%'}
           groatIndex={23}
+          accountAddress={accountAddress}
         />
       </div>
     </Modal>

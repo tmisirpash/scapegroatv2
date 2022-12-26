@@ -9,6 +9,7 @@ import useGetPlayerQueue from '../hooks/useGetPlayerQueue';
 
 interface tableRow {
   stake: string;
+  accountAddress: string;
   maxPlayers: number;
   queuePtr: number;
   revealBlockNumber: string;
@@ -22,6 +23,7 @@ interface tableRow {
 export default function TableRow(props: tableRow) {
   const {
     stake,
+    accountAddress,
     maxPlayers,
     queuePtr,
     revealBlockNumber,
@@ -118,6 +120,9 @@ export default function TableRow(props: tableRow) {
         stake={stake}
         playerQueue={playerQueue}
         queuePtr={queuePtr}
+        accountAddress={accountAddress}
+        provider={provider}
+        gameAddress={gameAddress}
       />
     </tr>
   );

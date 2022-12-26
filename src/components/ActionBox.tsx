@@ -1,23 +1,30 @@
 import React, { useState } from 'react';
-import { utils } from 'ethers';
+import { ethers, utils, BigNumber } from 'ethers';
 import Info from '@mui/icons-material/Info';
 import { Tooltip } from '@mui/material';
 import EntryInput from './EntryInput';
 import BlueButton from './BlueButton';
 import YesNoPanel from './YesNoPanel';
+import groatABI from '../../dist/Groat.json';
 
 interface actionBox {
   width: string;
   stake: string;
+  entriesInCurrentGame: number;
+  provider: ethers.providers.Provider;
+  gameAddress: string;
 }
 export default function ActionBox(props: actionBox) {
   const {
     width,
     stake,
+    entriesInCurrentGame,
+    provider,
+    gameAddress,
   } = props;
 
   const [entriesAdd, setEntriesAdd] = useState('');
-  const [, setExactEntriesAdd] = useState(false);
+  const [exactEntriesAdd, setExactEntriesAdd] = useState(false);
   const [entriesRemove, setEntriesRemove] = useState('');
 
   return (
@@ -89,7 +96,16 @@ export default function ActionBox(props: actionBox) {
         alignItems: 'center',
       }}
       >
-        You have 2 entries in the current game.
+        <div>
+          You have
+          {' '}
+          <span style={{ color: 'cyan' }}>{entriesInCurrentGame}</span>
+          {
+            (entriesInCurrentGame === 1 ? ' entry' : ' entries')
+          }
+          {' '}
+          in the current game.
+        </div>
       </div>
       <div style={{
         height: width === '100%' ? '300px' : '50%',
@@ -128,7 +144,7 @@ export default function ActionBox(props: actionBox) {
             Price:
             {' '}
             {utils.commify(Number(utils.formatEther(stake)) * (entriesAdd.length > 0
-              ? Number(entriesAdd) : 1))}
+              ? Number(entriesAdd) : 0))}
             {' '}
             ETH
           </div>
@@ -170,6 +186,24 @@ export default function ActionBox(props: actionBox) {
         </div>
         <BlueButton
           value="Submit"
+          onClick={async () => {
+            if (entriesAdd.length === 0) return;
+
+            if (provider instanceof ethers.providers.Web3Provider) {
+              const signer = provider.getSigner();
+              const groatGame = new ethers.Contract(
+                gameAddress,
+                groatABI.abi,
+                provider,
+              );
+              const groatGameWithSigner = groatGame.connect(signer);
+              await groatGameWithSigner.depositEth(exactEntriesAdd, {
+                value: BigNumber.from(stake).mul(entriesAdd),
+              });
+              setEntriesAdd('');
+            }
+          }}
+          allowClick={entriesAdd !== ''}
         />
       </div>
 
@@ -210,14 +244,29 @@ export default function ActionBox(props: actionBox) {
           >
             Refund:
             {' '}
-            {utils.commify(Number(utils.formatEther(stake)) * (entriesRemove.length > 0
-              ? Number(entriesRemove) : 1))}
+            {utils.commify(Number(utils.formatEther(stake)) * (
+              entriesRemove.length > 0 && Number(entriesRemove) <= entriesInCurrentGame
+                ? Number(entriesRemove) : 0))}
             {' '}
             ETH
           </div>
         </div>
         <BlueButton
           value="Submit"
+          allowClick={entriesRemove !== '' && entriesInCurrentGame > 0 && Number(entriesRemove) <= entriesInCurrentGame}
+          onClick={async () => {
+            if (provider instanceof ethers.providers.Web3Provider) {
+              const signer = provider.getSigner();
+              const groatGame = new ethers.Contract(
+                gameAddress,
+                groatABI.abi,
+                provider,
+              );
+              const groatGameWithSigner = groatGame.connect(signer);
+              await groatGameWithSigner.removeEntries(Number(entriesRemove));
+              setEntriesRemove('');
+            }
+          }}
         />
       </div>
 
