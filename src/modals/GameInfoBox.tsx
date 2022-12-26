@@ -14,6 +14,9 @@ interface GameInfo {
   accountAddress: string;
   provider: ethers.providers.Provider;
   gameAddress: string;
+  openForBusiness: boolean;
+  groatIndex: number;
+  revealBlockNumber: string;
 }
 
 export default function GameInfoBox(props: GameInfo) {
@@ -26,17 +29,24 @@ export default function GameInfoBox(props: GameInfo) {
     accountAddress,
     provider,
     gameAddress,
+    openForBusiness,
+    groatIndex,
+    revealBlockNumber,
   } = props;
 
   const media = useMedia(1200);
 
-  const entriesInCurrentGame = useMemo(() => {
-    if (accountAddress === '0x') return 0;
-    let num = 0;
-    playerQueue.forEach((addr) => {
-      if (addr === accountAddress) num++;
-    });
-    return num;
+  const [entriesInCurrentGame, entriesInPreviousGame] = useMemo(() => {
+    if (accountAddress === '0x') return [0, 0];
+    let num1 = 0;
+    let num2 = 0;
+    for (let i = 0; i < queuePtr; i++) {
+      if (playerQueue[i] === accountAddress) num1++;
+    }
+    for (let i = queuePtr; i < playerQueue.length; i++) {
+      if (playerQueue[i] === accountAddress) num2++;
+    }
+    return [num1, num2];
   }, [playerQueue]);
 
   return (
@@ -50,7 +60,7 @@ export default function GameInfoBox(props: GameInfo) {
         left: '50%',
         transform: 'translate(-50%, -50%)',
         width: '80%',
-        height: '70%',
+        height: '60%',
         backgroundColor: 'black',
         color: 'white',
         fontSize: 'em',
@@ -63,22 +73,28 @@ export default function GameInfoBox(props: GameInfo) {
         maxHeight: '1000px',
         maxWidth: '1500px',
         minWidth: 'min(400px, 80vw)',
-        minHeight: media ? '800px' : '',
+        minHeight: media ? '700px' : '',
       }}
       >
         <ActionBox
           width={media ? '50%' : '100%'}
           stake={stake}
           entriesInCurrentGame={entriesInCurrentGame}
+          entriesInPreviousGame={entriesInPreviousGame}
           provider={provider}
           gameAddress={gameAddress}
+          openForBusiness={openForBusiness}
+          groatIndex={groatIndex}
+          groatAddress={groatIndex < 255 ? playerQueue[groatIndex] : ''}
+          accountAddress={accountAddress}
         />
         <PlayerListBox
           playerQueue={playerQueue}
           queuePtr={queuePtr}
           width={media ? '50%' : '100%'}
-          groatIndex={23}
+          groatIndex={groatIndex}
           accountAddress={accountAddress}
+          revealBlockNumber={revealBlockNumber}
         />
       </div>
     </Modal>

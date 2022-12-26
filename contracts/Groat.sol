@@ -13,7 +13,8 @@ contract Groat {
     uint128 public stake;
     uint8 public maxPlayers; //A game can have at most 255 players.
     uint8 public queuePtr;
-    uint8 public groatIndex = 1;
+    uint8 public groatIndex = 255;
+    bool public gameStart;
 
     mapping(uint8 => address) public queue;
 
@@ -117,9 +118,10 @@ contract Groat {
         uint8 newEntryCount = sent < available ? sent : available;
         require(partialFulfill || newEntryCount == sent, "Exact order not met.");
         
-        //Choose the groat.
-        if (localQueuePtr == 0) {
+        //Choose the groat, and make sure the value can't be reset.
+        if (!gameStart) {
             groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
+            gameStart = true;
         }
 
         localQueuePtr += newEntryCount;
@@ -128,6 +130,7 @@ contract Groat {
         //User deposited the final entries.
         if (localQueuePtr == localMaxPlayers) {
             revealBlockNumber = block.number + 75;
+            gameStart = false;
         }
 
         appendToQueue(msg.sender, localQueuePtr - newEntryCount, localQueuePtr);

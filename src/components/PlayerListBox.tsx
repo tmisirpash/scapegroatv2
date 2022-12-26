@@ -9,6 +9,7 @@ export interface playerListBox {
   width: string;
   groatIndex: number;
   accountAddress: string;
+  revealBlockNumber: string;
 }
 
 export function PlayerListBox(props: playerListBox) {
@@ -18,6 +19,7 @@ export function PlayerListBox(props: playerListBox) {
     width,
     groatIndex,
     accountAddress,
+    revealBlockNumber,
   } = props;
 
   const media = useMedia(700);
@@ -61,7 +63,7 @@ export function PlayerListBox(props: playerListBox) {
             >
               <td
                 style={{
-                  color: i < queuePtr ? 'white' : (i === groatIndex ? 'green' : 'dimgray'),
+                  color: i < queuePtr ? 'white' : (i === groatIndex && revealBlockNumber.toString() !== '1' ? 'green' : 'dimgray'),
                   textAlign: 'center',
                 }}
               >

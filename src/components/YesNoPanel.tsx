@@ -32,7 +32,7 @@ export default function YesNoPanel(props: yesNoPanel) {
           }
         }}
         style={{
-          fontSize: 'min(6vw, 2rem)',
+          fontSize: 'min(4vw, 1.2rem)',
           width: '100px',
           background: yesBackground,
           borderRadius: '15px',
@@ -53,7 +53,7 @@ export default function YesNoPanel(props: yesNoPanel) {
           }
         }}
         style={{
-          fontSize: 'min(6vw, 2rem)',
+          fontSize: 'min(4vw, 1.2rem)',
           width: '100px',
           background: noBackground,
           borderRadius: '15px',

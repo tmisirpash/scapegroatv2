@@ -35,7 +35,7 @@ export default function TableRow(props: tableRow) {
   } = props;
 
   const [modalOpen, setModalOpen] = useState(false);
-  const playerQueue = useGetPlayerQueue(
+  const [playerQueue, groatIndex] = useGetPlayerQueue(
     provider,
     gameAddress,
     maxPlayers,
@@ -47,6 +47,10 @@ export default function TableRow(props: tableRow) {
     blocks,
     tooltip,
   ] = getCooldown(BigNumber.from(revealBlockNumber), BigNumber.from(currentBlockNumber), chain);
+
+  const openForBusiness = currentBlockNumber >= Number(revealBlockNumber);
+
+  const queuePtrReset = (queuePtr === maxPlayers && openForBusiness) ? 0 : queuePtr;
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
 
@@ -97,7 +101,7 @@ export default function TableRow(props: tableRow) {
         decimal
       />
       <TableRowColumnNoTooltip
-        value={`${queuePtr} / ${maxPlayers}`}
+        value={`${queuePtrReset} / ${maxPlayers}`}
         className={className}
       />
       <TableRowColumn
@@ -119,10 +123,13 @@ export default function TableRow(props: tableRow) {
         }}
         stake={stake}
         playerQueue={playerQueue}
-        queuePtr={queuePtr}
+        queuePtr={queuePtrReset}
         accountAddress={accountAddress}
         provider={provider}
         gameAddress={gameAddress}
+        openForBusiness={openForBusiness}
+        groatIndex={groatIndex}
+        revealBlockNumber={revealBlockNumber}
       />
     </tr>
   );

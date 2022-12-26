@@ -10,9 +10,13 @@ export default function useGetPlayerQueue(
     maxPlayers: number, 
     modalOpen: boolean,
     chain: string
-) : string[] {
+) : [
+    string[],
+    number
+ ] {
 
     const [playerQueue, setPlayerQueue] = useState(new Array(maxPlayers));
+    const [groatIndex, setGroatIndex] = useState(255);
 
     const fetchData = async () => {
 
@@ -23,13 +27,15 @@ export default function useGetPlayerQueue(
         for (let i = 0; i < maxPlayers; i++) {
             calls.push(groatGame.queue(i));
         }
+        calls.push(groatGame.groatIndex());
 
         const results = await ethcallProvider.all(calls);
         const newPlayerQueue = new Array(maxPlayers);
 
-        for (let i = 0; i < results.length; i++) {
+        for (let i = 0; i < results.length-1; i++) {
             newPlayerQueue[i] = results[i].toLowerCase();
         }
+        setGroatIndex(results[results.length - 1]);
         setPlayerQueue(newPlayerQueue);
     };
 
@@ -49,5 +55,5 @@ export default function useGetPlayerQueue(
 
     }, [maxPlayers, modalOpen, provider]);
 
-    return playerQueue;
+    return [playerQueue, groatIndex];
 }
