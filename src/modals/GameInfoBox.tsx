@@ -17,6 +17,7 @@ interface GameInfo {
   openForBusiness: boolean;
   groatIndex: number;
   revealBlockNumber: string;
+  maxPlayers: number;
 }
 
 export default function GameInfoBox(props: GameInfo) {
@@ -32,6 +33,7 @@ export default function GameInfoBox(props: GameInfo) {
     openForBusiness,
     groatIndex,
     revealBlockNumber,
+    maxPlayers,
   } = props;
 
   const media = useMedia(1200);
@@ -84,9 +86,8 @@ export default function GameInfoBox(props: GameInfo) {
           provider={provider}
           gameAddress={gameAddress}
           openForBusiness={openForBusiness}
-          groatIndex={groatIndex}
-          groatAddress={groatIndex < 255 ? playerQueue[groatIndex] : ''}
-          accountAddress={accountAddress}
+          maxPlayers={maxPlayers}
+          queuePtr={queuePtr}
         />
         <PlayerListBox
           playerQueue={playerQueue}

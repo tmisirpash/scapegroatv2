@@ -44,8 +44,8 @@ export function PlayerListBox(props: playerListBox) {
             color: 'cyan',
           }}
           >
-            <th style={{ textAlign: 'center' }}>{media ? 'Player Address' : 'Player Addresses'}</th>
-            {media && <th>Position in Line</th>}
+            <th style={{ textAlign: 'center' }}>{media ? 'Previous Round' : 'Player Addresses'}</th>
+            {media && <th>Current Round</th>}
           </tr>
         </thead>
         <tbody>
@@ -53,7 +53,53 @@ export function PlayerListBox(props: playerListBox) {
             <td style={{ visibility: 'hidden' }}>0x</td>
             {media && <td style={{ visibility: 'hidden' }}>-1</td>}
           </tr>
-          {playerQueue.map((a, i) => (
+
+          {media && playerQueue.slice(0, queuePtr).map((a) => (
+            <tr style={{
+              borderBottomStyle: 'solid',
+              borderBottomColor: '#303030',
+            }}
+            >
+              <td style={{ color: 'dimgray' }}>
+                -
+              </td>
+              <td style={{
+                color: 'white',
+                textAlign: 'center',
+              }}
+              >
+                {`${(a === DEAD_ADDRESS || a === ethers.constants.AddressZero ? '-' : `${a.slice(0, 10)}...`)}
+                  ${a === accountAddress ? '(you)' : ''}`}
+              </td>
+            </tr>
+          ))}
+
+          {media && playerQueue.slice(queuePtr, playerQueue.length).map((a, i) => (
+            <tr
+              className={i === 0 ? 'blinkingBackground' : ''}
+              style={{
+                borderBottomStyle: 'solid',
+                borderBottomColor: '#303030',
+              }}
+            >
+              <td style={{
+                color: i + queuePtr === groatIndex
+                    && revealBlockNumber.toString() !== '1'
+                    && queuePtr !== 0
+                  ? 'green' : 'dimgray',
+                textAlign: 'center',
+              }}
+              >
+                {`${(a === DEAD_ADDRESS || a === ethers.constants.AddressZero ? '-' : `${a.slice(0, 10)}...`)}
+                  ${a === accountAddress ? '(you)' : ''}`}
+              </td>
+              <td style={{ color: 'dimgray' }}>
+                -
+              </td>
+            </tr>
+          ))}
+
+          {!media && (playerQueue.map((a, i) => (
             <tr
               className={i === queuePtr ? 'blinkingBackground' : ''}
               style={{
@@ -61,19 +107,20 @@ export function PlayerListBox(props: playerListBox) {
                 borderBottomColor: '#303030',
               }}
             >
-              <td
-                style={{
-                  color: i < queuePtr ? 'white' : (i === groatIndex && revealBlockNumber.toString() !== '1' ? 'green' : 'dimgray'),
-                  textAlign: 'center',
-                }}
+              <td style={{
+                color: i < queuePtr ? 'white'
+                  : (i === groatIndex
+                    && revealBlockNumber.toString() !== '1'
+                    && queuePtr !== 0
+                    ? 'green' : 'dimgray'),
+              }}
               >
-                {`${(a === DEAD_ADDRESS ? ethers.constants.AddressZero : a)
-                  .slice(0, 10)}... ${a === accountAddress ? '(you)' : ''}`}
+                {`${(a === DEAD_ADDRESS || a === ethers.constants.AddressZero ? '-' : `${a.slice(0, 10)}...`)}
+                  ${a === accountAddress ? '(you)' : ''}`}
               </td>
-              {(media && i < queuePtr) && <td>{i + 1}</td>}
-              {(media && i === queuePtr) && <td style={{ fontSize: '0' }}>-1</td>}
             </tr>
-          ))}
+          )))}
+
         </tbody>
       </table>
     </div>

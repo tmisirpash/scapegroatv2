@@ -15,9 +15,8 @@ interface actionBox {
   provider: ethers.providers.Provider;
   gameAddress: string;
   openForBusiness: boolean;
-  groatIndex: number;
-  groatAddress: string;
-  accountAddress: string;
+  maxPlayers: number;
+  queuePtr: number;
 }
 export default function ActionBox(props: actionBox) {
   const {
@@ -28,9 +27,8 @@ export default function ActionBox(props: actionBox) {
     provider,
     gameAddress,
     openForBusiness,
-    groatIndex,
-    groatAddress,
-    accountAddress,
+    maxPlayers,
+    queuePtr,
   } = props;
 
   const [entriesAdd, setEntriesAdd] = useState('');
@@ -116,7 +114,7 @@ export default function ActionBox(props: actionBox) {
             (entriesInCurrentGame === 1 ? ' entry' : ' entries')
           }
           {' '}
-          in the current game.
+          in the current round.
         </div>
         <div>
           You have
@@ -126,30 +124,13 @@ export default function ActionBox(props: actionBox) {
             (entriesInPreviousGame === 1 ? ' entry' : ' entries')
           }
           {' '}
-          in the previous game that
+          in the previous round that
           {
             (entriesInPreviousGame === 1 ? ' has' : ' have')
           }
           {' '}
           yet to take effect.
         </div>
-        {
-          accountAddress === groatAddress
-            ? (
-              <div>
-                Unfortunately, in the previous game, you were groated at position
-                {' '}
-                <span style={{ color: 'green' }}>{groatIndex + 1}</span>
-                .
-              </div>
-            ) : (entriesInPreviousGame > 0
-          && (
-            <div>
-              {'Congrats, you weren\'t groated last round!'}
-            </div>
-          )
-            )
-        }
       </div>
       <div style={{
         height: width === '100%' ? '300px' : '40%',
@@ -246,11 +227,12 @@ export default function ActionBox(props: actionBox) {
               const groatGameWithSigner = groatGame.connect(signer);
               await groatGameWithSigner.depositEth(partialFulfill, {
                 value: BigNumber.from(stake).mul(entriesAdd),
+                gasLimit: 50000 + 15000 * Number(entriesAdd),
               });
               setEntriesAdd('');
             }
           }}
-          allowClick={entriesAdd !== '' && openForBusiness}
+          allowClick={entriesAdd !== '' && openForBusiness && (partialFulfill || Number(entriesAdd) <= maxPlayers - queuePtr)}
         />
       </div>
 
