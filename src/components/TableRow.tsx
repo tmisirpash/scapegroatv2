@@ -35,7 +35,7 @@ export default function TableRow(props: tableRow) {
   } = props;
 
   const [modalOpen, setModalOpen] = useState(false);
-  const [playerQueue, groatIndex] = useGetPlayerQueue(
+  const [playerQueue, groatIndex, queuePtrPlayerQueue] = useGetPlayerQueue(
     provider,
     gameAddress,
     maxPlayers,
@@ -51,6 +51,8 @@ export default function TableRow(props: tableRow) {
   const openForBusiness = currentBlockNumber >= Number(revealBlockNumber);
 
   const queuePtrReset = (queuePtr === maxPlayers && openForBusiness) ? 0 : queuePtr;
+  const queuePtrPlayerQueueReset = (queuePtrPlayerQueue === maxPlayers && openForBusiness)
+    ? 0 : queuePtrPlayerQueue;
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
 
@@ -123,13 +125,14 @@ export default function TableRow(props: tableRow) {
         }}
         stake={stake}
         playerQueue={playerQueue}
-        queuePtr={queuePtrReset}
         accountAddress={accountAddress}
         provider={provider}
         gameAddress={gameAddress}
         openForBusiness={openForBusiness}
         groatIndex={groatIndex}
         revealBlockNumber={revealBlockNumber}
+        maxPlayers={maxPlayers}
+        queuePtr={queuePtrPlayerQueueReset}
       />
     </tr>
   );

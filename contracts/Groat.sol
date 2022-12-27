@@ -8,8 +8,6 @@ contract Groat {
 
     uint256 public payout;
 
-    address public groatAddress;
-
     uint128 public stake;
     uint8 public maxPlayers; //A game can have at most 255 players.
     uint8 public queuePtr;
@@ -54,7 +52,8 @@ contract Groat {
             if (oldAddress != address(0) && oldAddress != 0xdEAD000000000000000042069420694206942069) {
 
                 if (i == groatIndex) {
-                    groatAddress = oldAddress;
+                    //This player doesn't have to transfer anything,
+                    //so we might as well make them do something useful.
                     emit Groated(oldAddress, i);
                 } else {
                     (bool success, ) = oldAddress.call{value: payout}("");

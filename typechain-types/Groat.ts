@@ -32,7 +32,6 @@ export interface GroatInterface extends utils.Interface {
   functions: {
     "depositEth(bool)": FunctionFragment;
     "gameStart()": FunctionFragment;
-    "groatAddress()": FunctionFragment;
     "groatIndex()": FunctionFragment;
     "maxPlayers()": FunctionFragment;
     "payout()": FunctionFragment;
@@ -47,7 +46,6 @@ export interface GroatInterface extends utils.Interface {
     nameOrSignatureOrTopic:
       | "depositEth"
       | "gameStart"
-      | "groatAddress"
       | "groatIndex"
       | "maxPlayers"
       | "payout"
@@ -63,10 +61,6 @@ export interface GroatInterface extends utils.Interface {
     values: [PromiseOrValue<boolean>]
   ): string;
   encodeFunctionData(functionFragment: "gameStart", values?: undefined): string;
-  encodeFunctionData(
-    functionFragment: "groatAddress",
-    values?: undefined
-  ): string;
   encodeFunctionData(
     functionFragment: "groatIndex",
     values?: undefined
@@ -93,10 +87,6 @@ export interface GroatInterface extends utils.Interface {
 
   decodeFunctionResult(functionFragment: "depositEth", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "gameStart", data: BytesLike): Result;
-  decodeFunctionResult(
-    functionFragment: "groatAddress",
-    data: BytesLike
-  ): Result;
   decodeFunctionResult(functionFragment: "groatIndex", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "maxPlayers", data: BytesLike): Result;
   decodeFunctionResult(functionFragment: "payout", data: BytesLike): Result;
@@ -191,8 +181,6 @@ export interface Groat extends BaseContract {
 
     gameStart(overrides?: CallOverrides): Promise<[boolean]>;
 
-    groatAddress(overrides?: CallOverrides): Promise<[string]>;
-
     groatIndex(overrides?: CallOverrides): Promise<[number]>;
 
     maxPlayers(overrides?: CallOverrides): Promise<[number]>;
@@ -223,8 +211,6 @@ export interface Groat extends BaseContract {
 
   gameStart(overrides?: CallOverrides): Promise<boolean>;
 
-  groatAddress(overrides?: CallOverrides): Promise<string>;
-
   groatIndex(overrides?: CallOverrides): Promise<number>;
 
   maxPlayers(overrides?: CallOverrides): Promise<number>;
@@ -254,8 +240,6 @@ export interface Groat extends BaseContract {
     ): Promise<void>;
 
     gameStart(overrides?: CallOverrides): Promise<boolean>;
-
-    groatAddress(overrides?: CallOverrides): Promise<string>;
 
     groatIndex(overrides?: CallOverrides): Promise<number>;
 
@@ -323,8 +307,6 @@ export interface Groat extends BaseContract {
 
     gameStart(overrides?: CallOverrides): Promise<BigNumber>;
 
-    groatAddress(overrides?: CallOverrides): Promise<BigNumber>;
-
     groatIndex(overrides?: CallOverrides): Promise<BigNumber>;
 
     maxPlayers(overrides?: CallOverrides): Promise<BigNumber>;
@@ -355,8 +337,6 @@ export interface Groat extends BaseContract {
     ): Promise<PopulatedTransaction>;
 
     gameStart(overrides?: CallOverrides): Promise<PopulatedTransaction>;
-
-    groatAddress(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
     groatIndex(overrides?: CallOverrides): Promise<PopulatedTransaction>;
 
