@@ -25,13 +25,11 @@ const App: React.FC = () => {
       <ConnectionStatus
         connectionStatusText={connectionStatusText}
       />
-      <br />
-      <br />
-      <br />
       <div style={{
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
+        padding: 'min(5%, 100px)',
       }}
       >
         <Table

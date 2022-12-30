@@ -18,6 +18,8 @@ interface GameInfo {
   groatIndex: number;
   revealBlockNumber: string;
   maxPlayers: number;
+  currentBlockNumber: number;
+  chain: string;
 }
 
 export default function GameInfoBox(props: GameInfo) {
@@ -34,6 +36,8 @@ export default function GameInfoBox(props: GameInfo) {
     groatIndex,
     revealBlockNumber,
     maxPlayers,
+    currentBlockNumber,
+    chain,
   } = props;
 
   const media = useMedia(1200);
@@ -69,13 +73,14 @@ export default function GameInfoBox(props: GameInfo) {
         border: '2px solid white',
         textAlign: 'center',
         padding: '20px',
+        paddingBottom: '0',
         display: 'flex',
         overflow: media ? 'visible' : 'auto',
         flexDirection: media ? 'row' : 'column',
         maxHeight: '1000px',
         maxWidth: '1500px',
         minWidth: 'min(400px, 80vw)',
-        minHeight: media ? '700px' : '',
+        minHeight: media ? '750px' : '',
       }}
       >
         <ActionBox
@@ -88,6 +93,9 @@ export default function GameInfoBox(props: GameInfo) {
           openForBusiness={openForBusiness}
           maxPlayers={maxPlayers}
           queuePtr={queuePtr}
+          accountAddress={accountAddress}
+          currentBlockNumber={currentBlockNumber}
+          chain={chain}
         />
         <PlayerListBox
           playerQueue={playerQueue}

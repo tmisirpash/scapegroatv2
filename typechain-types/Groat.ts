@@ -103,10 +103,10 @@ export interface GroatInterface extends utils.Interface {
   decodeFunctionResult(functionFragment: "stake", data: BytesLike): Result;
 
   events: {
-    "Groated(address,uint8)": EventFragment;
+    "Groated(address)": EventFragment;
     "Join(address,uint8)": EventFragment;
     "Leave(address,uint8)": EventFragment;
-    "Winner(address,uint8)": EventFragment;
+    "Winner(address)": EventFragment;
   };
 
   getEvent(nameOrSignatureOrTopic: "Groated"): EventFragment;
@@ -117,9 +117,8 @@ export interface GroatInterface extends utils.Interface {
 
 export interface GroatedEventObject {
   groater: string;
-  arg1: number;
 }
-export type GroatedEvent = TypedEvent<[string, number], GroatedEventObject>;
+export type GroatedEvent = TypedEvent<[string], GroatedEventObject>;
 
 export type GroatedEventFilter = TypedEventFilter<GroatedEvent>;
 
@@ -141,9 +140,8 @@ export type LeaveEventFilter = TypedEventFilter<LeaveEvent>;
 
 export interface WinnerEventObject {
   winner: string;
-  arg1: number;
 }
-export type WinnerEvent = TypedEvent<[string, number], WinnerEventObject>;
+export type WinnerEvent = TypedEvent<[string], WinnerEventObject>;
 
 export type WinnerEventFilter = TypedEventFilter<WinnerEvent>;
 
@@ -265,14 +263,10 @@ export interface Groat extends BaseContract {
   };
 
   filters: {
-    "Groated(address,uint8)"(
-      groater?: PromiseOrValue<string> | null,
-      arg1?: null
+    "Groated(address)"(
+      groater?: PromiseOrValue<string> | null
     ): GroatedEventFilter;
-    Groated(
-      groater?: PromiseOrValue<string> | null,
-      arg1?: null
-    ): GroatedEventFilter;
+    Groated(groater?: PromiseOrValue<string> | null): GroatedEventFilter;
 
     "Join(address,uint8)"(
       joiner?: PromiseOrValue<string> | null,
@@ -289,14 +283,10 @@ export interface Groat extends BaseContract {
       arg1?: null
     ): LeaveEventFilter;
 
-    "Winner(address,uint8)"(
-      winner?: PromiseOrValue<string> | null,
-      arg1?: null
+    "Winner(address)"(
+      winner?: PromiseOrValue<string> | null
     ): WinnerEventFilter;
-    Winner(
-      winner?: PromiseOrValue<string> | null,
-      arg1?: null
-    ): WinnerEventFilter;
+    Winner(winner?: PromiseOrValue<string> | null): WinnerEventFilter;
   };
 
   estimateGas: {

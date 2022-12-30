@@ -133,6 +133,8 @@ export default function TableRow(props: tableRow) {
         revealBlockNumber={revealBlockNumber}
         maxPlayers={maxPlayers}
         queuePtr={queuePtrPlayerQueueReset}
+        currentBlockNumber={currentBlockNumber}
+        chain={chain}
       />
     </tr>
   );

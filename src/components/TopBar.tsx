@@ -21,6 +21,7 @@ const TopBar = (
       alignItems: 'center',
       background: 'black',
       width: '100%',
+      height: '75px',
     }}
     >
       <div style={{
