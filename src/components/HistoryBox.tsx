@@ -250,6 +250,11 @@ export default function HistoryBox(props: historyBox) {
             Show More
           </button>
         )}
+        {(!spinning && allEvents.length === 0) && (
+          <div>
+            Nothing to show.
+          </div>
+        )}
       </div>
     </div>
   );
