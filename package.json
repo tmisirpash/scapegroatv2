@@ -1,7 +1,7 @@
 {
   "name": "scapegroatv2",
   "version": "1.0.0",
-  "description": "The Scapegroat protocol.",
+  "description": "The ScapeGroat protocol.",
   "main": "index.js",
   "scripts": {
     "test": "npx hardhat test",

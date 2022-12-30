@@ -10,7 +10,7 @@ const Title: React.FC = () => (
       paddingLeft: '5px',
     }}
   >
-    Scapegroat
+    ScapeGroat
   </div>
 );
 export default Title;
