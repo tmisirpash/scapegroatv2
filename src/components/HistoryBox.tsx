@@ -101,6 +101,9 @@ function HistoryRow(props: historyRow) {
                 borderRadius: '15px',
                 color: 'white',
                 cursor: 'pointer',
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
               }}
             />
           </button>
