@@ -8,7 +8,7 @@ import { EVENT_MAP, EVENT_JOIN_HASH, EVENT_LEAVE_HASH } from '../utils/constants
 import { blockDifferenceToTimeDifference } from '../utils/tableCalculations';
 import useHover from '../hooks/useHover';
 
-const PAGE_SIZE = 5;
+const PAGE_SIZE = 20;
 
 interface historyBox {
   allEvents: Event[];
