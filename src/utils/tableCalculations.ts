@@ -25,3 +25,27 @@ export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: Bi
 
     return [`${blocks} blocks`, tooltip];
 }
+
+export function blockDifferenceToTimeDifference(startBlock: number, stopBlock: number, chainId: string) : string {
+
+    const seconds = (stopBlock - startBlock) * (APPROXIMATE_BLOCK_TIMES.get(chainId) || 0);
+
+    if (seconds <= 60) {
+        return `< 60 sec. ago`;
+    }
+
+    let res = seconds / 86400;
+    let unit = 'd.'
+    if (seconds < 3600) {
+        res = seconds / 60;
+        unit = 'min.';
+    }
+    else if (seconds < 86400) {
+        res = seconds / 3600;
+        unit = 'hr.';
+    }
+
+    const rounded = Math.floor(res);
+
+    return `${utils.commify(rounded)} ${unit} ago`;
+}

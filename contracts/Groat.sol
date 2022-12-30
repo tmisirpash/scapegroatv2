@@ -18,8 +18,8 @@ contract Groat {
 
     event Join(address indexed joiner, uint8);
     event Leave(address indexed leaver, uint8);
-    event Groated(address indexed groater, uint8);
-    event Winner(address indexed winner, uint8);
+    event Groated(address indexed groater);
+    event Winner(address indexed winner);
 
     constructor(uint128 _stake, uint8 _maxPlayers) {
         require(_stake > 0, "Stake must be non-zero.");
@@ -40,7 +40,6 @@ contract Groat {
         while (i < endingId) {
             playersToPay[j] = queue[i];
             queue[i] = from;
-            emit Join(msg.sender, i);
             ++i;
             ++j;
         }
@@ -54,11 +53,11 @@ contract Groat {
                 if (i == groatIndex) {
                     //This player doesn't have to transfer anything,
                     //so we might as well make them do something useful.
-                    emit Groated(oldAddress, i);
+                    emit Groated(oldAddress);
                 } else {
                     (bool success, ) = oldAddress.call{value: payout}("");
                     require(success, "Transfer failed.");
-                    emit Winner(oldAddress, i);
+                    emit Winner(oldAddress);
                 }
             }
             ++i;
@@ -84,15 +83,15 @@ contract Groat {
             if (i != localQueuePtr) {
                 queue[i] = queue[localQueuePtr];
             }
-            emit Leave(msg.sender, i);
             //Do not zero this storage, otherwise the next entrant will need to allocate it!
             queue[localQueuePtr] = 0xdEAD000000000000000042069420694206942069;
             ++entriesBeingRemoved;
         }
-
+        if (entriesBeingRemoved == 0) return 0;
         queuePtr = localQueuePtr;
         (bool success, ) = msg.sender.call{value: uint256(stake) * uint256(entriesBeingRemoved)}("");
         require(success, "Withdrawal failed.");
+        emit Leave(msg.sender, entriesBeingRemoved);
         return entriesBeingRemoved;
     }
 
@@ -139,5 +138,6 @@ contract Groat {
             (bool success, ) = msg.sender.call{value: uint256(sent - newEntryCount) * uint256(stake)}("");
             require(success, "Refund failed.");
         }
+        emit Join(msg.sender, newEntryCount);
     }
 }

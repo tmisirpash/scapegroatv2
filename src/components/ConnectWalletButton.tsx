@@ -1,5 +1,4 @@
 import React from 'react';
-import fox from '../../dist/images/MetaMask_Fox.png';
 import useHover from '../hooks/useHover';
 
 interface connectWalletButton {
@@ -30,7 +29,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         }
       }}
       style={{
-        height: '100%',
+        height: '75%',
         width: '160px',
         borderRadius: '20px',
         filter: `brightness(${brightness})`,
@@ -40,13 +39,12 @@ function ConnectWalletButton(props: connectWalletButton) {
         padding: '10px',
         margin: '5px',
         display: 'flex',
-        justifyContent: 'space-between',
+        justifyContent: 'center',
         alignItems: 'center',
         color: 'white',
         fontFamily: 'Electrolize',
       }}
     >
-      <img src={fox} width="50" height="50" className="undraggable unselectable" alt="" />
       <span className="unselectable">{connectionText}</span>
     </button>
   );
