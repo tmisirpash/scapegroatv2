@@ -100,6 +100,7 @@ export default function ActionBox(props: actionBox) {
 
     if (allEvents.length === 0) {
       getData(currentBlockNumber - NUM_PAGES * PAGE_SIZE);
+      return;
     }
 
     setLoading(true);
