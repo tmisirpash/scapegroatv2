@@ -3,9 +3,9 @@ import { utils, BigNumber, ethers } from 'ethers';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
 import { getProbabilityOfWinning, getReward, getCooldown } from '../utils/tableCalculations';
-import RowExpandButton from './RowExpandButton';
 import GameInfoBox from '../modals/GameInfoBox';
 import useGetPlayerQueue from '../hooks/useGetPlayerQueue';
+import useHover from '../hooks/useHover';
 
 interface tableRow {
   stake: string;
@@ -33,6 +33,8 @@ export default function TableRow(props: tableRow) {
     currentBlockNumber,
     provider,
   } = props;
+
+  const [brightness, cursor, onMouseEnter, onMouseLeave] = useHover();
 
   const [modalOpen, setModalOpen] = useState(false);
   const [playerQueue, groatIndex, queuePtrPlayerQueue] = useGetPlayerQueue(
@@ -82,11 +84,19 @@ export default function TableRow(props: tableRow) {
   }
 
   return (
-    <tr style={{
-      height,
-      backgroundColor: '#18283b',
-      color: 'white',
-    }}
+    <tr
+      style={{
+        height,
+        backgroundColor: '#18283b',
+        color: 'white',
+        cursor: `${cursor}`,
+        filter: `brightness(${brightness})`,
+      }}
+      onClick={() => {
+        if (!modalOpen) setModalOpen(true);
+      }}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       <TableRowColumnNoTooltip
         value={`${displayStake} ⟠`}
@@ -111,13 +121,6 @@ export default function TableRow(props: tableRow) {
         tooltip={tooltip}
         className={className}
       />
-      <td>
-        <RowExpandButton
-          updateModalOpen={() => {
-            setModalOpen(true);
-          }}
-        />
-      </td>
       <GameInfoBox
         open={modalOpen}
         onClose={() => {
