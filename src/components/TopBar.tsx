@@ -24,13 +24,7 @@ const TopBar = (
       height: '75px',
     }}
     >
-      <div style={{
-        width: '12%',
-        textAlign: 'right',
-      }}
-      >
-        <Title />
-      </div>
+      <Title />
       <ConnectWalletButton
         connectionButtonText={connectionButtonText}
         connectionButtonOnClick={connectionButtonOnClick}

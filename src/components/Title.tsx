@@ -7,7 +7,7 @@ const Title: React.FC = () => (
     style={{
       fontSize: '2rem',
       color: 'white',
-      paddingLeft: '5px',
+      paddingLeft: '15px',
     }}
   >
     ScapeGroat
