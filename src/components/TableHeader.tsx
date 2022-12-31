@@ -46,7 +46,6 @@ export default function TableHeader(props: tableHeader) {
           tooltip={header.tooltip}
         />
       ))}
-      <th aria-label="enter or leave" />
     </tr>
   );
 }
