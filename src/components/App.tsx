@@ -29,7 +29,8 @@ const App: React.FC = () => {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        padding: 'min(5%, 100px)',
+        paddingTop: '100px',
+        paddingBottom: '100px',
       }}
       >
         <Table

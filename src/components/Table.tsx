@@ -32,7 +32,10 @@ export default function Table(props: table) {
           overflow: 'auto',
         }}
       >
-        <table>
+        <table style={{
+          minWidth: '1200px',
+        }}
+        >
           <thead>
             <TableHeader
               height={rowHeight}
