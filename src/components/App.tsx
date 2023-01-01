@@ -51,15 +51,15 @@ const App: React.FC = () => {
             <br />
             <li>
               {`You are free to add and remove entries as long as the game has
-              not been filled. Once all players have joined, the game is put
-              in a cooldown period.`}
+              not been filled. Once the number of players reaches the maximum, the game is put
+              in a cooldown period during which all entries are locked in.`}
             </li>
             <br />
             <li>
               {`After the cooldown period, one player is randomly chosen as
               the "scapegroat", and they lose the entirety of their stake.
-              All other players get their stake back in addition to an equal
-              share of the scapegroat's loss.`}
+              All other players get their own stake back in addition to an equal
+              share of the scapegroat's stake.`}
             </li>
             <br />
             <li>
@@ -71,7 +71,7 @@ const App: React.FC = () => {
           display: 'flex',
           justifyContent: 'center',
           alignItems: 'center',
-          paddingTop: '100px',
+          paddingTop: '50px',
           paddingBottom: '100px',
         }}
         >
