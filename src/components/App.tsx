@@ -45,7 +45,7 @@ const App: React.FC = () => {
             <li>
               {
                 `Connect your wallet and choose a game to enter below.
-              The stake is the amount you need to gain a single entry.`
+              The stake is the amount of ETH you need to gain a single entry.`
               }
             </li>
             <br />
