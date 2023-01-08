@@ -4,11 +4,13 @@ import useHover from '../hooks/useHover';
 interface connectWalletButton {
   connectionButtonText: string;
   connectionButtonOnClick: () => void;
+  media: boolean;
 }
 function ConnectWalletButton(props: connectWalletButton) {
   const {
     connectionButtonText,
     connectionButtonOnClick,
+    media,
   } = props;
   const [brightness, cursor, onMouseEnter, onMouseLeave] = useHover();
 
@@ -29,7 +31,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         }
       }}
       style={{
-        height: '75%',
+        height: '40px',
         width: '160px',
         borderRadius: '20px',
         filter: `brightness(${brightness})`,
@@ -37,7 +39,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         transitionDuration: '100ms',
         cursor: `${cursor}`,
         padding: '10px',
-        margin: '5px',
+        margin: media ? '15px' : '5px',
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
