@@ -37,6 +37,7 @@ export default function TableRowColumn(props: tableRowColumn) {
             background: 'transparent',
             color: 'white',
             border: 'none',
+            cursor: 'pointer',
           }}
         >
           {value}
