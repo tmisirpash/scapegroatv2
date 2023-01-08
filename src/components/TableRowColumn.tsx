@@ -28,7 +28,19 @@ export default function TableRowColumn(props: tableRowColumn) {
         }}
         title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}
       >
-        <span className={className}>{value}</span>
+        <button
+          className={className}
+          type="button"
+          style={{
+            fontFamily: 'Electrolize',
+            fontSize: '2rem',
+            background: 'transparent',
+            color: 'white',
+            border: 'none',
+          }}
+        >
+          {value}
+        </button>
       </Tooltip>
     </td>
   );
