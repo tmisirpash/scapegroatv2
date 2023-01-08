@@ -1,6 +1,7 @@
 import React from 'react';
 import Title from './Title';
 import ConnectWalletButton from './ConnectWalletButton';
+import useMedia from '../hooks/useMedia';
 
 interface topBar {
   connectionButtonText: string;
@@ -14,20 +15,27 @@ const TopBar = (
     connectionButtonText,
     connectionButtonOnClick,
   } = props;
+
+  const media = useMedia(400);
+
   return (
     <div style={{
       display: 'flex',
-      justifyContent: 'space-between',
+      flexDirection: media ? 'row' : 'column',
+      justifyContent: media ? 'space-between' : 'center',
       alignItems: 'center',
       background: 'black',
       width: '100%',
-      height: '75px',
+      height: media ? '75px' : '120px',
     }}
     >
-      <Title />
+      <Title
+        media={media}
+      />
       <ConnectWalletButton
         connectionButtonText={connectionButtonText}
         connectionButtonOnClick={connectionButtonOnClick}
+        media={media}
       />
     </div>
   );
