@@ -34,6 +34,9 @@ export function PlayerListBox(props: playerListBox) {
         boxSizing: 'border-box',
         overflow: width === '100%' ? 'visible' : 'auto',
       }}
+      /* eslint-disable */
+      tabIndex={width === '100%' ? -1 : 0}
+      /* eslint-enable */
     >
       <table style={{
         width: '100%',
