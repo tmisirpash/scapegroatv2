@@ -59,9 +59,6 @@ export default function GameInfoBox(props: GameInfo) {
     <Modal
       open={open}
       onClose={onClose}
-      sx={{
-        tabIndex: '-1',
-      }}
     >
       <div style={{
         position: 'absolute',
