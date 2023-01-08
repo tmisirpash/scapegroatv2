@@ -1,4 +1,5 @@
 import React from 'react';
+import GitHub from '@mui/icons-material/GitHub';
 import TopBar from './TopBar';
 import { useMetaMaskConnection } from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from '../modals/ConnectionStatus';
@@ -105,6 +106,24 @@ const App: React.FC = () => {
             accountAddress={accountAddress}
           />
         </div>
+      </div>
+      <div style={{
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        padding: '10px',
+        background: 'black',
+      }}
+      >
+        <a
+          href="https://github.com/tmisirpash/scapegroatv2"
+        >
+          <GitHub
+            sx={{
+              color: 'white',
+            }}
+          />
+        </a>
       </div>
     </div>
   );
