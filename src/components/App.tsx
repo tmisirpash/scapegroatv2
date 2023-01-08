@@ -36,7 +36,7 @@ const App: React.FC = () => {
         justifyContent: 'center',
         alignItems: 'center',
         animation: 'move-twink-back 200s linear infinite',
-        background: 'transparent url(/images/stars.png) repeat top center',
+        background: '#1F305E url(/images/stars.png) repeat top center',
         paddingTop: '50px',
       }}
       >
