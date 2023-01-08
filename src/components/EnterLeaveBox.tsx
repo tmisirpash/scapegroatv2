@@ -185,7 +185,7 @@ export default function EnterLeaveBox(props: enterLeaveBox) {
       </div>
 
       <div style={{
-        height: width === '100%' ? '100px' : '20%',
+        height: width === '100%' ? '100px' : '22%',
         padding: '15px',
         borderStyle: 'solid',
         borderColor: 'dimgray',

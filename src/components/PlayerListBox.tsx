@@ -27,7 +27,9 @@ export function PlayerListBox(props: playerListBox) {
   return (
     <div
       style={{
-        padding: '20px',
+        margin: '20px',
+        marginRight: '0',
+        marginLeft: width === '100%' ? '0' : '20px',
         width,
         float: 'right',
         fontSize: '1.5rem',
