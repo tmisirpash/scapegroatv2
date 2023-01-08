@@ -3,6 +3,8 @@ import TopBar from './TopBar';
 import { useMetaMaskConnection } from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from '../modals/ConnectionStatus';
 import Table from './Table';
+import goat from '../../dist/images/astrogoat2.png';
+import useMedia from '../hooks/useMedia';
 
 const App: React.FC = () => {
   const [
@@ -12,6 +14,8 @@ const App: React.FC = () => {
     connectionStatusText,
     connectionButtonOnClick,
   ] = useMetaMaskConnection();
+
+  const media = useMedia(1200);
 
   return (
     <div style={{
@@ -25,6 +29,23 @@ const App: React.FC = () => {
       <ConnectionStatus
         connectionStatusText={connectionStatusText}
       />
+
+      <div style={{
+        overflowX: 'hidden',
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        animation: 'move-twink-back 200s linear infinite',
+        background: 'transparent url(/images/stars.png) repeat top center',
+        paddingTop: '50px',
+      }}
+      >
+        <img
+          src={goat}
+          width={media ? '1200px' : '100%'}
+          alt=""
+        />
+      </div>
       <div>
         <div style={{
           display: 'flex',
@@ -33,10 +54,14 @@ const App: React.FC = () => {
           alignItems: 'center',
           color: 'white',
           fontSize: '3rem',
-          paddingTop: '50px',
         }}
         >
-          How to Play
+          <div style={{
+            paddingTop: '50px',
+          }}
+          >
+            How to Play
+          </div>
           <ol style={{
             fontSize: 'min(2rem, 5vw)',
             width: 'min(75%, 1000px)',
