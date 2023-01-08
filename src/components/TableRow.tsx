@@ -92,6 +92,12 @@ export default function TableRow(props: tableRow) {
         cursor: `${cursor}`,
         filter: `brightness(${brightness})`,
       }}
+      tabIndex={0}
+      onKeyDown={(event) => {
+        if (event.key === 'Enter') {
+          if (!modalOpen) setModalOpen(true);
+        }
+      }}
       onClick={() => {
         if (!modalOpen) setModalOpen(true);
       }}

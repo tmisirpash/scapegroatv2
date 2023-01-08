@@ -171,7 +171,8 @@ export default function HistoryBox(props: historyBox) {
   return (
     <div style={{
       overflow: 'auto',
-      padding: '15px',
+      paddingTop: '15px',
+      paddingBottom: '15px',
     }}
     >
 
