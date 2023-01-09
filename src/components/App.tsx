@@ -1,7 +1,7 @@
 import React from 'react';
 import GitHub from '@mui/icons-material/GitHub';
 import TopBar from './TopBar';
-import { useMetaMaskConnection } from '../hooks/useMetaMaskConnection';
+import useMetaMaskConnection from '../hooks/useMetaMaskConnection';
 import ConnectionStatus from '../modals/ConnectionStatus';
 import Table from './Table';
 import goat from '../../dist/images/astrogoat2.png';

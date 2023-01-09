@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import detectEthereumProvider from '@metamask/detect-provider';
 import {
   CHAIN_RPC_URLS,
   DEFAULT_CHAIN_ID,
@@ -7,26 +8,26 @@ import {
   DEFAULT_CHAIN_CURRENCY_DECIMALS,
 } from '../utils/constants';
 
-export function isMetaMaskInstalled() : boolean {
-  return Boolean(window.ethereum && window.ethereum.isMetaMask);
+async function isMetaMaskInstalled() {
+  const provider = await detectEthereumProvider();
+  return Boolean(provider);
 }
 
 async function getAccounts() {
   return window.ethereum?.request({ method: 'eth_accounts' });
 }
 
-export function useMetaMaskConnection() : [string, string, string, string, () => void] {
+export default function useMetaMaskConnection() : [string, string, string, string, () => void] {
   const [accountAddress, setAccountAddress] = useState('0x');
   const [chain, setChain] = useState(DEFAULT_CHAIN_ID);
-  const [connectionButtonText, setConnectionButtonText] = useState('');
+  const [connectionButtonText, setConnectionButtonText] = useState('Connect Wallet');
   const [connectionStatusText, setConnectionStatusText] = useState('');
   const [isInstalled, setIsInstalled] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
 
   async function getConnectionInfo() {
-    const installed = isMetaMaskInstalled();
+    const installed = await isMetaMaskInstalled();
     setIsInstalled(installed);
-    setConnectionButtonText('Connect Wallet');
     if (!installed) return;
     try {
       getAccounts().then((res) => {
@@ -34,11 +35,17 @@ export function useMetaMaskConnection() : [string, string, string, string, () =>
           setIsConnected(true);
           setAccountAddress(res[0]);
           setConnectionButtonText(res[0]);
-          if (CHAIN_RPC_URLS.has(window.ethereum?.chainId || '')) {
+          let cid = `${window.ethereum?.chainId}`;
+          if (!cid.includes('0x')) {
+            cid = `0x${window.ethereum?.chainId.toString(16)}`;
+          }
+          if (CHAIN_RPC_URLS.has(cid)) {
             setConnectionStatusText('');
-            setChain(window.ethereum?.chainId || '');
+            setChain(cid);
           } else {
-            setConnectionStatusText('Note: You are on an unsupported network. Please switch to Polygon Mumbai Testnet.');
+            setConnectionStatusText(`
+            Note: You are on an unsupported network (${cid}). 
+            Please switch to Polygon Mumbai Testnet.`);
           }
         }
       });
@@ -54,7 +61,11 @@ export function useMetaMaskConnection() : [string, string, string, string, () =>
         params: [{ chainId: DEFAULT_CHAIN_ID }],
       });
     } catch (switchError) {
-      if (switchError.code === 4902) {
+      if (switchError.code === 4902
+        || (
+          switchError.data?.originalError?.code
+          && switchError.data?.originalError?.code === 4902
+        )) {
         try {
           await window.ethereum?.request({
             method: 'wallet_addEthereumChain',
@@ -108,11 +119,15 @@ export function useMetaMaskConnection() : [string, string, string, string, () =>
     }
 
     function handleChainChange(...args: unknown[]) {
+      let cid = String(args[0]);
+      if (!cid.includes('0x')) {
+        cid = `0x${Number(args[0]).toString(16)}`;
+      }
       if (accountAddress === '0x') {
         setConnectionStatusText('');
-      } else if (!CHAIN_RPC_URLS.has(String(args[0]))) {
+      } else if (!CHAIN_RPC_URLS.has(cid)) {
         setConnectionStatusText(
-          `Note: You are on an unsupported network. 
+          `Note: You are on an unsupported network (${cid}). 
           Please switch to Polygon Mumbai Testnet.`,
         );
       } else {
@@ -120,10 +135,11 @@ export function useMetaMaskConnection() : [string, string, string, string, () =>
       }
     }
 
-    if (isMetaMaskInstalled()) {
+    isMetaMaskInstalled().then((res) => {
+      if (!res) return;
       window.ethereum?.on('accountsChanged', handleAccountChange);
       window.ethereum?.on('chainChanged', handleChainChange);
-    }
+    });
   });
 
   return [
