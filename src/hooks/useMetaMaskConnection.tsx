@@ -35,12 +35,16 @@ export default function useMetaMaskConnection() : [string, string, string, strin
           setIsConnected(true);
           setAccountAddress(res[0]);
           setConnectionButtonText(res[0]);
-          if (CHAIN_RPC_URLS.has(window.ethereum?.chainId || '')) {
+          let cid = `${window.ethereum?.chainId}`;
+          if (!cid.includes('0x')) {
+            cid = `0x${window.ethereum?.chainId.toString(16)}`;
+          }
+          if (CHAIN_RPC_URLS.has(cid)) {
             setConnectionStatusText('');
-            setChain(window.ethereum?.chainId || '');
+            setChain(cid);
           } else {
             setConnectionStatusText(`
-            Note: You are on an unsupported network (${window.ethereum?.chainId}). 
+            Note: You are on an unsupported network (${cid}). 
             Please switch to Polygon Mumbai Testnet.`);
           }
         }
@@ -111,11 +115,15 @@ export default function useMetaMaskConnection() : [string, string, string, strin
     }
 
     function handleChainChange(...args: unknown[]) {
+      let cid = String(args[0]);
+      if (!cid.includes('0x')) {
+        cid = `0x${Number(args[0]).toString(16)}`;
+      }
       if (accountAddress === '0x') {
         setConnectionStatusText('');
-      } else if (!CHAIN_RPC_URLS.has(String(args[0]))) {
+      } else if (!CHAIN_RPC_URLS.has(cid)) {
         setConnectionStatusText(
-          `Note: You are on an unsupported network (${String(args[0])}). 
+          `Note: You are on an unsupported network (${cid}). 
           Please switch to Polygon Mumbai Testnet.`,
         );
       } else {
