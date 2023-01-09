@@ -121,9 +121,6 @@ function HistoryRow(props: historyRow) {
           flexDirection: 'column',
           textAlign: 'left',
           overflowWrap: 'break-word',
-          borderStyle: 'solid',
-          borderColor: 'dimgray',
-          borderTop: 'none',
           padding: '15px',
         }}
       >
