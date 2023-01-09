@@ -39,7 +39,9 @@ export default function useMetaMaskConnection() : [string, string, string, strin
             setConnectionStatusText('');
             setChain(window.ethereum?.chainId || '');
           } else {
-            setConnectionStatusText('Note: You are on an unsupported network. Please switch to Polygon Mumbai Testnet.');
+            setConnectionStatusText(`
+            Note: You are on an unsupported network (${window.ethereum?.chainId}). 
+            Please switch to Polygon Mumbai Testnet.`);
           }
         }
       });
