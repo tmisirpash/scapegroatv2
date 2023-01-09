@@ -44,7 +44,7 @@ export default function useMetaMaskConnection() : [string, string, string, strin
             setChain(cid);
           } else {
             setConnectionStatusText(`
-            Note: You are on an unsupported network (${cid}). 
+            Note: You are on an unsupported network. 
             Please switch to Polygon Mumbai Testnet.`);
           }
         }
@@ -127,7 +127,7 @@ export default function useMetaMaskConnection() : [string, string, string, strin
         setConnectionStatusText('');
       } else if (!CHAIN_RPC_URLS.has(cid)) {
         setConnectionStatusText(
-          `Note: You are on an unsupported network (${cid}). 
+          `Note: You are on an unsupported network. 
           Please switch to Polygon Mumbai Testnet.`,
         );
       } else {
