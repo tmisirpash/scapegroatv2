@@ -18,6 +18,7 @@ interface tableRow {
   height: string;
   currentBlockNumber: number;
   provider: ethers.providers.Provider;
+  fontSize: string;
 }
 
 export default function TableRow(props: tableRow) {
@@ -32,6 +33,7 @@ export default function TableRow(props: tableRow) {
     height,
     currentBlockNumber,
     provider,
+    fontSize,
   } = props;
 
   const [brightness, cursor, onMouseEnter, onMouseLeave] = useHover();
@@ -58,9 +60,6 @@ export default function TableRow(props: tableRow) {
 
   const className = blocks === 'Open' ? '' : 'blinkingText';
 
-  let stakeFontSize = '2rem';
-  let rewardFontSize = '2rem';
-
   let displayStake = utils.commify(utils.formatEther(BigNumber.from(stake)));
   let displayReward = utils.commify(utils.formatEther(
     getReward(maxPlayers, BigNumber.from(stake)),
@@ -74,14 +73,6 @@ export default function TableRow(props: tableRow) {
 
   displayStake = /^[0]*$/.test(displayStake.slice(stakePeriod + 1)) ? displayStake.slice(0, stakePeriod) : displayStake;
   displayReward = /^[0]*$/.test(displayReward.slice(rewardPeriod + 1)) ? displayReward.slice(0, rewardPeriod) : displayReward;
-
-  if (displayStake.length > 10) {
-    stakeFontSize = '1rem';
-  }
-
-  if (displayReward.length > 10) {
-    rewardFontSize = '1rem';
-  }
 
   return (
     <tr
@@ -106,26 +97,29 @@ export default function TableRow(props: tableRow) {
     >
       <TableRowColumnNoTooltip
         value={`${displayStake} ⟠`}
-        fontSize={stakeFontSize}
+        fontSize={fontSize}
         decimal
       />
       <TableRowColumnNoTooltip
         value={`${getProbabilityOfWinning(maxPlayers)}%`}
         decimal
+        fontSize={fontSize}
       />
       <TableRowColumnNoTooltip
         value={`${displayReward} ⟠`}
-        fontSize={rewardFontSize}
+        fontSize={fontSize}
         decimal
       />
       <TableRowColumnNoTooltip
         value={`${queuePtrReset} / ${maxPlayers}`}
         className={className}
+        fontSize={fontSize}
       />
       <TableRowColumn
         value={blocks}
         tooltip={tooltip}
         className={className}
+        fontSize={fontSize}
       />
       <GameInfoBox
         open={modalOpen}
