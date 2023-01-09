@@ -5,8 +5,7 @@ import useGetBlockNumber from '../hooks/useGetBlockNumber';
 import { useGetTopLevelGameInfo } from '../hooks/useGetTopLevelGameInfo';
 import useRpcProvider from '../hooks/useRpcProvider';
 import { useGetTableLiveUpdate } from '../hooks/useGetTableLiveUpdate';
-
-const rowHeight = '80px';
+import useMedia from '../hooks/useMedia';
 
 interface table {
   chain: string;
@@ -24,6 +23,11 @@ export default function Table(props: table) {
   const [gameInfo, loading1] = useGetTopLevelGameInfo(provider, chain);
   const [liveInfo, loading2] = useGetTableLiveUpdate(provider, chain);
 
+  const media = useMedia(1200);
+
+  const fontSize = media ? '2rem' : '1rem';
+  const rowHeight = media ? '80px' : '40px';
+
   return (
     (!loading1 && !loading2) ? (
       <div
@@ -33,12 +37,13 @@ export default function Table(props: table) {
         }}
       >
         <table style={{
-          minWidth: '1200px',
+          minWidth: '740px',
         }}
         >
           <thead>
             <TableHeader
               height={rowHeight}
+              fontSize={fontSize}
             />
           </thead>
           <tbody>
@@ -55,6 +60,7 @@ export default function Table(props: table) {
                 height={rowHeight}
                 currentBlockNumber={currentBlockNumber}
                 provider={provider}
+                fontSize={fontSize}
               />
             ))}
           </tbody>

@@ -26,11 +26,13 @@ const headers: tableHeaderColumn[] = [
 
 interface tableHeader {
   height: string;
+  fontSize: string;
 }
 
 export default function TableHeader(props: tableHeader) {
   const {
     height,
+    fontSize,
   } = props;
   return (
     <tr
@@ -44,6 +46,7 @@ export default function TableHeader(props: tableHeader) {
           key={header.columnName}
           columnName={header.columnName}
           tooltip={header.tooltip}
+          fontSize={fontSize}
         />
       ))}
     </tr>

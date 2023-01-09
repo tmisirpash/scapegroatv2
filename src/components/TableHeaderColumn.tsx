@@ -6,10 +6,15 @@ export interface tableHeaderColumn {
   tooltip: string;
 }
 
-export function TableHeaderColumn(props: tableHeaderColumn) {
+interface tableHeaderColumnComponent extends tableHeaderColumn {
+  fontSize: string;
+}
+
+export function TableHeaderColumn(props: tableHeaderColumnComponent) {
   const {
     columnName,
     tooltip,
+    fontSize,
   } = props;
 
   return (
@@ -21,7 +26,7 @@ export function TableHeaderColumn(props: tableHeaderColumn) {
       <Tooltip title={<span style={{ fontSize: '1.2rem' }}>{tooltip}</span>}>
         <span style={{
           color: 'lightgray',
-          fontSize: '2rem',
+          fontSize,
         }}
         >
           {columnName}
