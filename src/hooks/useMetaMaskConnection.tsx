@@ -61,7 +61,11 @@ export default function useMetaMaskConnection() : [string, string, string, strin
         params: [{ chainId: DEFAULT_CHAIN_ID }],
       });
     } catch (switchError) {
-      if (switchError.code === 4902) {
+      if (switchError.code === 4902
+        || (
+          switchError.data?.originalError?.code
+          && switchError.data?.originalError?.code === 4902
+        )) {
         try {
           await window.ethereum?.request({
             method: 'wallet_addEthereumChain',
