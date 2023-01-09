@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import detectEthereumProvider from '@metamask/detect-provider';
 import {
   CHAIN_RPC_URLS,
   DEFAULT_CHAIN_ID,
@@ -7,26 +8,26 @@ import {
   DEFAULT_CHAIN_CURRENCY_DECIMALS,
 } from '../utils/constants';
 
-export function isMetaMaskInstalled() : boolean {
-  return Boolean(window.ethereum && window.ethereum.isMetaMask);
+async function isMetaMaskInstalled() {
+  const provider = await detectEthereumProvider();
+  return Boolean(provider);
 }
 
 async function getAccounts() {
   return window.ethereum?.request({ method: 'eth_accounts' });
 }
 
-export function useMetaMaskConnection() : [string, string, string, string, () => void] {
+export default function useMetaMaskConnection() : [string, string, string, string, () => void] {
   const [accountAddress, setAccountAddress] = useState('0x');
   const [chain, setChain] = useState(DEFAULT_CHAIN_ID);
-  const [connectionButtonText, setConnectionButtonText] = useState('');
+  const [connectionButtonText, setConnectionButtonText] = useState('Connect Wallet');
   const [connectionStatusText, setConnectionStatusText] = useState('');
   const [isInstalled, setIsInstalled] = useState(false);
   const [isConnected, setIsConnected] = useState(false);
 
   async function getConnectionInfo() {
-    const installed = isMetaMaskInstalled();
+    const installed = await isMetaMaskInstalled();
     setIsInstalled(installed);
-    setConnectionButtonText('Connect Wallet');
     if (!installed) return;
     try {
       getAccounts().then((res) => {
@@ -120,10 +121,11 @@ export function useMetaMaskConnection() : [string, string, string, string, () =>
       }
     }
 
-    if (isMetaMaskInstalled()) {
+    isMetaMaskInstalled().then((res) => {
+      if (!res) return;
       window.ethereum?.on('accountsChanged', handleAccountChange);
       window.ethereum?.on('chainChanged', handleChainChange);
-    }
+    });
   });
 
   return [
