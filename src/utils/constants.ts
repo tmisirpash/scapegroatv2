@@ -2,6 +2,7 @@ import { utils } from 'ethers';
 
 export const CHAIN_RPC_URLS = new Map<string, string>([
   ['0x13881', `https://rpc-mumbai.maticvigil.com`], //Mumbai
+  ['80000', '']
 ]);
 
 export const APPROXIMATE_BLOCK_TIMES = new Map<string, number>([
