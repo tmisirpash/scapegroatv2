@@ -113,7 +113,7 @@ export default function useMetaMaskConnection() : [string, string, string, strin
         setConnectionStatusText('');
       } else if (!CHAIN_RPC_URLS.has(String(args[0]))) {
         setConnectionStatusText(
-          `Note: You are on an unsupported network. 
+          `Note: You are on an unsupported network (${String(args[0])}). 
           Please switch to Polygon Mumbai Testnet.`,
         );
       } else {
