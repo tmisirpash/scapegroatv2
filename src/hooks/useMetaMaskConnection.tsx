@@ -28,6 +28,7 @@ export default function useMetaMaskConnection() : [string, string, string, strin
   async function getConnectionInfo() {
     const installed = await isMetaMaskInstalled();
     setIsInstalled(installed);
+    setConnectionButtonText('Connect Wallet');
     if (!installed) return;
     try {
       getAccounts().then((res) => {
