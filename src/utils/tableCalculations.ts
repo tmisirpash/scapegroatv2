@@ -21,7 +21,11 @@ export function getCooldown(revealBlockNumber: BigNumber, currentBlockNumber: Bi
 
     let tooltip;
     if (seconds < 60) tooltip = "Under a minute remaining.";
-    else tooltip = `~${utils.commify(Math.floor(seconds / 60))} minutes remaining.`;
+    else {
+        const num = Math.floor(seconds / 60);
+        tooltip = num == 1 ? `~${utils.commify(num)} minute remaining.` :
+            `~${utils.commify(num)} minutes remaining.`;
+    }
 
     return [`${blocks} blocks`, tooltip];
 }

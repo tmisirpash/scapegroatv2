@@ -117,7 +117,7 @@ contract Groat {
         require(partialFulfill || newEntryCount == sent, "Exact order not met.");
         
         //Choose the groat, and make sure the value can't be reset.
-        if (!gameStart) {
+        if (gameStart == false) {
             groatIndex = uint8(uint256(keccak256(abi.encodePacked(block.difficulty))) % localMaxPlayers);
             gameStart = true;
         }
@@ -127,7 +127,7 @@ contract Groat {
 
         //User deposited the final entries.
         if (localQueuePtr == localMaxPlayers) {
-            revealBlockNumber = block.number + 75;
+            revealBlockNumber = block.number + 100;
             gameStart = false;
         }
 

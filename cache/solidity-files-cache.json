@@ -2,8 +2,8 @@
   "_format": "hh-sol-cache-2",
   "files": {
     "C:\\Users\\tmisi\\scapegroatv2\\contracts\\Groat.sol": {
-      "lastModificationDate": 1672355225071,
-      "contentHash": "3e3feae38e2b54d814ea77cd3c7ae6aa",
+      "lastModificationDate": 1673393010869,
+      "contentHash": "692795f0ce332f8441959cdfde9cc31a",
       "sourceName": "contracts/Groat.sol",
       "solcConfig": {
         "version": "0.8.17",

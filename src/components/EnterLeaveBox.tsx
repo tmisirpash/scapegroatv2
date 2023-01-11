@@ -175,7 +175,7 @@ export default function EnterLeaveBox(props: enterLeaveBox) {
               const groatGameWithSigner = groatGame.connect(signer);
               await groatGameWithSigner.depositEth(partialFulfill, {
                 value: BigNumber.from(stake).mul(entriesAdd),
-                gasLimit: 60000 + 15000 * Number(entriesAdd),
+                gasLimit: 50000 + 25000 * Number(entriesAdd),
               });
               setEntriesAdd('');
             }

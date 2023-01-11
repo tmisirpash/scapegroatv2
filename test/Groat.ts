@@ -4,6 +4,8 @@ import { network, ethers } from 'hardhat';
 
 const deadAddress = '0xdEAD000000000000000042069420694206942069';
 
+const COOLDOWN_BLOCKS = 100;
+
 describe('Groat', () => {
   // We define a fixture to reuse the same setup in every test.
   // We use loadFixture to run this setup once, snapshot that state,
@@ -78,7 +80,7 @@ describe('Groat', () => {
       }
 
       const revealBlockNumber = await groat.revealBlockNumber();
-      expect(revealBlockNumber).to.equal('77');
+      expect(revealBlockNumber).to.equal(`${COOLDOWN_BLOCKS + 2}`);
     });
 
     it('Should add 51 entries from a single account one at a time', async () => {
@@ -95,7 +97,7 @@ describe('Groat', () => {
       }
 
       const revealBlockNumber = await groat.revealBlockNumber();
-      expect(revealBlockNumber).to.equal('127');
+      expect(revealBlockNumber).to.equal(`${COOLDOWN_BLOCKS + 52}`);
     });
 
     it('Should run 5 games in a row with entries from a random pool of addresses', async () => {
@@ -137,7 +139,7 @@ describe('Groat', () => {
             }
           }
         }
-        for (let j = 0; j < 74; j++) {
+        for (let j = 0; j < COOLDOWN_BLOCKS - 1; j++) {
           await network.provider.send('evm_mine');
         }
       }
