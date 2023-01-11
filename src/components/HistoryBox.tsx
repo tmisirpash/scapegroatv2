@@ -7,6 +7,7 @@ import Collapse from '@mui/material/Collapse';
 import { EVENT_MAP, EVENT_JOIN_HASH, EVENT_LEAVE_HASH } from '../utils/constants';
 import { blockDifferenceToTimeDifference } from '../utils/tableCalculations';
 import useHover from '../hooks/useHover';
+import useMedia from '../hooks/useMedia';
 
 const PAGE_SIZE = 20;
 
@@ -151,6 +152,8 @@ export default function HistoryBox(props: historyBox) {
   const [rot, setRot] = useState(0);
   const [brightness, cursor, onMouseEnter, onMouseLeave] = useHover();
 
+  const media = useMedia(1200);
+
   const numRowsToDisplay = page * PAGE_SIZE;
 
   useEffect(() => {
@@ -168,8 +171,9 @@ export default function HistoryBox(props: historyBox) {
   return (
     <div style={{
       overflow: 'auto',
-      paddingTop: '15px',
-      paddingBottom: '15px',
+      paddingTop: '20px',
+      paddingBottom: '20px',
+      paddingRight: media ? '20px' : '0',
     }}
     >
 
