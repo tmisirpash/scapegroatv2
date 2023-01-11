@@ -23,7 +23,7 @@ export default function Content(props: content) {
         display: 'flex',
         justifyContent: 'center',
         alignItems: 'center',
-        animation: 'move-twink-back 200s linear infinite',
+        animation: 'move-twink-back 40s linear infinite',
         background: '#1F305E url(/images/stars.png) repeat top center',
         paddingTop: '50px',
       }}
