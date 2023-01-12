@@ -40,6 +40,7 @@ export default function BlueButton(props: blueButton) {
         cursor,
         filter: `brightness(${brightness})`,
         transitionDuration: '100ms',
+        border: 'none',
       }}
     >
       {value}

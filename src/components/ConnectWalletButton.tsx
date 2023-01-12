@@ -45,6 +45,7 @@ function ConnectWalletButton(props: connectWalletButton) {
         alignItems: 'center',
         color: 'white',
         fontFamily: 'Electrolize',
+        border: 'none',
       }}
     >
       <span className="unselectable">{connectionText}</span>
