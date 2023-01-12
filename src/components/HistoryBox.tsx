@@ -94,6 +94,7 @@ function HistoryRow(props: historyRow) {
             style={{
               borderRadius: '15px',
               backgroundColor: 'black',
+              border: 'none',
             }}
           >
             <ExpandMore
@@ -160,8 +161,8 @@ export default function HistoryBox(props: historyBox) {
     if (!spinning) return () => undefined;
 
     const interval = setInterval(() => {
-      setRot((old) => (old - 2) % 360);
-    }, 2);
+      setRot((old) => (old - 20) % 360);
+    }, 25);
 
     return () => {
       clearInterval(interval);
@@ -250,6 +251,7 @@ export default function HistoryBox(props: historyBox) {
               color: 'white',
               cursor: `${cursor}`,
               filter: `brightness(${brightness})`,
+              border: 'none',
             }}
           >
             Show More

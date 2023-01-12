@@ -39,6 +39,7 @@ export default function YesNoPanel(props: yesNoPanel) {
           color: 'white',
           fontFamily: 'Electrolize',
           cursor: 'pointer',
+          border: 'none',
         }}
       >
         Yes
@@ -60,6 +61,7 @@ export default function YesNoPanel(props: yesNoPanel) {
           color: 'white',
           fontFamily: 'Electrolize',
           cursor: 'pointer',
+          border: 'none',
         }}
       >
         No
