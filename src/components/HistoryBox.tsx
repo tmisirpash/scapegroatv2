@@ -50,9 +50,8 @@ function HistoryRow(props: historyRow) {
   }
 
   return (
-    <div>
+    <div key={`${event.blockNumber}-${event.logIndex}`}>
       <div
-        key={`${event.blockNumber}-${event.logIndex}`}
         style={{
           width: '100%',
           background: 'black',

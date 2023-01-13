@@ -4,6 +4,7 @@ interface actionBoxTabs {
   selectedTab: number;
   changeSelectedTab: (tabNum: number) => void;
   showHistory: boolean;
+  showPlayerList: boolean;
 }
 interface tab {
   value: string;
@@ -49,6 +50,7 @@ export default function ActionBoxTabs(props: actionBoxTabs) {
     selectedTab,
     changeSelectedTab,
     showHistory,
+    showPlayerList,
   } = props;
 
   return (
@@ -81,6 +83,14 @@ export default function ActionBoxTabs(props: actionBoxTabs) {
             selectedTab={selectedTab}
             changeSelectedTab={changeSelectedTab}
             tabNum={1}
+          />
+        )}
+        {showPlayerList && (
+          <Tab
+            value="Players"
+            selectedTab={selectedTab}
+            changeSelectedTab={changeSelectedTab}
+            tabNum={2}
           />
         )}
       </div>

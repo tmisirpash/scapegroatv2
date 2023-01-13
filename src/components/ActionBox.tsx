@@ -1,4 +1,6 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, {
+  useState, useEffect, useCallback, ReactNode,
+} from 'react';
 import { ethers, Event } from 'ethers';
 import { hexZeroPad } from 'ethers/lib/utils';
 import EnterLeaveBox from './EnterLeaveBox';
@@ -20,6 +22,8 @@ interface actionBox {
   accountAddress: string;
   currentBlockNumber: number;
   chain: string;
+  media: boolean;
+  playerListBoxComponent: ReactNode;
 }
 
 const EMPTY_EVENTS: Event[] = [];
@@ -44,6 +48,8 @@ export default function ActionBox(props: actionBox) {
     accountAddress,
     currentBlockNumber,
     chain,
+    media,
+    playerListBoxComponent,
   } = props;
 
   const [selectedTab, setSelectedTab] = useState(0);
@@ -154,6 +160,10 @@ export default function ActionBox(props: actionBox) {
     }
   }, [selectedTab]);
 
+  useEffect(() => {
+    if (media && selectedTab === 2) setSelectedTab(0);
+  }, [media]);
+
   return (
     <div style={{
       width,
@@ -165,6 +175,7 @@ export default function ActionBox(props: actionBox) {
         selectedTab={selectedTab}
         changeSelectedTab={(tabNum: number) => setSelectedTab(tabNum)}
         showHistory={accountAddress !== '0x'}
+        showPlayerList={!media}
       />
       {selectedTab === 0 && (
         <EnterLeaveBox
@@ -188,6 +199,9 @@ export default function ActionBox(props: actionBox) {
           currentBlockNumber={currentBlockNumber}
           chain={chain}
         />
+      )}
+      {selectedTab === 2 && (
+        <div>{playerListBoxComponent}</div>
       )}
     </div>
   );
