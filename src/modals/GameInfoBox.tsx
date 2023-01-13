@@ -55,6 +55,17 @@ export default function GameInfoBox(props: GameInfo) {
     return [num1, num2];
   }, [playerQueue]);
 
+  const playerListBoxComponent = (
+    <PlayerListBox
+      playerQueue={playerQueue}
+      queuePtr={queuePtr}
+      width={media ? '50%' : '100%'}
+      groatIndex={groatIndex}
+      accountAddress={accountAddress}
+      revealBlockNumber={revealBlockNumber}
+    />
+  );
+
   return (
     <Modal
       open={open}
@@ -96,15 +107,10 @@ export default function GameInfoBox(props: GameInfo) {
           accountAddress={accountAddress}
           currentBlockNumber={currentBlockNumber}
           chain={chain}
+          media={media}
+          playerListBoxComponent={playerListBoxComponent}
         />
-        <PlayerListBox
-          playerQueue={playerQueue}
-          queuePtr={queuePtr}
-          width={media ? '50%' : '100%'}
-          groatIndex={groatIndex}
-          accountAddress={accountAddress}
-          revealBlockNumber={revealBlockNumber}
-        />
+        {media && playerListBoxComponent}
       </div>
     </Modal>
   );
