@@ -7,6 +7,7 @@ import Footer from './Footer';
 
 const App: React.FC = () => {
   const [
+    prov,
     accountAddress,
     chain,
     connectionButtonText,
@@ -35,6 +36,7 @@ const App: React.FC = () => {
         <Content
           chain={chain}
           accountAddress={accountAddress}
+          prov={prov}
         />
       </div>
       <Footer />
