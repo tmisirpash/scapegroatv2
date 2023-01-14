@@ -10,15 +10,17 @@ import useMedia from '../hooks/useMedia';
 interface table {
   chain: string;
   accountAddress: string;
+  prov: any;
 }
 
 export default function Table(props: table) {
   const {
     chain,
     accountAddress,
+    prov,
   } = props;
 
-  const provider = useRpcProvider(chain, accountAddress);
+  const provider = useRpcProvider(prov, chain, accountAddress);
   const currentBlockNumber = useGetBlockNumber(provider);
   const [gameInfo, loading1] = useGetTopLevelGameInfo(provider, chain);
   const [liveInfo, loading2] = useGetTableLiveUpdate(provider, chain);

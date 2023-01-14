@@ -6,12 +6,14 @@ import goat from '../../dist/images/astrogoat2.png';
 interface content {
   chain: string;
   accountAddress: string;
+  prov: any;
 }
 
 export default function Content(props: content) {
   const {
     chain,
     accountAddress,
+    prov,
   } = props;
 
   const media = useMedia(1200);
@@ -91,6 +93,7 @@ export default function Content(props: content) {
           <Table
             chain={chain}
             accountAddress={accountAddress}
+            prov={prov}
           />
         </div>
       </div>
