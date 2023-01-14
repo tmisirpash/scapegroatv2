@@ -125,30 +125,13 @@ export default function useMetaMaskConnection() :[
   }
 
   useEffect(() => {
-    getConnectionInfo();
-  }, []);
-
-  useEffect(() => {
     function handleAccountChange() {
       setIsConnected(false);
       getConnectionInfo();
     }
 
-    function handleChainChange(...args: unknown[]) {
-      let cid = String(args[0]);
-      if (!cid.includes('0x')) {
-        cid = `0x${Number(args[0]).toString(16)}`;
-      }
-      if (accountAddress === '0x') {
-        setConnectionStatusText('');
-      } else if (!CHAIN_RPC_URLS.has(cid)) {
-        setConnectionStatusText(
-          `Note: You are on an unsupported network. 
-          Please switch to Polygon Mumbai Testnet.`,
-        );
-      } else {
-        setConnectionStatusText('');
-      }
+    function handleChainChange() {
+      getConnectionInfo();
     }
 
     isMetaMaskInstalled().then((provider) => {
@@ -157,6 +140,10 @@ export default function useMetaMaskConnection() :[
       provider.on('chainChanged', handleChainChange);
     });
   });
+
+  useEffect(() => {
+    getConnectionInfo();
+  }, []);
 
   return [
     prov,
