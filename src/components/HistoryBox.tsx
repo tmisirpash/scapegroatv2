@@ -50,7 +50,7 @@ function HistoryRow(props: historyRow) {
   }
 
   return (
-    <div key={`${event.blockNumber}-${event.logIndex}`}>
+    <div>
       <div
         style={{
           width: '100%',
@@ -229,6 +229,7 @@ export default function HistoryBox(props: historyBox) {
       >
         {allEvents.slice(0, numRowsToDisplay).map((e) => (
           <HistoryRow
+            key={`${e.blockNumber}-${e.logIndex}`}
             event={e}
             currentBlockNumber={currentBlockNumber}
             chain={chain}

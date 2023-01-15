@@ -1,5 +1,5 @@
 import React, {
-  useState, useEffect, useCallback, ReactNode,
+  useState, useEffect, useCallback, ReactNode, useRef,
 } from 'react';
 import { ethers, Event } from 'ethers';
 import { hexZeroPad } from 'ethers/lib/utils';
@@ -55,6 +55,7 @@ export default function ActionBox(props: actionBox) {
   const [selectedTab, setSelectedTab] = useState(0);
   const [allEvents, setAllEvents] = useState(EMPTY_EVENTS);
   const [loading, setLoading] = useState(false);
+  const loadingContainer = useRef(false);
 
   const filter = {
     address: gameAddress,
@@ -65,8 +66,6 @@ export default function ActionBox(props: actionBox) {
   };
 
   const getData = async (startingBlockNumber: number) => {
-    setLoading(true);
-
     const groatGame = new ethers.Contract(
       gameAddress,
       groatABI.abi,
@@ -98,18 +97,13 @@ export default function ActionBox(props: actionBox) {
     await new Promise((res) => {
       setTimeout(res, 1000);
     });
-    setLoading(false);
   };
 
   const reload = useCallback(async () => {
-    if (loading) return;
-
     if (allEvents.length === 0) {
-      getData(currentBlockNumber - NUM_PAGES * PAGE_SIZE);
+      await getData(currentBlockNumber - NUM_PAGES * PAGE_SIZE);
       return;
     }
-
-    setLoading(true);
 
     const groatGame = new ethers.Contract(
       gameAddress,
@@ -144,20 +138,34 @@ export default function ActionBox(props: actionBox) {
     await new Promise((res) => {
       setTimeout(res, 1000);
     });
-
-    setLoading(false);
   }, [loading, currentBlockNumber]);
 
   useEffect(() => {
-    if (accountAddress === '0x') return;
+    if (accountAddress === '0x' || loadingContainer.current) return;
 
-    getData(currentBlockNumber - NUM_PAGES * PAGE_SIZE);
+    loadingContainer.current = true;
+    setLoading(true);
+    getData(currentBlockNumber - NUM_PAGES * PAGE_SIZE).then(() => {
+      loadingContainer.current = false;
+      setLoading(false);
+    });
   }, []);
 
+  const wrappedReload = () => {
+    if (loadingContainer.current) return;
+
+    loadingContainer.current = true;
+    setLoading(true);
+    reload().then(() => {
+      loadingContainer.current = false;
+      setLoading(false);
+    });
+  };
+
   useEffect(() => {
-    if (selectedTab === 1) {
-      reload();
-    }
+    if (selectedTab !== 1) return;
+
+    wrappedReload();
   }, [selectedTab]);
 
   useEffect(() => {
@@ -194,7 +202,7 @@ export default function ActionBox(props: actionBox) {
         <HistoryBox
           numBlocks={PAGE_SIZE * NUM_PAGES}
           allEvents={allEvents}
-          reload={reload}
+          reload={wrappedReload}
           spinning={loading}
           currentBlockNumber={currentBlockNumber}
           chain={chain}
