@@ -20,7 +20,7 @@ export default function Table(props: table) {
     prov,
   } = props;
 
-  const provider = useRpcProvider(prov, chain, accountAddress);
+  const provider = useRpcProvider(prov, accountAddress);
   const currentBlockNumber = useGetBlockNumber(provider);
   const [gameInfo, loading1] = useGetTopLevelGameInfo(provider, chain);
   const [liveInfo, loading2] = useGetTableLiveUpdate(provider, chain);
