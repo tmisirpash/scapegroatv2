@@ -52,7 +52,7 @@ export default function useGetPlayerQueue(
 
         const interval = setInterval(() => {
             fetchData();
-        }, 2000);
+        }, 4000);
 
         return () => {
             clearInterval(interval)
