@@ -11,7 +11,7 @@ export default function useGetBlockNumber(provider: providers.Provider) : number
   useEffect(() => {
     getBlock();
 
-    const interval = setInterval(() => getBlock(), 2000);
+    const interval = setInterval(() => getBlock(), 4000);
 
     return () => clearInterval(interval);
   }, [provider]);

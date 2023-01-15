@@ -49,7 +49,7 @@ export function useGetTableLiveUpdate(
 
     useEffect(() => {
         fetchData();
-        const interval = setInterval(() => fetchData(), 2000);
+        const interval = setInterval(() => fetchData(), 4000);
 
         return () => clearInterval(interval);
     }, [provider]);
