@@ -3,9 +3,6 @@ import detectEthereumProvider from '@metamask/detect-provider';
 import {
   CHAIN_RPC_URLS,
   DEFAULT_CHAIN_ID,
-  DEFAULT_CHAIN_NAME,
-  DEFAULT_CHAIN_CURRENCY,
-  DEFAULT_CHAIN_CURRENCY_DECIMALS,
 } from '../utils/constants';
 
 async function isMetaMaskInstalled() {
@@ -59,7 +56,7 @@ export default function useMetaMaskConnection() :[
           } else {
             setConnectionStatusText(`
             Note: You are on an unsupported network. 
-            Please switch to Polygon Mumbai Testnet.`);
+            Please switch to Ethereum Mainnet.`);
           }
         }
       });
@@ -77,32 +74,7 @@ export default function useMetaMaskConnection() :[
         params: [{ chainId: DEFAULT_CHAIN_ID }],
       });
     } catch (switchError) {
-      if (switchError.code === 4902
-        || (
-          switchError.data?.originalError?.code
-          && switchError.data?.originalError?.code === 4902
-        )) {
-        try {
-          await provider.request({
-            method: 'wallet_addEthereumChain',
-            params: [
-              {
-                chainId: DEFAULT_CHAIN_ID,
-                chainName: DEFAULT_CHAIN_NAME,
-                nativeCurrency: {
-                  symbol: DEFAULT_CHAIN_CURRENCY,
-                  decimals: DEFAULT_CHAIN_CURRENCY_DECIMALS,
-                },
-                rpcUrls: [CHAIN_RPC_URLS.get(DEFAULT_CHAIN_ID)],
-              },
-            ],
-          });
-        } catch (addError) {
-          return;
-        }
-      } else {
-        return;
-      }
+
     }
 
     provider.request({ method: 'eth_requestAccounts' }).then((res: any) => {
