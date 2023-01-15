@@ -5,7 +5,6 @@ async function main() {
   const Groat = await ethers.getContractFactory("Groat");
 
   const params = [
-    [ethers.utils.parseEther('0.0001'), 101],
     [ethers.utils.parseEther('0.5'), '51'],
     [ethers.utils.parseEther('0.5'), '101'],
     [ethers.utils.parseEther('1'), '51'],

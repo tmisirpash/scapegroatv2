@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { utils, BigNumber, ethers } from 'ethers';
 import TableRowColumn from './TableRowColumn';
 import TableRowColumnNoTooltip from './TableRowColumnNoTooltip';
@@ -73,6 +73,10 @@ export default function TableRow(props: tableRow) {
 
   displayStake = /^[0]*$/.test(displayStake.slice(stakePeriod + 1)) ? displayStake.slice(0, stakePeriod) : displayStake;
   displayReward = /^[0]*$/.test(displayReward.slice(rewardPeriod + 1)) ? displayReward.slice(0, rewardPeriod) : displayReward;
+
+  useEffect(() => {
+    setModalOpen(false);
+  }, [accountAddress]);
 
   return (
     <tr
