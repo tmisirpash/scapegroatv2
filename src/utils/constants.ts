@@ -1,7 +1,7 @@
 import { utils } from 'ethers';
 
 export const CHAIN_RPC_URLS = new Map<string, string>([
-  ['0x1', `https://eth-rpc.gateway.pokt.network`], //Mainnet
+  ['0x1', `https://rpc.flashbots.net/`], //Mainnet
 ]);
 
 export const APPROXIMATE_BLOCK_TIMES = new Map<string, number>([
